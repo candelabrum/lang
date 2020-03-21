@@ -8,7 +8,7 @@
 #include "sa.hpp"
 
 
-
+/* comment for git */
 /* It will be good, but not now: */
 /* more tests */
 /* make a norm print comment */
