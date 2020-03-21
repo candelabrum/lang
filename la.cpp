@@ -8,6 +8,7 @@
 #include "sa.hpp"
 
 
+
 /* It will be good, but not now: */
 /* more tests */
 /* make a norm print comment */
