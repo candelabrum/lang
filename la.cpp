@@ -5,21 +5,6 @@
 #include "l.hpp"
 #include "edges.hpp"
 #include "lex.hpp"
-#include "sa.hpp"
-
-
-/* comment for git */
-/* It will be good, but not now: */
-/* more tests */
-/* make a norm print comment */
-/* make a norm add_node_to_end with ptr end */
-/* replace service word -> key word */
-/* rename lex in lexeme */
-/* rename l.hpp */
-/* make a lex_fin and in transition
-	will have (char s, lexeme& c_l) */
-/* more tasks you can find in la_old.cpp or similary file */
-/* think about: maybe struct lexeme -> class lexeme ??? */
 
 class FiniteStateMachine
 {
@@ -100,7 +85,6 @@ list<lexeme>& LexicalAnalyzer::start(FILE *f)
 int main(int argc, char* const *argv)
 {
 	LexicalAnalyzer la;
-	SyntaxAnalyzer sa;
 	FILE *f;
 
 	if (argc != 2)
@@ -114,16 +98,7 @@ int main(int argc, char* const *argv)
 		perror("fopen");
 		exit(1);
 	}
-	printf("HELLO\n");
-	try 
-	{
-		sa.start(la.start(f));
-	}
-	catch(const SException& ex)
-	{
-		fprintf(stderr, "Syntax Analyzer Exception:%s\n", ex.GetComment());
-		(ex.GetLexeme()).print();
-	}
+	la.start(f);
 	fclose(f);
 	
 	return 0;

@@ -100,7 +100,7 @@ list<T>::~list()
 {
 	node *tmp;
 	
-	printf("DESTRUCTOR\n");
+//	printf("DESTRUCTOR\n");
 	while(head)
 	{
 		tmp = head;
@@ -175,7 +175,7 @@ void list<T>::print()
 		print_data(tmp->data);
 		tmp = tmp->next;
 	}
-	printf("NULL\n");
+//	printf("NULL\n");
 }
 
 template <class T>
