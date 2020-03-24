@@ -7,11 +7,11 @@ enum type_lexeme
 {
 	lex_integ,  			//("integer"),
 	lex_fractional,			//("fractional"),
-//	lex_ident,				//("identificator"),
 	lex_com,				//("comment"),
 	lex_strlit,				//("literal string"),
-//	lex_serv_word,			//("key word"),
 	lex_func,				//("name_function"),
+	lex_func_one,			//("function_one_arg"),
+	lex_func_zero,			//("functioin_zero_arg"),
 	lex_var,				//("name_variable"),
 	lex_undefined,			//("undefined"),
 	lex_prog,				//("program"),
@@ -61,6 +61,7 @@ public:
 	Table(const couple *a_table) { table = a_table; } 
 	const char* search_by(type_lexeme type) const;
 	type_lexeme search_by(string& str) const;
+	/* There should have been a binary search here */
 };
 
 struct lexeme
@@ -71,13 +72,16 @@ struct lexeme
 	void add_symbol(char symbol);
 	void set(int a_number_line, type_lexeme t);
 	void reset();
-	void prepare(char s, type_lexeme t);
+	void prepare(char s, type_lexeme t); /* is bad function */
 	void print_type() const;
 	void print() const;
+	bool is_func_one_arg();
+	bool is_func_zero_arg();
 	lexeme();
 private:
 	bool try_to_print(Table *t, type_lexeme type) const;
 };
+
 
 extern Table TableKeyWords;
 extern Table TableDelimiters;

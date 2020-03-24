@@ -21,6 +21,6 @@ public:
 };
 
 extern const int size;
-extern Edge* AdjMatrix[11][11];
+extern Edge* AdjMatrix[11][11]; /* bad. Make a normal class */
 
 #endif

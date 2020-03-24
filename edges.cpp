@@ -73,7 +73,7 @@ public:
 	bool condition(char sym, lexeme& c_l) { return sym == '$' || sym == '?';}
 	void transition(char s, lexeme& c_l, list<lexeme>& lst)
 	{
-		s == '$'? c_l.prepare(s, lex_var) : c_l.prepare(s, lex_func);
+		s == '$'? c_l.prepare(s, lex_var) : c_l.prepare(s, lex_func_one);
 	}
 }hir, *hi = &hir;
 
@@ -247,22 +247,30 @@ public:
 
 class Identificator_to_Home  : public Edge
 {
+	bool auxiliary_cond(char s);
 public:
-	bool condition(char sym, lexeme& c_l)
+	bool condition(char s, lexeme& c_l)
 	{
-		return IsWhiteSpace(sym) || IsDelimiter(sym) ||
-			sym == '@' || sym == ':';
+		if (c_l.type == lex_var)
+			return auxiliary_cond(s);
+		return auxiliary_cond(s) && (c_l.is_func_one_arg() ||
+			c_l.is_func_zero_arg());
 	}  
 	void transition(char sym, lexeme& c_l, list<lexeme>& lst)
 	{
+		if (c_l.type == lex_func_one)
+			c_l.type = c_l.is_func_one_arg() ? lex_func_one : lex_func_zero;
+		/* bad string */
 		lst.add_node_to_end(c_l);
 		c_l.reset();
 	}
-	bool IsDelay(char sym) 
-	{ 
-		return !IsWhiteSpace(sym); 
-	}
+	bool IsDelay(char sym) { return !IsWhiteSpace(sym); }
 }ihr, *ih = &ihr;
+
+bool Identificator_to_Home::auxiliary_cond(char s)
+{
+	return IsWhiteSpace(s) || IsDelimiter(s) || s == '@' || s == ':'; 
+}
 
 class Identificator_to_Identificator  : public Edge
 {
@@ -284,7 +292,8 @@ public:
 	void transition(char sym, lexeme& c_l, list<lexeme>& lst)
 	{
 		printf("Line number : %d\n", c_l.number_line);
-		printf("Error: This character can't be found in the identifier\n");
+		printf("Error: This character can't be found in " 
+					"the identifier or it is not name function\n");
 		c_l.add_symbol(sym);
 		c_l.lex.print();
 	}

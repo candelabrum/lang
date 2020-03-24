@@ -6,6 +6,10 @@
 #include "edges.hpp"
 #include "lex.hpp"
 
+/* make in lex.cpp global variables belong to classes */
+/* make more smaller big strings */
+/* You can divide the state of the idenficator into 
+		function processing and variable processing */
 class FiniteStateMachine
 {
 	list<lexeme> lst;	

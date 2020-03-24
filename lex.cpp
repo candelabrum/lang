@@ -44,8 +44,9 @@ const couple key_words[] = {
 };
 
 const couple for_print[] = {
-	{"name_variable", lex_var},
-	{"name_function", lex_func},
+	{"variable", lex_var},
+	{"func_one_arg", lex_func_one},
+	{"func_zero_arg", lex_func_zero},
 	{"integer", lex_integ},
 	{"fractional", lex_fractional},
 	{"comment", lex_com},
@@ -54,11 +55,37 @@ const couple for_print[] = {
 	{0, lex_null}
 };
 
+const char* FunctionOneArg[] = {
+	"?money",
+	"?raw",
+	"?production",
+	"?factories",
+	"?manufactured",
+	"?result_raw_sold",
+	"?result_raw_price",
+	"?result_prod_bought",
+	"?result__prod_price",
+	0
+};
+
+const char* FunctionZeroArg[] = {  /* Can I move { to next line? */
+	"?my_id",
+	"?turn",
+	"?players",
+	"?active_players",
+	"?supply",
+	"?raw_price",
+	"?demand",
+	"?production_price",
+	0
+};
+
 Table TableDelimiters(delimiters);
 Table TableKeyWords(key_words);
 Table TablePrint(for_print);
 
 Table *AllTables[] = {&TableDelimiters, &TableKeyWords, &TablePrint, 0};
+
 const char* Table::search_by(type_lexeme t) const
 {
 	int i = 0;
@@ -79,7 +106,18 @@ type_lexeme Table::search_by(string& key) const
 	return table[i].type_lex; 
 }
 
-void lexeme::prepare(char s, type_lexeme t) 
+/*  There should have been a binary search here */
+bool lexeme::is_func_one_arg()
+{
+	return lex.any_str_equal(FunctionOneArg);
+}
+
+bool lexeme::is_func_zero_arg()
+{
+	return lex.any_str_equal(FunctionZeroArg);
+}
+
+void lexeme::prepare(char s, type_lexeme t) /* is bad function */
 {
 	reset();
 	type = t;

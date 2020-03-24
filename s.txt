@@ -1,1 +1,11 @@
-1+$a+$a
+while(+1+)
+{
+	print("This move number" ?turn);
+	buy(2, ?raw_price);
+	sell(?production(?my_id), ?production_price);
+	$toprod = 2;
+	if (?raw(?my_id) < $toprod)
+		$toprod := ?raw(?my_id);
+	?prod($toprod);
+	end_turn;
+}
