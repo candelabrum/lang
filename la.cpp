@@ -5,6 +5,7 @@
 #include "l.hpp"
 #include "edges.hpp"
 #include "lex.hpp"
+#include "sa.hpp"
 
 /* make in lex.cpp global variables belong to classes */
 /* make more smaller big strings */
@@ -89,6 +90,7 @@ list<lexeme>& LexicalAnalyzer::start(FILE *f)
 int main(int argc, char* const *argv)
 {
 	LexicalAnalyzer la;
+	SyntaxAnalyzer sa;
 	FILE *f;
 
 	if (argc != 2)
@@ -102,7 +104,7 @@ int main(int argc, char* const *argv)
 		perror("fopen");
 		exit(1);
 	}
-	la.start(f);
+	sa.Start(la.start(f));
 	fclose(f);
 	
 	return 0;
