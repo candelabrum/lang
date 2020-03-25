@@ -58,7 +58,7 @@ class Table
 {
 	const couple *table;	
 public:
-	Table(const couple *a_table) { table = a_table; } 
+	Table(const couple *a_table = 0) { table = a_table; } 
 	const char* search_by(type_lexeme type) const;
 	type_lexeme search_by(string& str) const;
 	/* There should have been a binary search here */
