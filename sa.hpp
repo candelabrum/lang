@@ -2,13 +2,13 @@
 #define SYNTAXANALYZER_H_SENTRY
 #include "l.hpp"
 
-
 class SyntaxAnalyzer
 {
 	list<lexeme> lst;
 	lexeme c_l;
 	void GoodBye(const char *str);
 	bool BelongToFirstArExpr(type_lexeme type);
+	bool BelongToFirstBoolExpr(type_lexeme type);
 	void get_lex();
 	void Var(); 	  /* Variable 					(1)	*/
 	void VarAux(); 	  /* Variable Auxiliary 		(2)	*/

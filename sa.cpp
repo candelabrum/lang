@@ -47,7 +47,6 @@ enum type_lexeme
 	lex_leq,				//("<="),
 	lex_gtr, 				//(">"),
 	lex_geq,				//(">="),
-//	lex_neq,				//("!="),
 	lex_and,				//("&"),
 	lex_or, 				//("|"),
 	lex_neg, 				//("!"),
@@ -79,36 +78,31 @@ void SyntaxAnalyzer::get_lex()
 	lst.next();
 } 
 
+void SyntaxAnalyzer::ProcessTermSym(type_lexeme t, const char *msg)
+{
+	if (c_l.type != t)
+		GoodBye(msg);
+	get_lex();
+}
+
 void SyntaxAnalyzer::Var()
 {
-//	printf("Var-->");
-	if (c_l.type == lex_var)
-	{
-		get_lex();
-		VarAux();
-	}
-	else
-		GoodBye("Expected variable\n");
-	}
+	printf("Var-->");
+	ProcessTermSym(lex_var, "Expected variable\n");
+	VarAux();
 }
 
 void SyntaxAnalyzer::VarAux()
 {
-//	printf("VarAux-->");
+	printf("VarAux-->");
 	if (c_l.type == lex_open_sq_br)
 	{
 		get_lex();
-		if (BelongToFirstArExpr(c_l.type))
-			ArExpr();
-		else
+		if (!BelongToFirstArExpr(c_l.type))
 			GoodBye("VarAux: Expected Arithmetic Expression\n");
-		if (c_l.type == lex_close_sq_br)
-			return;
-		printf("After variable [Expected ]\n");
+		ArExpr();
+		ProcessTermSym(lex_close_sq_br, "After variable [Expected ]\n");
 	}
-/*	else
-		GoodBye("Expected [\n");
-*/
 }
 
 bool SyntaxAnalyzer::BelongToFirstArExpr(type_lexeme t)
@@ -121,36 +115,38 @@ bool SyntaxAnalyzer::BelongToFirstArExpr(type_lexeme t)
 
 void SyntaxAnalyzer::ArExpr()
 {
-//	printf("ArExpr1-->");
-	if (BelongToFirstArExpr(c_l.type))
-		ArExpr1();
-	else
+	printf("ArExpr1-->");
+	if (!BelongToFirstArExpr(c_l.type))
 		GoodBye("ArExpr: Expected ArExpr1\n");
+	ArExpr1();
 	while(c_l.type == lex_plus || c_l.type == lex_minus)
 	{
 		get_lex();
-		if (BelongToFirstArExpr(c_l.type))
-			ArExpr1();
-		else
+		if (!BelongToFirstArExpr(c_l.type))
 			GoodBye("ArExpr: Expected ArExpr1\n");
+		ArExpr1();
 	}
 }
 
 void SyntaxAnalyzer::ArExpr1()
 {
-//	printf("ArExpr1-->");
+	printf("ArExpr1-->");
 
+	if (!BelongToFirstArExpr(c_l.type))
+		GoodBye("ArExpr1: Expected ArExpr2\n");
 	ArExpr2();
 	while(c_l.type == lex_star || c_l.type == lex_slash)
 	{
 		get_lex();
+		if (!BelongToFirstArExpr(c_l.type))
+			GoodBye("ArExpr: Expected ArExpr1\n");
 		ArExpr2();
 	}
 }
 
 void SyntaxAnalyzer::ArExpr2()
 {
-//	printf("ArExpr2-->");
+	printf("ArExpr2-->");
 	if (c_l.type == lex_var)
 	{
 		Var();
@@ -177,13 +173,19 @@ void SyntaxAnalyzer::ArExpr2()
 		GoodBye("Arithmetic Expression: Unexpected lexeme\n");
 }
 
+bool SyntaxAnalyzer::BelongToFirstBoolExpr(type_lexeme t)
+{
+	return t == lex_equality || t == lex_lss ||
+		t == lex_gtr || t == lex_leq || t == lex_geq;
+}
+
 void SyntaxAnalyzer::BoolExpr()
 {
-//	printf("BoolExpr-->");
+	printf("BoolExpr-->");
+	if (!BelongToFirstBoolExpr(c_l.type))
+		GoodBye("Boolean Expression : Unexpected lexeme\n");
 	BoolExpr1();
-	if(c_l.type == lex_equality || c_l.type == lex_lss ||
-		c_l.type== lex_gtr || c_l.type == lex_leq ||
-		c_l.type == lex_geq)
+	if (BelongToFirstBoolExpr(c_l.type))
 	{
 		get_lex();
 		BoolExpr1();
@@ -192,7 +194,9 @@ void SyntaxAnalyzer::BoolExpr()
 
 void SyntaxAnalyzer::BoolExpr1()
 {
-//	printf("BoolExpr1-->");
+	printf("BoolExpr1-->");
+	if (!BelongToFirstBoolExpr(c_l.type))
+		GoodBye("Boolean Expression1 : Unexpected lexeme\n");
 	BoolExpr2();
 	while(c_l.type == lex_or)
 	{
@@ -203,6 +207,9 @@ void SyntaxAnalyzer::BoolExpr1()
 
 void SyntaxAnalyzer::BoolExpr2()
 {
+	printf("BoolExpr2-->");
+	if (!BelongToFirstBoolExpr(c_l.type))
+		GoodBye("Boolean Expression2 : Unexpected lexeme\n");
 	BoolExpr3();
 	while(c_l.type == lex_and)
 	{
@@ -213,6 +220,7 @@ void SyntaxAnalyzer::BoolExpr2()
 
 void SyntaxAnalyzer::BoolExpr3()
 {
+	printf("BoolExpr3-->");
 	switch(c_l.type)
 	{
 	case lex_var:
@@ -243,9 +251,8 @@ void SyntaxAnalyzer::BoolExpr3()
 
 void SyntaxAnalyzer::ArgsFunc0()
 {
-	if (c_l.type != lex_open_bracket)
-		GoodBye("ArgsFunction0: Expected (\n");
-	get_lex();
+	printf("ArgsFunc0-->");
+	PrepareTermSym(lex_open_bracket, "ArgsFunc0: Expected (\n"));
 	if (c_l.type != lex_close_bracket)
 		GoodBye("ArgsFunction0: Excpected )\n");
 	get_lex();
@@ -260,6 +267,7 @@ void SyntaxAnalyzer::ArgsFunc1()
 	ArExpr();
 	if (c_l.type != lex_close_bracket)
 		GoodBye("ArgsFunction1: Excpected )\n");
+	get_lex();
 }
 
 void SyntaxAnalyzer::Function()
@@ -281,18 +289,15 @@ void SyntaxAnalyzer::Function()
 
 void SyntaxAnalyzer::Begin()
 {
-	if (c_l.type == lex_curly_open_br)
+	if (c_l.type != lex_curly_open_br)
+		GoodBye("Begin: Expected {\n");
+	get_lex();
+	Statement();
+	while(c_l.type == lex_semicolon)
 	{
 		get_lex();
 		Statement();
-		while(c_l.type == lex_semicolon)
-		{
-			get_lex();
-			Statement();
-		}
-	}	
-	else
-		GoodBye("Begin: Expected {\n");
+	}
 }
 
 void SyntaxAnalyzer::Statement()
@@ -328,8 +333,10 @@ void SyntaxAnalyzer::Statement()
 
 void SyntaxAnalyzer::StatAssign()
 {
+	/* condition was check */
+	printf("StatAssign-->");
 	Var();
-	get_lex();
+//	get_lex();
 	if (c_l.type != lex_assignment)
 		GoodBye("Statement Assignment: Expected :=\n");
 	get_lex();
@@ -338,26 +345,26 @@ void SyntaxAnalyzer::StatAssign()
 
 void SyntaxAnalyzer::StatIf()
 {
+	/*Prepare TerminalSymbol will be good */
+	printf("StateIf-->");
 	if (c_l.type != lex_if)
 		GoodBye("Expected if");
 	get_lex();
-	if (c_l.type == lex_open_bracket)
-	{
-		get_lex();
-		BoolExpr();
-		if (c_l.type != lex_close_bracket)
-			GoodBye("Statement If: Expected )\n");
-		get_lex();
-	}
-	else
+	if (c_l.type != lex_open_bracket)
 		GoodBye("Statement If: Expected (\n");
+	get_lex();
+	BoolExpr();
+	if (c_l.type != lex_close_bracket)
+		GoodBye("Statement If: Expected )\n");
+	get_lex();
 }
 
 void SyntaxAnalyzer::ArgPrint()
 {
+	printf("ArgPrint-->");
 	if (c_l.type == lex_strlit)
 		get_lex();
-	else /*make if in function */
+	else 
 	if (BelongToFirstArExpr(c_l.type))
 		ArExpr();
 	else
@@ -366,6 +373,7 @@ void SyntaxAnalyzer::ArgPrint()
 
 void SyntaxAnalyzer::StatPrint()
 {
+	printf("StatPrint-->");
 	if (c_l.type != lex_print)
 		GoodBye("Statement Print: Expected print\n");
 	get_lex();
@@ -385,6 +393,7 @@ void SyntaxAnalyzer::StatPrint()
 
 void SyntaxAnalyzer::StatWhile()
 {
+	printf("StatWhile-->");
 	if (c_l.type != lex_while)
 		GoodBye("Statement While: Expected while\n");
 	get_lex();
@@ -400,6 +409,7 @@ void SyntaxAnalyzer::StatWhile()
 
 void SyntaxAnalyzer::ArgGmSt()
 {
+	printf("ArgGmSt-->");
 	if(c_l.type == lex_integ || c_l.type == lex_fractional)
 	{
 		get_lex();
@@ -420,6 +430,8 @@ void SyntaxAnalyzer::ArgGmSt()
 
 void SyntaxAnalyzer::StatGmSt()
 {
+	/* ProcName is bad name */
+	printf("StatGmSt-->");
 	switch(c_l.type)
 	{
 	case lex_end_turn:
@@ -443,6 +455,7 @@ void SyntaxAnalyzer::StatGmSt()
 
 void SyntaxAnalyzer::ProcName0()
 {
+	printf("ProcName0-->");
 	if (c_l.type != lex_end_turn)
 		GoodBye("Expected end_turn\n");
 	get_lex();
@@ -451,10 +464,12 @@ void SyntaxAnalyzer::ProcName0()
 	get_lex();
 	if (c_l.type != lex_close_bracket)
 		GoodBye("Endturn: Expected ) \n");
+	get_lex();
 }
 
 void SyntaxAnalyzer::ProcName1()
 {
+	printf("ProcName1-->");
 	if (c_l.type != lex_prod && c_l.type != lex_build)
 		GoodBye("ProcName1: Expected prod or build\n");
 	get_lex();
@@ -464,10 +479,12 @@ void SyntaxAnalyzer::ProcName1()
 	ArgGmSt();		
 	if (c_l.type != lex_close_bracket)
 		GoodBye("ProcName1: Expected ) \n");
+	get_lex();
 }
 
 void SyntaxAnalyzer::ProcName2()
 {
+	printf("ProcName2-->");
 	if (c_l.type != lex_buy && c_l.type != lex_sell)
 		GoodBye("ProcName2: Expected prod or build\n");
 	get_lex();
@@ -481,4 +498,5 @@ void SyntaxAnalyzer::ProcName2()
 	ArgGmSt();
 	if (c_l.type != lex_close_bracket)
 		GoodBye("ProcName2: Expected ) \n");
+	get_lex();
 }

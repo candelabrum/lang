@@ -1,12 +1,1 @@
-while(1)
-{
-	$toprod[1+$toprod*$toprod[$toprod[2*4.0]]] := 7;
-	print("This move number", ?turn());
-	buy(2, ?raw_price());
-	sell(?production(?my_id()), ?production_price());
-	$toprod = 2;
-	if (?raw(?my_id()) < $toprod)
-		$toprod := ?raw(?my_id());
-	prod($toprod);
-	end_turn();
-}
+$toprod[1+$toprod*$toprod[$toprod[2*4.0]]] := 7;
