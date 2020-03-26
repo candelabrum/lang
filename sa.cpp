@@ -253,21 +253,16 @@ void SyntaxAnalyzer::ArgsFunc0()
 {
 	printf("ArgsFunc0-->");
 	PrepareTermSym(lex_open_bracket, "ArgsFunc0: Expected (\n"));
-	if (c_l.type != lex_close_bracket)
-		GoodBye("ArgsFunction0: Excpected )\n");
-	get_lex();
+	PrepareTermSym(lex_close_bracket, "ArgsFunc0: Expected )\n");
 }
 
 void SyntaxAnalyzer::ArgsFunc1()
 {
-	get_lex();
-	if (c_l.type != lex_open_bracket)
-		GoodBye("ArgsFunction1: Expected (\n");
-	get_lex();
+//	get_lex();
+	printf("ArgsFunc0-->");
+	PrepareTermSym(lex_open_bracket, "ArgsFunc1: Expected (\n"));
 	ArExpr();
-	if (c_l.type != lex_close_bracket)
-		GoodBye("ArgsFunction1: Excpected )\n");
-	get_lex();
+	PrepareTermSym(lex_close_bracket, "ArgsFunc1: Expected )\n");
 }
 
 void SyntaxAnalyzer::Function()
@@ -289,9 +284,7 @@ void SyntaxAnalyzer::Function()
 
 void SyntaxAnalyzer::Begin()
 {
-	if (c_l.type != lex_curly_open_br)
-		GoodBye("Begin: Expected {\n");
-	get_lex();
+	PrepareTermSym(lex_curly_bracket, "Begin: Expected )\n");
 	Statement();
 	while(c_l.type == lex_semicolon)
 	{
@@ -335,11 +328,10 @@ void SyntaxAnalyzer::StatAssign()
 {
 	/* condition was check */
 	printf("StatAssign-->");
+	if (c_l.type !=lex_var)
+		GoodBye("StatAssign: Expected Variable\n");
 	Var();
-//	get_lex();
-	if (c_l.type != lex_assignment)
-		GoodBye("Statement Assignment: Expected :=\n");
-	get_lex();
+	PrepareTermSym(lex_assignment, "Statement Assignment: Expected :=\n");
 	ArExpr();
 }
 
