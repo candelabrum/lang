@@ -11,10 +11,15 @@
 	Duplicate code in functions: ProcName0, ArgsName1, ArgsName2 
 */
 
+SException::SException(lexeme &a_lex, const char *cmt)
+{
+	lex = a_lex;
+	comment = cmt;
+}
+
 void SyntaxAnalyzer::Start(list<lexeme> a_lst)
 {
 	lst = a_lst; 
-	a_lst.make_null();
 	get_lex();
 	StatList();
 	ProcessTermSym(lex_fin, "Expected end of file. "
@@ -41,7 +46,6 @@ void SyntaxAnalyzer::get_lex()
 	}
 	if (tmp)
 		c_l = *tmp;
-//	delete tmp;
 	lst.next();
 } 
 

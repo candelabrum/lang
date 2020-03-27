@@ -118,7 +118,16 @@ int main(int argc, char* const *argv)
 		exit(1);
 	}
 	lst = la.start(f);
-	sa.Start(lst);
+	try
+	{
+		sa.Start(lst);
+	}
+	catch(const SExeception &ex)
+	{
+		fprintf(stderr, "%s", ex.GetComment)
+		(ex.GetLex()).print();
+		return 1;
+	}
 	lst.Delete();
 	fclose(f);
 	
