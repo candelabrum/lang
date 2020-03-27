@@ -380,22 +380,9 @@ void SyntaxAnalyzer::ArgGmSt()
 {
 	/*make a switch */
 	printf("ArgGmSt-->");
-	if(c_l.type == lex_integ || c_l.type == lex_fractional)
-	{
-		get_lex();
-	}
-	else
-	if (c_l.type == lex_func_zero || c_l.type == lex_func_one)
-	{
-		Function();
-	}
-	else
-	if (c_l.type == lex_var)
-	{
-		Var();
-	}
-	else
-		GoodBye("Statement While: Unexpected lexeme\n");
+	if (!BelongToFirstArExpr(c_l.type))
+		GoodBye("Statement ArgGmSt: Unexpected lexeme\n");
+	ArExpr();
 }
 
 void SyntaxAnalyzer::StatGmSt()

@@ -24,7 +24,7 @@ clean:
 	gcc -Wall -00 -g -c string.c -o string.o
 run: la
 	cppcheck $(SRCMODULES)
-	valgrind ./la src.txt
+	valgrind --leak-check=full ./la src.txt
 runv: la
 	valgrind ./la src.txt > VG_LOG
 	cat VG_LOG

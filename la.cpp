@@ -11,6 +11,7 @@
 /* make more smaller big strings */
 /* You can divide the state of the idenficator into 
 		function processing and variable processing */
+
 class FiniteStateMachine
 {
 	list<lexeme> lst;	
@@ -102,6 +103,7 @@ int main(int argc, char* const *argv)
 {
 	LexicalAnalyzer la;
 	SyntaxAnalyzer sa;
+	list<lexeme> lst;
 	FILE *f;
 
 	if (argc != 2)
@@ -115,9 +117,10 @@ int main(int argc, char* const *argv)
 		perror("fopen");
 		exit(1);
 	}
-	sa.Start(la.start(f));
+	lst = la.start(f);
+	sa.Start(lst);
+	lst.make_null();
 	fclose(f);
 	
 	return 0;
 }
-

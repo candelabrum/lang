@@ -21,13 +21,12 @@ private:
 
 	void print_data(T data) const;
 	void my_print_reverse(node *a_head);
-//	const list<T>& operator=(const list<T>& lst);
-	/* don't copy it! */
 
 	node *head, *end;
 public:
 	list (node *a_head = 0){ head = a_head; end = a_head; };
 	void print();
+	void operator=(const list<T>& lst);
 	void add_node(T& a_data);
 	void add_node_cp(T a_data);
 	void delete_nodes(type_lexeme type);
@@ -41,6 +40,13 @@ public:
 	void add_node_to_end(T& a_data);
 	~list();
 };
+
+template <class T>
+void list<T>::operator=(const list<T>& lst)
+{
+	head = lst.head;
+	end = lst.end;
+}
 
 template <class T>
 void list<T>::make_null()
@@ -117,7 +123,8 @@ list<T>::~list()
 {
 	node *tmp;
 	
-//	printf("DESTRUCTOR\n");
+	if (head)
+		printf("DESTRUCTOR\n");
 	while(head)
 	{
 		tmp = head;
