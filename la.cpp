@@ -18,12 +18,18 @@ class FiniteStateMachine
 	int current_line;
 	int cur_st;
 	bool DelayNow; /* maybe bad solution */
+	void feed(char symbol);		
 public:
 	FiniteStateMachine();
-	void feed(char symbol);		
+	bool IsErrorNow();
 	void make_step(char symbol);
 	list<lexeme>& get_lst() { return lst; }
 };
+
+bool FiniteStateMachine::IsErrorNow()
+{
+	return cur_st == 10; /* ten is state of error */
+}
 
 class LexicalAnalyzer
 {
@@ -79,7 +85,7 @@ list<lexeme>& LexicalAnalyzer::start(FILE *f)
 		c = fgetc(f);
 		if (c == EOF)
 		{
-			fsm.feed('@');
+			fsm.make_step('@');
 			break;
 		}	
 		fsm.make_step((char)c); /* maybe bad */

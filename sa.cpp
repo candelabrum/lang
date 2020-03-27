@@ -11,9 +11,10 @@
 	Duplicate code in functions: ProcName0, ArgsName1, ArgsName2 
 */
 
-void SyntaxAnalyzer::Start(list<lexeme>& a_lst)
+void SyntaxAnalyzer::Start(list<lexeme> &a_lst)
 {
 	lst = a_lst; 
+	a_lst.make_null();
 	get_lex();
 	StatList();
 	ProcessTermSym(lex_fin, "Expected end of file. "

@@ -21,6 +21,8 @@ private:
 
 	void print_data(T data) const;
 	void my_print_reverse(node *a_head);
+//	const list<T>& operator=(const list<T>& lst);
+	/* don't copy it! */
 
 	node *head, *end;
 public:
@@ -32,12 +34,20 @@ public:
 	T* get_node(unsigned int index) const;
 	T& get_data(unsigned int index);
 	void next();
+	void make_null();
 	int get_len() const;
 	void print_reverse();
 	bool is_empty();
 	void add_node_to_end(T& a_data);
 	~list();
 };
+
+template <class T>
+void list<T>::make_null()
+{
+	head = 0;
+	end = 0;
+}
 
 template <class T>
 bool list<T>::is_empty()

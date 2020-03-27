@@ -500,6 +500,3 @@ Edge *AdjMatrix[size][size] = {
 /* boole */ {bh, 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , be },
 /* error */ {0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , ee },
 };
-
-
-

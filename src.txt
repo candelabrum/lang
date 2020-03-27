@@ -1,8 +1,8 @@
 #hello
 
 $toprod := 4;
-print("hello")
-print("hello")
-print("hello")
-print("hello")
-prod(2);
+print("hello");
+print("hello");
+print("hello");
+print("hello");
+prod(2)
