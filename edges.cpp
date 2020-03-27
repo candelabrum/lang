@@ -296,6 +296,7 @@ public:
 					"the identifier or it is not name function\n");
 		c_l.add_symbol(sym);
 		c_l.lex.print();
+		putchar('\n');
 	}
 }ier, *ie = &ier;
 

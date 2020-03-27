@@ -21,7 +21,7 @@ deps.mk: $(SRCMODULES)
 
 clean:
 	rm *.o la
-	gcc -Wall -g -c string.c -o string.o
+	gcc -Wall -00 -g -c string.c -o string.o
 run: la
 	cppcheck $(SRCMODULES)
 	valgrind ./la src.txt

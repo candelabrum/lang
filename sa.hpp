@@ -4,12 +4,17 @@
 
 class SyntaxAnalyzer
 {
+/*  		--- Auxiliary part of this class ---		*/
 	list<lexeme> lst;
 	lexeme c_l;
 	void GoodBye(const char *str);
 	bool BelongToFirstArExpr(type_lexeme type);
 	bool BelongToFirstBoolExpr(type_lexeme type);
+	bool BelongToFirstStatement(type_lexeme type);
+	bool IsCmpSign(type_lexeme type);
+	void ProcessTermSym(type_lexeme t, const char *msg);
 	void get_lex();
+/* 			--- Alphabet of Non Terminal Symbols ---    */
 	void Var(); 	  /* Variable 					(1)	*/
 	void VarAux(); 	  /* Variable Auxiliary 		(2)	*/
 	void ArExpr();	  /* Arithmetic expression 		(3)	*/ 
@@ -19,11 +24,12 @@ class SyntaxAnalyzer
 	void BoolExpr1(); /* Boolean Expression1		(7) */
 	void BoolExpr2(); /* Boolean Expression2	 	(8) */
 	void BoolExpr3(); /* Boolean Expression3		(9) */
-	void Begin();	  /* Begin list operators 		(10)*/
+	void StatComp();  /* Statement Compound 		(10)*/
+	void StatList();  /* List of Statements. First ---- */
 	void Statement(); /* ------- 					(11)*/
 	void GameStat();  /* Game statement 			(12)*/
 	void Function();  /* ------- 					(13)*/
-	void ArgPrint();  /* SubFunc of     Print    ----*/
+	void ArgPrint();  /* SubFunc of     Print   	----*/
 	void StatIf(); 	  /* SubFunc of 	Statement   ----*/
 	void StatAssign();/* SubFunc of 	Statement   ----*/
 	void StatWhile(); /* SubFunc of 	Statement   ----*/
