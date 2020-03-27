@@ -14,9 +14,10 @@
 void SyntaxAnalyzer::Start(list<lexeme>& a_lst)
 {
 	lst = a_lst; 
-//	DeleteAllComments();
 	get_lex();
 	StatList();
+	ProcessTermSym(lex_fin, "Expected end of file. "
+								"Probably you don't write ;\n");
 	printf("\nAlready done\n");
 }
 

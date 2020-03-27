@@ -14,6 +14,7 @@ enum type_lexeme
 	lex_func_zero,			//("functioin_zero_arg"),
 	lex_var,				//("name_variable"),
 	lex_undefined,			//("undefined"),
+	lex_fin,				//("@"),
 	lex_prog,				//("program"),
 	lex_build, 				//("build"),
 	lex_if,					//("if"),

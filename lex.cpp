@@ -52,6 +52,7 @@ const couple for_print[] = {
 	{"comment", lex_com},
 	{"string literal", lex_strlit},
 	{"undefined", lex_undefined},
+	{"lex final", lex_fin},
 	{0, lex_null}
 };
 

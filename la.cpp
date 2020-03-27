@@ -63,6 +63,11 @@ void FiniteStateMachine::feed(char sym)
 	cur_st = next_st;
 	if (sym == '\n')
 		current_line++;
+	if (sym == '@') /* It is a bad if, It must be in AdjMatr*/
+	{
+		cur_lex.prepare(sym, lex_fin);
+		lst.add_node_to_end(cur_lex);
+	}
 }
 
 list<lexeme>& LexicalAnalyzer::start(FILE *f)
