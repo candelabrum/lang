@@ -34,4 +34,23 @@ void list<char**>::print_data(char** argv) const
 	printf("NULL\n");
 }
 
+template<>
+void list<lexeme>::delete_nodes(type_lexeme type)
+{
+	if (!head)
+		return;
+	
+	node **p = &head;
+
+	while(p && *p)  /*maybe here need to call destructor*/
+	{
+		if (((*p)->data).type == type)
+		{
+			*p = (*p)->next;
+			continue;
+		}
+		(*p)->next ? p = &((*p)->next) : p = 0;
+	}
+}
+
 

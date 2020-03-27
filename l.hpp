@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "str.hpp"
+#include "lex.hpp"
+
 template <class T>
 class list
 {
@@ -26,6 +28,7 @@ public:
 	void print();
 	void add_node(T& a_data);
 	void add_node_cp(T a_data);
+	void delete_nodes(type_lexeme type);
 	T* get_node(unsigned int index) const;
 	T& get_data(unsigned int index);
 	void next();
@@ -85,6 +88,10 @@ T* list<T>::get_node(unsigned int index) const
 	
 	return 0;
 }
+
+template <class T>
+void list<T>::delete_nodes(type_lexeme t)
+{}
 
 template <class T>
 T& list<T>::get_data(unsigned int index)

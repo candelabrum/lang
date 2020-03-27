@@ -13,6 +13,7 @@ class SyntaxAnalyzer
 	bool BelongToFirstStatement(type_lexeme type);
 	bool IsCmpSign(type_lexeme type);
 	void ProcessTermSym(type_lexeme t, const char *msg);
+	void DeleteAllComments();
 	void get_lex();
 /* 			--- Alphabet of Non Terminal Symbols ---    */
 	void Var(); 	  /* Variable 					(1)	*/

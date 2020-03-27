@@ -9,56 +9,14 @@
 /* Make first for all NonTerminal Symbols and check this in if */
 /* Maybe if->if(
 	Duplicate code in functions: ProcName0, ArgsName1, ArgsName2 
-enum type_lexeme
-{
-	lex_integ,  			//("integer"),
-	lex_fractional,			//("fractional"),
-	lex_com,				//("comment"),
-	lex_strlit,				//("literal string"),
-	lex_func,				//("name_function"),
-	lex_func_one,			//("function_one_arg"),
-	lex_func_zero,			//("functioin_zero_arg"),
-	lex_var,				//("name_variable"),
-	lex_undefined,			//("undefined"),
-	lex_prog,				//("program"),
-	lex_build, 				//("build"),
-	lex_if,					//("if"),
-	lex_while,				//("while"),
-	lex_print,				//("print"),
-	lex_buy,				//("buy"),
-	lex_sell,				//("sell"),
-	lex_prod,				//("prod"),
-	lex_end_turn,			//("end_turn"),
-	lex_plus,				//("+"),
-	lex_minus,				//("-"),
-	lex_slash,				//("/"),
-	lex_star,				//("*"),
-	lex_comma,				//(","),
-	lex_semicolon,			//(";"),
-	lex_equality,			//("="),
-	lex_open_bracket,		//("("),
-	lex_close_bracket,		//(")"),
-	lex_curly_open_br,		//("{"),
-	lex_curly_close_br,		//("}"),
-	lex_open_sq_br,			//("["),
-	lex_close_sq_br,		//("]"),
-	lex_neg,				//("!"),
-	lex_assignment,			//(":="),
-	lex_lss,				//("<"),
-	lex_leq,				//("<="),
-	lex_gtr, 				//(">"),
-	lex_geq,				//(">="),
-	lex_and,				//("&"),
-	lex_or, 				//("|"),
-	lex_neg, 				//("!"),
-	lex_null				//NULL
-}; */
+*/
 
 void SyntaxAnalyzer::Start(list<lexeme>& a_lst)
 {
 	lst = a_lst; 
+//	DeleteAllComments();
 	get_lex();
-	Statement();
+	StatList();
 	printf("\nAlready done\n");
 }
 
@@ -74,6 +32,11 @@ void SyntaxAnalyzer::get_lex()
 	lexeme *tmp;
 
 	tmp = &lst.get_data(0);
+	while(tmp && tmp->type == lex_com)
+	{
+		lst.next();
+		tmp = &lst.get_data(0);
+	}
 	if (tmp)
 		c_l = *tmp;
 	lst.next();
@@ -84,6 +47,11 @@ void SyntaxAnalyzer::ProcessTermSym(type_lexeme t, const char *msg)
 	if (c_l.type != t)
 		GoodBye(msg);
 	get_lex();
+}
+
+void SyntaxAnalyzer::DeleteAllComments()
+{
+	lst.delete_nodes(lex_com);
 }
 
 void SyntaxAnalyzer::Var()
@@ -99,10 +67,8 @@ void SyntaxAnalyzer::VarAux()
 	if (c_l.type == lex_open_sq_br)
 	{
 		get_lex();
-		if (!BelongToFirstArExpr(c_l.type))
-			GoodBye("VarAux: Expected Arithmetic Expression\n");
 		ArExpr();
-		ProcessTermSym(lex_close_sq_br, "After variable Expected ]\n");
+		ProcessTermSym(lex_close_sq_br, "After variable: Expected ]\n");
 	}
 }
 
@@ -118,13 +84,11 @@ void SyntaxAnalyzer::ArExpr()
 {
 	printf("ArExpr1-->");
 	if (!BelongToFirstArExpr(c_l.type))
-		GoodBye("ArExpr: Expected ArExpr1\n");
+		GoodBye("Expected Arithmetic Expression with + and -\n");
 	ArExpr1();
 	while(c_l.type == lex_plus || c_l.type == lex_minus)
 	{
 		get_lex();
-//		if (!BelongToFirstArExpr(c_l.type))
-//			GoodBye("ArExpr: Expected ArExpr1\n");
 		ArExpr1();
 	}
 }
@@ -133,13 +97,11 @@ void SyntaxAnalyzer::ArExpr1()
 {
 	printf("ArExpr1-->");
 	if (!BelongToFirstArExpr(c_l.type))
-		GoodBye("ArExpr1: Expected ArExpr2\n");
+		GoodBye("Expected Arithmetic Expression with * and /\n");
 	ArExpr2();
 	while(c_l.type == lex_star || c_l.type == lex_slash)
 	{
 		get_lex();
-//		if (!BelongToFirstArExpr(c_l.type))
-//			GoodBye("ArExpr: Expected ArExpr1\n");
 		ArExpr2();
 	}
 }
@@ -147,6 +109,7 @@ void SyntaxAnalyzer::ArExpr1()
 void SyntaxAnalyzer::ArExpr2()
 {
 	printf("ArExpr2-->");
+	/* make a switch  or maybe not*/
 	if (c_l.type == lex_var)
 	{
 		Var();
@@ -191,7 +154,7 @@ void SyntaxAnalyzer::BoolExpr()
 {
 	printf("BoolExpr-->");
 	if (!BelongToFirstBoolExpr(c_l.type))
-		GoodBye("Boolean Expression : Unexpected lexeme\n");
+		GoodBye("Expected Boolean Expression probably with <, > etc\n");
 	BoolExpr1();
 	if (IsCmpSign(c_l.type))
 	{
@@ -204,7 +167,7 @@ void SyntaxAnalyzer::BoolExpr1()
 {
 	printf("BoolExpr1-->");
 	if (!BelongToFirstBoolExpr(c_l.type))
-		GoodBye("Boolean Expression1 : Unexpected lexeme\n");
+		GoodBye("Expected Boolean Expression probably with |\n");
 	BoolExpr2();
 	while(c_l.type == lex_or)
 	{
@@ -217,7 +180,7 @@ void SyntaxAnalyzer::BoolExpr2()
 {
 	printf("BoolExpr2-->");
 	if (!BelongToFirstBoolExpr(c_l.type))
-		GoodBye("Boolean Expression2 : Unexpected lexeme\n");
+		GoodBye("Expected Boolean Expression probably with |\n");
 	BoolExpr3();
 	while(c_l.type == lex_and)
 	{
@@ -260,22 +223,23 @@ void SyntaxAnalyzer::BoolExpr3()
 void SyntaxAnalyzer::ArgsFunc0()
 {
 	printf("ArgsFunc0-->");
-	ProcessTermSym(lex_open_bracket, "ArgsFunc0: Expected (\n");
-	ProcessTermSym(lex_close_bracket, "ArgsFunc0: Expected )\n");
+	ProcessTermSym(lex_open_bracket, "Function: Expected (\n");
+	ProcessTermSym(lex_close_bracket, "Function: Expected )\n");
 }
 
 void SyntaxAnalyzer::ArgsFunc1()
 {
 //	get_lex();
 	printf("ArgsFunc1-->");
-	ProcessTermSym(lex_open_bracket, "ArgsFunc1: Expected (\n");
+	ProcessTermSym(lex_open_bracket, "Function: Expected (\n");
 	ArExpr();
-	ProcessTermSym(lex_close_bracket, "ArgsFunc1: Expected )\n");
+	ProcessTermSym(lex_close_bracket, "Funcstion: Expected )\n");
 }
 
 void SyntaxAnalyzer::Function()
 {
 	printf("Function-->");
+	/* make a switch or maybe not*/
 	if (c_l.type == lex_func_zero)
 	{
 		get_lex();
@@ -288,15 +252,15 @@ void SyntaxAnalyzer::Function()
 		ArgsFunc1();	
 	}
 	else
-		GoodBye("Function: Unexpected lexeme\n");
+		GoodBye("It is not Name Function, but expected name Function \n");
 }
 
 void SyntaxAnalyzer::StatComp()
 {
 	printf("StatComp-->");
-	ProcessTermSym(lex_curly_open_br, "StatComp: Expected {\n");
+	ProcessTermSym(lex_curly_open_br, "Statement Compound: Expected {\n");
     StatList();	
-	ProcessTermSym(lex_curly_close_br, "StatComp: Expected }\n");
+	ProcessTermSym(lex_curly_close_br, "Statement Compound: Expected }\n");
 }
 
 bool SyntaxAnalyzer::BelongToFirstStatement(type_lexeme t)
@@ -310,13 +274,14 @@ bool SyntaxAnalyzer::BelongToFirstStatement(type_lexeme t)
 void SyntaxAnalyzer::StatList()
 {
 	if (!BelongToFirstStatement(c_l.type))
-		GoodBye("Statement List : Expected Statement \n");
+		GoodBye("Program must start with Statement or Compound Statement must contains Statements: Expected Statement \n");
 	Statement();
 	while(c_l.type == lex_semicolon)
 	{
 		get_lex();
 		Statement();
 	}
+	printf("StatList was end\n");
 }
 
 void SyntaxAnalyzer::Statement()
@@ -346,7 +311,7 @@ void SyntaxAnalyzer::Statement()
 		StatComp();
 		break;
 	default:/*Maybe make first for begin and prepare probably error*/
-		GoodBye("Statement: Unexpected lexeme\n");
+		GoodBye("Expected Statement, but this is not statement\n");
 	}
 }
 
@@ -355,7 +320,7 @@ void SyntaxAnalyzer::StatAssign()
 	/* condition was check */
 	printf("StatAssign-->");
 	if (c_l.type !=lex_var)
-		GoodBye("StatAssign: Expected Variable\n");
+		GoodBye("StatAssignment : Expected Variable\n");
 	Var();
 	ProcessTermSym(lex_assignment, "Statement Assignment: Expected :=\n");
 	ArExpr();
@@ -375,6 +340,7 @@ void SyntaxAnalyzer::StatIf()
 void SyntaxAnalyzer::ArgPrint()
 {
 	printf("ArgPrint-->");
+	/* make a switch */
 	if (c_l.type == lex_strlit)
 		get_lex();
 	else 
@@ -451,7 +417,7 @@ void SyntaxAnalyzer::StatGmSt()
 		StatComp();
 		break;
 	default:
-		GoodBye("Expected Operator\n");
+		GoodBye("Expected Game Statement\n");
 	}
 }
 
@@ -469,9 +435,9 @@ void SyntaxAnalyzer::ProcName1()
 	if (c_l.type != lex_prod && c_l.type != lex_build)
 		GoodBye("ProcName1: Expected prod or build\n");
 	get_lex();
-	ProcessTermSym(lex_open_bracket, "ProcName1: Expected ( \n");
+	ProcessTermSym(lex_open_bracket, "prod/build: Expected ( \n");
 	ArgGmSt();		
-	ProcessTermSym(lex_close_bracket, "ProcName1: Expected ) \n");
+	ProcessTermSym(lex_close_bracket, "prod/build: Expected ) \n");
 }
 
 void SyntaxAnalyzer::ProcName2()
@@ -480,9 +446,9 @@ void SyntaxAnalyzer::ProcName2()
 	if (c_l.type != lex_buy && c_l.type != lex_sell)
 		GoodBye("ProcName2: Expected prod or build\n");
 	get_lex();
-	ProcessTermSym(lex_open_bracket, "ProcName2: Expected ( \n");
+	ProcessTermSym(lex_open_bracket, "buy/sell: Expected ( \n");
 	ArgGmSt();
-	ProcessTermSym(lex_comma, "ProcName2: Expected , \n");
+	ProcessTermSym(lex_comma, "buy/sell: Expected , \n");
 	ArgGmSt();
-	ProcessTermSym(lex_close_bracket, "ProcName2: Expected ) \n");
+	ProcessTermSym(lex_close_bracket, "buy/sell: Expected ) \n");
 }
