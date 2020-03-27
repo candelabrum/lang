@@ -44,7 +44,7 @@ class SyntaxAnalyzer
 	void ArgsFunc0(); /* SubFunc of 	Function    ----*/
 	void ArgsFunc1(); /* SubFunc of 	Function    ----*/
 public:
-	void Start(list<lexeme>& a_lst);
+	void Start(list<lexeme> a_lst);
 };
 
 class SException

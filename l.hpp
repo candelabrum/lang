@@ -30,6 +30,7 @@ public:
 	void add_node(T& a_data);
 	void add_node_cp(T a_data);
 	void delete_nodes(type_lexeme type);
+	void Delete();
 	T* get_node(unsigned int index) const;
 	T& get_data(unsigned int index);
 	void next();
@@ -38,7 +39,7 @@ public:
 	void print_reverse();
 	bool is_empty();
 	void add_node_to_end(T& a_data);
-	~list();
+	~list(){/*nothing*/}
 };
 
 template <class T>
@@ -69,7 +70,7 @@ void list<T>::next()
 	if (head)
 	{
 		head = head->next;
-		delete tmp;
+//		delete tmp;
 	}
 	if (!head)
 		end = 0;
@@ -119,7 +120,7 @@ T& list<T>::get_data(unsigned int index)
 }
 
 template <class T>
-list<T>::~list()
+void list<T>::Delete()
 {
 	node *tmp;
 	

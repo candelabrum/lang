@@ -24,7 +24,7 @@ public:
 	FiniteStateMachine();
 	bool IsErrorNow();
 	void make_step(char symbol);
-	list<lexeme>& get_lst() { return lst; }
+	list<lexeme> get_lst() { return lst; }
 };
 
 bool FiniteStateMachine::IsErrorNow()
@@ -36,7 +36,7 @@ class LexicalAnalyzer
 {
 	FiniteStateMachine fsm;
 public:
-	list<lexeme>& start(FILE *f);	
+	list<lexeme> start(FILE *f);	
 };
 
 FiniteStateMachine::FiniteStateMachine()
@@ -77,7 +77,7 @@ void FiniteStateMachine::feed(char sym)
 	}
 }
 
-list<lexeme>& LexicalAnalyzer::start(FILE *f)
+list<lexeme> LexicalAnalyzer::start(FILE *f)
 {
 	int c;
 	
@@ -119,7 +119,7 @@ int main(int argc, char* const *argv)
 	}
 	lst = la.start(f);
 	sa.Start(lst);
-	lst.make_null();
+	lst.Delete();
 	fclose(f);
 	
 	return 0;

@@ -11,7 +11,7 @@
 	Duplicate code in functions: ProcName0, ArgsName1, ArgsName2 
 */
 
-void SyntaxAnalyzer::Start(list<lexeme> &a_lst)
+void SyntaxAnalyzer::Start(list<lexeme> a_lst)
 {
 	lst = a_lst; 
 	a_lst.make_null();
@@ -31,9 +31,9 @@ void SyntaxAnalyzer::GoodBye(const char *str)
 
 void SyntaxAnalyzer::get_lex()
 {
-	lexeme *tmp;
+	lexeme *tmp = 0;
 
-	tmp = &lst.get_data(0);
+	tmp = &lst.get_data(0); /* a very bad copy */
 	while(tmp && tmp->type == lex_com)
 	{
 		lst.next();
@@ -41,6 +41,7 @@ void SyntaxAnalyzer::get_lex()
 	}
 	if (tmp)
 		c_l = *tmp;
+//	delete tmp;
 	lst.next();
 } 
 
