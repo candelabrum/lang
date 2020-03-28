@@ -6,10 +6,6 @@
 #include "lex.hpp"
 #include "l.hpp"
 
-/* make a norm add_node_to_end with ptr end */
-/* !!! In lexeme make field str instead lex */
-/* Type lexeme set only end */
-
 class Edge
 {
 public:

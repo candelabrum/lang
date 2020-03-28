@@ -1,0 +1,12 @@
+/*StatGmSt is a bad name */ 
+/*Alphabet of terminal characters*/
+/* Make first for all NonTerminal Symbols and check this in if */
+/* make in lex.cpp global variables belong to classes */
+/* make more smaller big strings */
+/* You can divide the state of the idenficator into 
+		function processing and variable processing */
+/* make a norm add_node_to_end with ptr end */
+/* !!! In lexeme make field str instead lex */
+/* Type lexeme set only end */
+Сделать таблицу диагностических сообщений и положить ее в класс SyntaxAnalyzer
+

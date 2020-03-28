@@ -4,13 +4,6 @@
 #include "l.hpp"
 #include "sa.hpp"
 
-/*StatGmSt is a bad name */ 
-/*Alphabet of terminal characters*/
-/* Make first for all NonTerminal Symbols and check this in if */
-/* Maybe if->if(
-	Duplicate code in functions: ProcName0, ArgsName1, ArgsName2 
-*/
-
 SException::SException(lexeme &a_lex, const char *cmt)
 {
 	lex = a_lex;
