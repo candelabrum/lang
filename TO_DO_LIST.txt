@@ -9,4 +9,4 @@
 /* !!! In lexeme make field str instead lex */
 /* Type lexeme set only end */
 Сделать таблицу диагностических сообщений и положить ее в класс SyntaxAnalyzer
-
+Плохие диагностические сообщения у ProcNameI, где I = 1, 2 
