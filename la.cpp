@@ -103,24 +103,23 @@ list<lexeme> LexicalAnalyzer::start(FILE *f)
 	return fsm.get_lst();
 }
 
-int main(int argc, char* const *argv)
+class Translator 
 {
 	LexicalAnalyzer la;
 	SyntaxAnalyzer sa;
-	list<lexeme> lst;
-	FILE *f;
+public:
+/*	Translator(LexicalAnalyzer a_la, SyntaxAnalyzer a_sa)
+	{
+		la = a_la;
+		sa = a_sa;
+	} */
+	int Run(FILE *f);
+};
 
-	if (argc != 2)
-	{
-		printf("Wrong parameters\n");
-		exit(1);
-	}
-	f = fopen(argv[1], "r");
-	if (!f)
-	{
-		perror("fopen");
-		exit(1);
-	}
+int Translator::Run(FILE *f)
+{
+	list<lexeme> lst;
+
 	lst = la.start(f);
 	if (la.IsErrorNow())
 	{
@@ -136,11 +135,32 @@ int main(int argc, char* const *argv)
 		fprintf(stderr, "%s", ex.GetComment());
 		(ex.GetLexeme()).print();
 		lst.Delete();
-		fclose(f);
 		return 1;
 	}
 	lst.Delete();
+
+	return 0;
+}
+
+int main(int argc, char* const *argv)
+{
+	Translator translator;
+	FILE *f;
+	int res;
+
+	if (argc != 2)
+	{
+		printf("Wrong parameters\n");
+		exit(1);
+	}
+	f = fopen(argv[1], "r");
+	if (!f)
+	{
+		perror("fopen");
+		exit(1);
+	}
+	res = translator.Run(f);
 	fclose(f);
 	
-	return 0;
+	return res;
 }
