@@ -49,12 +49,12 @@ public:
 
 class SException
 {
-	lexeme cur_lex;
+	lexeme lex;
 	const char *comment;
 public:
-	SException(lexeme lex, const char *cmt);
+	SException(lexeme& lex, const char *cmt);
 	SException(const SException& other);
-	lexeme& GetLexeme() { return cur_lex; }
+	const lexeme& GetLexeme() const { return lex; }
 	const char* GetComment() const { return comment; }
 };
 

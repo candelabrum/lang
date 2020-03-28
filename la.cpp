@@ -122,10 +122,10 @@ int main(int argc, char* const *argv)
 	{
 		sa.Start(lst);
 	}
-	catch(const SExeception &ex)
+	catch(const SException &ex)
 	{
-		fprintf(stderr, "%s", ex.GetComment)
-		(ex.GetLex()).print();
+		fprintf(stderr, "%s", ex.GetComment());
+		(ex.GetLexeme()).print();
 		return 1;
 	}
 	lst.Delete();

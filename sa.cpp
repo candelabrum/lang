@@ -27,32 +27,30 @@ void SyntaxAnalyzer::Start(list<lexeme> a_lst)
 	printf("\nAlready done\n");
 }
 
-void SyntaxAnalyzer::GoodBye(const char *str)
-{
-	printf("%s", str);
-	c_l.print();
-	exit(1);
-}
-
 void SyntaxAnalyzer::get_lex()
 {
-	lexeme *tmp = 0;
+	lexeme tmp;
 
-	tmp = &lst.get_data(0); /* a very bad copy */
+	tmp = lst.get_data(0); /* a very bad copy */
 	while(tmp && tmp->type == lex_com)
 	{
 		lst.next();
 		tmp = &lst.get_data(0);
 	}
 	if (tmp)
+	{
+		tmp1 = &c_l;
+		tmp1->~lexeme();
 		c_l = *tmp;
+	}
+	tmp = 0;
 	lst.next();
 } 
 
 void SyntaxAnalyzer::ProcessTermSym(type_lexeme t, const char *msg)
 {
 	if (c_l.type != t)
-		GoodBye(msg);
+		throw SException(c_l, msg);
 	get_lex();
 }
 
@@ -91,7 +89,7 @@ void SyntaxAnalyzer::ArExpr()
 {
 	printf("ArExpr1-->");
 	if (!BelongToFirstArExpr(c_l.type))
-		GoodBye("Expected Arithmetic Expression with + and -\n");
+		throw SException(c_l, "Expected Arithmetic Expression with + and -\n");
 	ArExpr1();
 	while(c_l.type == lex_plus || c_l.type == lex_minus)
 	{
@@ -104,7 +102,7 @@ void SyntaxAnalyzer::ArExpr1()
 {
 	printf("ArExpr1-->");
 	if (!BelongToFirstArExpr(c_l.type))
-		GoodBye("Expected Arithmetic Expression with * and /\n");
+		throw SException(c_l, "Expected Arithmetic Expression with * and /\n");
 	ArExpr2();
 	while(c_l.type == lex_star || c_l.type == lex_slash)
 	{
@@ -132,7 +130,7 @@ void SyntaxAnalyzer::ArExpr2()
 		get_lex();
 		ArExpr();
 		if (c_l.type != lex_close_bracket)
-			GoodBye("Arithmetic Expression:Expected ) ");
+			throw SException(c_l, "Arithmetic Expression:Expected ) ");
 	}
 	else 
 	if (c_l.type == lex_integ || c_l.type == lex_fractional)
@@ -140,7 +138,7 @@ void SyntaxAnalyzer::ArExpr2()
 		get_lex();	
 	}
 	else
-		GoodBye("Arithmetic Expression: Unexpected lexeme\n");
+		throw SException(c_l, "Arithmetic Expression: Unexpected lexeme\n");
 }
 
 bool SyntaxAnalyzer::IsCmpSign(type_lexeme t)
@@ -161,7 +159,7 @@ void SyntaxAnalyzer::BoolExpr()
 {
 	printf("BoolExpr-->");
 	if (!BelongToFirstBoolExpr(c_l.type))
-		GoodBye("Expected Boolean Expression probably with <, > etc\n");
+		throw SException(c_l, "Expected Boolean Expression probably with <, > etc\n");
 	BoolExpr1();
 	if (IsCmpSign(c_l.type))
 	{
@@ -174,7 +172,7 @@ void SyntaxAnalyzer::BoolExpr1()
 {
 	printf("BoolExpr1-->");
 	if (!BelongToFirstBoolExpr(c_l.type))
-		GoodBye("Expected Boolean Expression probably with |\n");
+		throw SException(c_l, "Expected Boolean Expression probably with |\n");
 	BoolExpr2();
 	while(c_l.type == lex_or)
 	{
@@ -187,7 +185,7 @@ void SyntaxAnalyzer::BoolExpr2()
 {
 	printf("BoolExpr2-->");
 	if (!BelongToFirstBoolExpr(c_l.type))
-		GoodBye("Expected Boolean Expression probably with |\n");
+		throw SException(c_l, "Expected Boolean Expression probably with |\n");
 	BoolExpr3();
 	while(c_l.type == lex_and)
 	{
@@ -212,7 +210,7 @@ void SyntaxAnalyzer::BoolExpr3()
 		get_lex();
 		ArExpr();
 		if (c_l.type != lex_close_bracket)
-			GoodBye("BoolExpression: Expected ) ");
+			throw SException(c_l, "BoolExpression: Expected ) ");
 		break;
 	case lex_integ: 
 	case lex_fractional:
@@ -223,7 +221,7 @@ void SyntaxAnalyzer::BoolExpr3()
 		BoolExpr3();
 		break;
 	default:
-		GoodBye("BoolExpression: Unexpected lexeme\n");
+		throw SException(c_l, "BoolExpression: Unexpected lexeme\n");
 	}
 }
 
@@ -259,7 +257,7 @@ void SyntaxAnalyzer::Function()
 		ArgsFunc1();	
 	}
 	else
-		GoodBye("It is not Name Function, but expected name Function \n");
+		throw SException(c_l, "It is not Name Function, but expected name Function \n");
 }
 
 void SyntaxAnalyzer::StatComp()
@@ -281,7 +279,7 @@ bool SyntaxAnalyzer::BelongToFirstStatement(type_lexeme t)
 void SyntaxAnalyzer::StatList()
 {
 	if (!BelongToFirstStatement(c_l.type))
-		GoodBye("Program must start with Statement or Compound Statement must contains Statements: Expected Statement \n");
+		throw SException(c_l, "Program must start with Statement or Compound Statement must contains Statements: Expected Statement \n");
 	Statement();
 	while(c_l.type == lex_semicolon)
 	{
@@ -318,7 +316,7 @@ void SyntaxAnalyzer::Statement()
 		StatComp();
 		break;
 	default:/*Maybe make first for begin and prepare probably error*/
-		GoodBye("Expected Statement, but this is not statement\n");
+		throw SException(c_l, "Expected Statement, but this is not statement\n");
 	}
 }
 
@@ -327,7 +325,7 @@ void SyntaxAnalyzer::StatAssign()
 	/* condition was check */
 	printf("StatAssign-->");
 	if (c_l.type !=lex_var)
-		GoodBye("StatAssignment : Expected Variable\n");
+		throw SException(c_l, "StatAssignment : Expected Variable\n");
 	Var();
 	ProcessTermSym(lex_assignment, "Statement Assignment: Expected :=\n");
 	ArExpr();
@@ -354,7 +352,7 @@ void SyntaxAnalyzer::ArgPrint()
 	if (BelongToFirstArExpr(c_l.type))
 		ArExpr();
 	else
-		GoodBye("ArgPrint: Bad argument print\n");
+		throw SException(c_l, "ArgPrint: Bad argument print\n");
 }
 
 void SyntaxAnalyzer::StatPrint()
@@ -386,7 +384,7 @@ void SyntaxAnalyzer::ArgGmSt()
 	/*make a switch */
 	printf("ArgGmSt-->");
 	if (!BelongToFirstArExpr(c_l.type))
-		GoodBye("Statement ArgGmSt: Unexpected lexeme\n");
+		throw SException(c_l, "Statement ArgGmSt: Unexpected lexeme\n");
 	ArExpr();
 }
 
@@ -411,7 +409,7 @@ void SyntaxAnalyzer::StatGmSt()
 		StatComp();
 		break;
 	default:
-		GoodBye("Expected Game Statement\n");
+		throw SException(c_l, "Expected Game Statement\n");
 	}
 }
 
@@ -427,7 +425,7 @@ void SyntaxAnalyzer::ProcName1()
 {
 	printf("ProcName1-->");
 	if (c_l.type != lex_prod && c_l.type != lex_build)
-		GoodBye("ProcName1: Expected prod or build\n");
+		throw SException(c_l, "ProcName1: Expected prod or build\n");
 	get_lex();
 	ProcessTermSym(lex_open_bracket, "prod/build: Expected ( \n");
 	ArgGmSt();		
@@ -438,7 +436,7 @@ void SyntaxAnalyzer::ProcName2()
 {
 	printf("ProcName2-->");
 	if (c_l.type != lex_buy && c_l.type != lex_sell)
-		GoodBye("ProcName2: Expected prod or build\n");
+		throw SException(c_l, "ProcName2: Expected prod or build\n");
 	get_lex();
 	ProcessTermSym(lex_open_bracket, "buy/sell: Expected ( \n");
 	ArgGmSt();

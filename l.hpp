@@ -65,15 +65,12 @@ bool list<T>::is_empty()
 template <class T>
 void list<T>::next()
 {
-	node *tmp = head;
-
 	if (head)
 	{
 		head = head->next;
-//		delete tmp;
+		return;
 	}
-	if (!head)
-		end = 0;
+	end = 0;
 }
 
 template <class T>
