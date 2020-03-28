@@ -379,7 +379,7 @@ void SyntaxAnalyzer::StatWhile()
 	ProcessTermSym(lex_open_bracket, "Statement While: "
 												"Expected (\n");
 	BoolExpr();
-	ProcessTermSym(lex_close_bracket, "Statement While:
+	ProcessTermSym(lex_close_bracket, "Statement While: "
 												"Expected )\n");
 	Statement();
 }
