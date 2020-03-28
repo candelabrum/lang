@@ -6,7 +6,7 @@ class SyntaxAnalyzer
 {
 /*  		--- Auxiliary part of this class ---		*/
 	list<lexeme> lst;
-	lexeme c_l;
+	lexeme *c_l;
 	void GoodBye(const char *str);
 	bool BelongToFirstArExpr(type_lexeme type);
 	bool BelongToFirstBoolExpr(type_lexeme type);

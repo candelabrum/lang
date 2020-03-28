@@ -5,4 +5,4 @@ print("hello");
 print("hello");
 print("hello");
 print("hello");
-prod(2)
+prod(2);

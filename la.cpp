@@ -32,11 +32,20 @@ bool FiniteStateMachine::IsErrorNow()
 	return cur_st == 10; /* ten is state of error */
 }
 
+class LAException
+{
+	const char *comment;
+public:
+	LAException(const char *a_comment) { comment = a_comment;}
+	const char* GetComment() { return comment; }
+};
+
 class LexicalAnalyzer
 {
 	FiniteStateMachine fsm;
 public:
 	list<lexeme> start(FILE *f);	
+	bool IsErrorNow() { return fsm.IsErrorNow(); }
 };
 
 FiniteStateMachine::FiniteStateMachine()
@@ -118,6 +127,11 @@ int main(int argc, char* const *argv)
 		exit(1);
 	}
 	lst = la.start(f);
+	if (la.IsErrorNow())
+	{
+		lst.Delete();
+		return 1;
+	}
 	try
 	{
 		sa.Start(lst);
@@ -126,6 +140,8 @@ int main(int argc, char* const *argv)
 	{
 		fprintf(stderr, "%s", ex.GetComment());
 		(ex.GetLexeme()).print();
+		lst.Delete();
+		fclose(f);
 		return 1;
 	}
 	lst.Delete();
