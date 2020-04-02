@@ -18,14 +18,13 @@ private:
 	public:
 		node(T& a_data);
 	};
-
 	void print_data(T data) const;
 	void my_print_reverse(node *a_head);
 
 	node *head, *end;
 public:
 	list (node *a_head = 0){ head = a_head; end = a_head; };
-	void print();
+	void print() const ;
 	void operator=(const list<T>& lst);
 	void add_node(T& a_data);
 	void add_node_cp(T a_data);
@@ -40,6 +39,17 @@ public:
 	bool is_empty();
 	void add_node_to_end(T& a_data);
 	~list(){/*nothing*/}
+};
+
+template <class T>
+class Stack : public list<T>
+{
+public:
+	bool IsEmpty() const { return list<T>::is_empty(); }
+	void push(T a_data) { list<T>::add_node_to_end(a_data); }
+	T& pop() { return list<T>::get_data(0); } 
+	void print_stack() const { list<T>::print(); }
+	void Delete_Stack() { list<T>::Delete(); }
 };
 
 template <class T>
@@ -137,6 +147,7 @@ template <class T>
 void list<T>::print_data(T data) const
 {
 	data.print();
+//	printf("HELLO %d\n ", data);
 }
 
 template <class T>
@@ -186,7 +197,7 @@ void list<T>::add_node_cp(T a_data)
 }
 
 template <class T>
-void list<T>::print() 
+void list<T>::print()  const
 {
 	node *tmp = head;
 	

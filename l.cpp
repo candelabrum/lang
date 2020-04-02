@@ -1,3 +1,5 @@
+#include "l.hpp"
+
 template <>
 void list<char*>::print_data(char* str) const
 {
@@ -52,5 +54,3 @@ void list<lexeme>::delete_nodes(type_lexeme type)
 		(*p)->next ? p = &((*p)->next) : p = 0;
 	}
 }
-
-

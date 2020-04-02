@@ -1,19 +1,23 @@
 #ifndef SYNTAXANALYZER_H_SENTRY
 #define SYNTAXANALYZER_H_SENTRY
+
 #include "l.hpp"
+#include "rpn.hpp"
 
 class SyntaxAnalyzer
 {
+/* 			--- Reverse Polish Notation(RPN) ---        */
+	list<*RPNElem> RPN;
 /*  		--- Auxiliary part of this class ---		*/
 	list<lexeme> lst;
 	lexeme *c_l;
-	void GoodBye(const char *str);
+//	void GoodBye(const char *str);
 	bool BelongToFirstArExpr(type_lexeme type);
 	bool BelongToFirstBoolExpr(type_lexeme type);
 	bool BelongToFirstStatement(type_lexeme type);
 	bool IsCmpSign(type_lexeme type);
 	void ProcessTermSym(type_lexeme t, const char *msg);
-	void DeleteAllComments();
+//	void DeleteAllComments();
 	void get_lex();
 /* 			--- Alphabet of Non Terminal Symbols ---    */
 	void Var(); 	  /* Variable 					(1)	*/
@@ -47,13 +51,13 @@ public:
 	void Start(list<lexeme> a_lst);
 };
 
-class SException
+class SAException
 {
 	lexeme lex;
 	const char *comment;
 public:
-	SException(lexeme& lex, const char *cmt);
-	SException(const SException& other);
+	SAException(lexeme& lex, const char *cmt);
+	SAException(const SAException& other);
 	const lexeme& GetLexeme() const { return lex; }
 	const char* GetComment() const { return comment; }
 };

@@ -2,7 +2,7 @@
 #include "lex.hpp"
 #include "l.hpp"
 
-const string str_delimiters("+-/*;=(){},[]!");
+const string str_delimiters("+-/*;=(){},[]!&|");
 
 const couple delimiters [] = {
 	{"+", lex_plus},

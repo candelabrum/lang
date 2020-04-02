@@ -130,7 +130,7 @@ int Translator::Run(FILE *f)
 	{
 		sa.Start(lst);
 	}
-	catch(const SException &ex)
+	catch(const SAException &ex)
 	{
 		fprintf(stderr, "%s", ex.GetComment());
 		(ex.GetLexeme()).print();

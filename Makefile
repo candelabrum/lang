@@ -1,7 +1,7 @@
 SRCMODULES = str.cpp edges.cpp lex.cpp sa.cpp
 OBJMODULES = $(SRCMODULES: c=.o)
 CXXHARDFLAGS = -g -Wall -Weffc++ -Wextra -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast -Wunreachable-code -Wconversion -Wsign-conversion -Winit-self
-CXXFLAGS = -g -Wall
+CXXFLAGS = -g -Wall 
 
 string.o:
 	gcc -Wall -g -c string.c -o string.o
