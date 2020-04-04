@@ -127,7 +127,7 @@ void lexeme::prepare(char s, type_lexeme t) /* is bad function */
 
 void lexeme::add_symbol(char symbol)
 {
-	lex.add_to_len(1);    /* need in resize */	
+	lex.add_to_len(1);
 	lex[lex.get_len() - 1] = symbol; 
 }
 

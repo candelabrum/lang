@@ -7,17 +7,15 @@
 class SyntaxAnalyzer
 {
 /* 			--- Reverse Polish Notation(RPN) ---        */
-	list<*RPNElem> RPN;
+	RPNList rpn_lst;
 /*  		--- Auxiliary part of this class ---		*/
 	list<lexeme> lst;
 	lexeme *c_l;
-//	void GoodBye(const char *str);
 	bool BelongToFirstArExpr(type_lexeme type);
 	bool BelongToFirstBoolExpr(type_lexeme type);
 	bool BelongToFirstStatement(type_lexeme type);
 	bool IsCmpSign(type_lexeme type);
 	void ProcessTermSym(type_lexeme t, const char *msg);
-//	void DeleteAllComments();
 	void get_lex();
 /* 			--- Alphabet of Non Terminal Symbols ---    */
 	void Var(); 	  /* Variable 					(1)	*/

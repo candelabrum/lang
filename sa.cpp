@@ -78,6 +78,7 @@ bool SyntaxAnalyzer::BelongToFirstArExpr(type_lexeme t)
 
 void SyntaxAnalyzer::ArExpr()
 {
+	lexeme *operation;
 #ifdef DEBUG
 	printf("ArExpr-->");
 #endif
@@ -87,15 +88,17 @@ void SyntaxAnalyzer::ArExpr()
 	ArExpr1();
 	while(c_l->type == lex_plus || c_l->type == lex_minus)
 	{
+		operation = c_l; /* RPN */
 		get_lex();
 		ArExpr1();
 		printf("+|-");/*C*/
-		c_l->print();/*!*/
+		rpn_lst.add(operation);	
 	}
 }
 
 void SyntaxAnalyzer::ArExpr1()
 {
+	lexeme *operation;
 #ifdef DEBUG
 	printf("ArExpr1-->");
 #endif
@@ -105,10 +108,11 @@ void SyntaxAnalyzer::ArExpr1()
 	ArExpr2();
 	while(c_l->type == lex_star || c_l->type == lex_slash)
 	{
+		operation = c_l;
 		get_lex();
 		ArExpr2();
 		printf("*|/");/*C*/
-		c_l->print();/*!*/
+		rpn_lst.add(operation);/*!*/
 	}
 }
 
@@ -134,12 +138,14 @@ void SyntaxAnalyzer::ArExpr2()
 	if (c_l->type == lex_integ || c_l->type == lex_fractional)
 	{
 		c_l->print();/*!*/
+		rpn_lst.add(c_l);
 		get_lex();	
 	}
 	else
 	if(c_l->type == lex_plus || c_l->type == lex_minus)
 	{
-		/* here processing lexeme unary minus */
+		/* here processing lexeme unary minus and plus */
+		/* BAD !!! IT CAN NOT WORK !!! *? */
 		get_lex();
 	}
 	else
@@ -156,10 +162,8 @@ bool SyntaxAnalyzer::IsCmpSign(type_lexeme t)
 bool SyntaxAnalyzer::BelongToFirstBoolExpr(type_lexeme t)
 {
 	return t == lex_open_bracket || t == lex_neg ||
-		BelongToFirstArExpr(t) || t == lex_open_sq_br ||
-		t == lex_close_sq_br;
+		BelongToFirstArExpr(t) || t == lex_open_sq_br;
 }
-
 
 void SyntaxAnalyzer::BoolExpr()
 {
@@ -267,7 +271,7 @@ void SyntaxAnalyzer::Function()
 #ifdef DEBUG
 	printf("Function-->");
 #endif
-	/* make a switch or maybe not*/
+	// make a switch or maybe not 
 	if (c_l->type == lex_func_zero)
 	{
 		get_lex();
@@ -352,7 +356,8 @@ void SyntaxAnalyzer::Statement()
 	case lex_curly_open_br:
 		StatComp();
 		break;
-	default:/*Maybe make first for begin and prepare probably error*/
+	default:
+	//Maybe make first for begin and prepare probably error
 		throw SAException(*c_l, "Expected Statement, but " 
 										"this is not statement\n");
 	}
