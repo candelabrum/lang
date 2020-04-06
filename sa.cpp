@@ -19,12 +19,15 @@ void SyntaxAnalyzer::Start(list<lexeme> a_lst)
 	StatList();
 	ProcessTermSym(lex_fin, "Expected end of file. "
 								"Probably you don't write ;\n");
+	printf("PRINT LIST\n");
+	rpn_lst.print();
+	rpn_lst.disappear();
 	printf("\nAlready done\n");
 }
 
 void SyntaxAnalyzer::get_lex()
 {
-	c_l = &lst.get_data(0); /* a very bad copy */
+	c_l = &lst.get_data(0); 
 	while(c_l && c_l->type == lex_com)
 	{
 		lst.next();
@@ -92,7 +95,7 @@ void SyntaxAnalyzer::ArExpr()
 		get_lex();
 		ArExpr1();
 		printf("+|-");/*C*/
-		rpn_lst.add(operation);	
+		rpn_lst.add_node(operation);	
 	}
 }
 
@@ -112,7 +115,7 @@ void SyntaxAnalyzer::ArExpr1()
 		get_lex();
 		ArExpr2();
 		printf("*|/");/*C*/
-		rpn_lst.add(operation);/*!*/
+		rpn_lst.add_node(operation);/*!*/
 	}
 }
 
@@ -137,8 +140,8 @@ void SyntaxAnalyzer::ArExpr2()
 	else 
 	if (c_l->type == lex_integ || c_l->type == lex_fractional)
 	{
-		c_l->print();/*!*/
-		rpn_lst.add(c_l);
+	//	c_l->print();/*!*/
+		rpn_lst.add_node(c_l);
 		get_lex();	
 	}
 	else
@@ -215,6 +218,7 @@ void SyntaxAnalyzer::BoolExpr2()
 
 void SyntaxAnalyzer::BoolExpr3()
 {
+	lexeme *operation;
 #ifdef DEBUG
 	printf("BoolExpr3-->");
 #endif
@@ -232,8 +236,10 @@ void SyntaxAnalyzer::BoolExpr3()
 		if (!IsCmpSign(c_l->type))
 			throw SAException(*c_l, "BoolExpression: "
 										"Expected <, >, =, <=, >=");
+		operation = c_l;
 		get_lex();
 		ArExpr();
+		rpn_lst.add_node(operation);
 	}
 	else
 	if (c_l->type == lex_neg)

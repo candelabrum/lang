@@ -1,7 +1,7 @@
-SRCMODULES = str.cpp edges.cpp lex.cpp sa.cpp rpn.cpp
+SRCMODULES = str.cpp edges.cpp lex.cpp sa.cpp rpn.cpp l.cpp
 OBJMODULES = $(SRCMODULES: c=.o)
 CXXHARDFLAGS = -g -Wall -Weffc++ -Wextra -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast -Wunreachable-code -Wconversion -Wsign-conversion -Winit-self
-CXXFLAGS = -g -Wall 
+CXXFLAGS = -g -Wall -Wfatal-errors
 
 string.o:
 	gcc -Wall -g -c string.c -o string.o
@@ -20,10 +20,11 @@ deps.mk: $(SRCMODULES)
 	$(GXX) -MM $^ > $@
 
 clean:
-	rm *.o la
+	rm *.o 
+	rm la
 	gcc -Wall -g -c string.c -o string.o
 run: la
-	cppcheck $(SRCMODULES)
+	make string.o
 	valgrind --leak-check=full ./la src.txt
 runv: la
 	valgrind ./la src.txt > VG_LOG

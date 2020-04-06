@@ -104,7 +104,6 @@ char* int_to_str(int number)
     return str;
 }
 
-
 void str_move( char *str1, char *str2, int len)
 {
     int i;
