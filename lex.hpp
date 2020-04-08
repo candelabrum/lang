@@ -5,6 +5,7 @@
 
 enum type_lexeme
 {
+/* 			---	Lexical and Syntax Analyzer ---				*/
 	lex_integ,  			//("integer"),
 	lex_fractional,			//("fractional"),
 	lex_com,				//("comment"),
@@ -46,7 +47,9 @@ enum type_lexeme
 	lex_neq,				//("!="),
 	lex_and,				//("&"),
 	lex_or, 				//("|"),
-	lex_null				//NULL
+	lex_null,				//NULL,
+/*				--- Reverse Polish Notation --- 				*/
+	lex_take_addr			//("$")
 };
 
 struct couple

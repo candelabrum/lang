@@ -2,6 +2,7 @@
 #define RPN_FUNC_H_SENTRY
 
 #include "rpn.hpp"
+#include "lex.hpp"
 #include <stdio.h>
 
 class RPNFunction : public RPNElem
@@ -11,12 +12,25 @@ class RPNFunction : public RPNElem
 								RPNItem  **cur_cmd) const;
 public:
 	virtual ~RPNFunction() {};
+	virtual	RPNFunction* Clone() const = 0;
 };
 
 class RPNFunc2 : public RPNFunction 
 {
 public:
-	virtual	RPNFunc2* Clone() const = 0;
+	virtual	RPNFunction* Clone() const = 0;
+};
+
+class RPNFunc1 : public RPNFunction 
+{
+public:
+	virtual	RPNFunction* Clone() const = 0;
+};
+
+class RPNFunc0 : public RPNFunction 
+{
+public:
+	virtual	RPNFunction* Clone() const = 0;
 };
 
 class RPNFunPlus : public RPNFunc2
@@ -30,7 +44,7 @@ public:
 	RPNFunPlus() {}
 	virtual ~RPNFunPlus() {}
 	virtual void print() const { printf("[+]"); }
-	virtual	RPNFunc2* Clone() const { return new RPNFunPlus(); }
+	virtual	RPNFunction* Clone() const { return new RPNFunPlus(); }
 };
 
 class RPNFunMinus : public RPNFunc2
@@ -43,7 +57,7 @@ public:
 		/* Here should be body */
 		return 0;
 	}
-	virtual	RPNFunc2* Clone() const { return new RPNFunMinus(); }
+	virtual	RPNFunction* Clone() const { return new RPNFunMinus(); }
 
 	virtual void print() const { printf("[-]"); }
 };
@@ -59,7 +73,7 @@ public:
 		return 0;
 	}
 	virtual void  print() const { printf("[*]"); }
-	virtual	RPNFunc2* Clone() const 
+	virtual	RPNFunction* Clone() const 
 	{ 
 		return new RPNFunMultiply(); 
 	}
@@ -76,7 +90,7 @@ public:
 		return 0;
 	}
 	virtual void print() const { printf("[/]"); }
-	virtual	RPNFunc2* Clone() const
+	virtual	RPNFunction* Clone() const
 	{ 
 		return new RPNFunDivision(); 
 	}
@@ -93,7 +107,7 @@ public:
 		return 0;
 	}
 	virtual void print() const { printf("[<]"); }
-	virtual	RPNFunc2* Clone() const
+	virtual	RPNFunction* Clone() const
 	{ 
 		return new RPNFunLess(); 
 	}
@@ -110,11 +124,10 @@ public:
 		return 0;
 	}
 	virtual void print() const { printf("[>]"); }
-	virtual	RPNFunc2* Clone() const
+	virtual	RPNFunction* Clone() const
 	{ 
 		return new RPNFunGreater(); 
 	}
-
 };
 
 class RPNFunLeq: public RPNFunc2
@@ -128,7 +141,7 @@ public:
 		return 0;
 	}
 	virtual void print() const { printf("[<=]"); }
-	virtual	RPNFunc2* Clone() const
+	virtual	RPNFunction* Clone() const
 	{ 
 		return new RPNFunLeq(); 
 	}
@@ -146,9 +159,80 @@ public:
 		return 0;
 	}
 	virtual void print() const { printf("[>=]"); }
-	virtual	RPNFunc2* Clone() const
+	virtual	RPNFunction* Clone() const
 	{ 
 		return new RPNFunGeq(); 
+	}
+};
+
+class RPNFunInd : public RPNFunc2
+{
+public:
+	RPNFunInd() {}
+	virtual ~RPNFunInd() {}
+	RPNElem* EvaluateFun(RPNItem **stack) const
+	{
+		/* Here should be body */
+		return 0;
+	}
+	virtual void print() const { printf("[[]]");}
+	virtual	RPNFunction* Clone() const
+	{ 
+		return new RPNFunInd(); 
+	}
+};
+
+class RPNFunAssign : public RPNFunc2
+{
+public:
+	RPNFunAssign() {}
+	virtual ~RPNFunAssign() {}
+	RPNElem* EvaluateFun(RPNItem **stack) const
+	{
+		/* Here should be body */
+		return 0;
+	}
+	virtual void print() const { printf("[:=]");}
+	virtual	RPNFunction* Clone() const
+	{ 
+		return new RPNFunAssign(); 
+	}
+};
+
+class RPNFunTakeAddr: public RPNFunc1
+{
+public:
+	RPNFunTakeAddr() {}
+	virtual ~RPNFunTakeAddr() {}
+	RPNElem* EvaluateFun(RPNItem **stack) const
+	{
+		/* Here should be body */
+		return 0;
+	}
+	virtual void print() const { printf("[$]");}
+	virtual	RPNFunction* Clone() const
+	{ 
+		return new RPNFunTakeAddr(); 
+	}
+};
+
+class RPNFunVar: public RPNFunc0
+{
+	string name;
+public:
+	RPNFunVar() {}
+	virtual ~RPNFunVar() {}
+	void set(lexeme *c_l) { name = c_l->lex; }
+	RPNElem* EvaluateFun(RPNItem **stack) const
+	{
+		/* Here should be body */
+		return 0;
+	}
+	char* GetName() { return name.get_str(); }
+	virtual void print() const ;
+	virtual	RPNFunction* Clone() const
+	{ 
+		return new RPNFunVar(); 
 	}
 };
 

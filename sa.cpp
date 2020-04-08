@@ -44,16 +44,13 @@ void SyntaxAnalyzer::ProcessTermSym(type_lexeme t, const char *msg)
 	get_lex();
 }
 
-/*void SyntaxAnalyzer::DeleteAllComments()
-{
-	lst.delete_nodes(lex_com);
-}*/
-
 void SyntaxAnalyzer::Var()
 {
 #ifdef DEBUG
 	printf("Var-->");
 #endif
+	if (c_l->type == lex_var)
+		rpn_lst.add_node(c_l);
 	ProcessTermSym(lex_var, "Expected variable\n");
 	VarAux();
 }
@@ -67,6 +64,7 @@ void SyntaxAnalyzer::VarAux()
 	{
 		get_lex();
 		ArExpr();
+		rpn_lst.add_node(c_l); /* was lex_ind */
 		ProcessTermSym(lex_close_sq_br, "After variable: "
 												"Expected ]\n");
 	}
@@ -120,13 +118,27 @@ void SyntaxAnalyzer::ArExpr1()
 	}
 }
 
+void add_func_take_addr(RPNList *rpn_lst, lexeme *c_l)
+{
+	lexeme *new_lex = new lexeme();
+
+	new_lex->number_line = c_l->number_line;
+	new_lex->type = lex_take_addr;
+	rpn_lst->add_node(new_lex);
+
+	delete new_lex;
+}
+
 void SyntaxAnalyzer::ArExpr2()
 {
 #ifdef DEBUG
 	printf("ArExpr2-->");
 #endif
 	if (c_l->type == lex_var)
+	{
 		Var();
+		add_func_take_addr(&rpn_lst, c_l);
+	}
 	else
 	if (c_l->type == lex_func_one || c_l->type == lex_func_zero)
 		Function();
@@ -372,6 +384,7 @@ void SyntaxAnalyzer::Statement()
 
 void SyntaxAnalyzer::StatAssign()
 {
+	lexeme *assign;
 	/* condition was check */
 #ifdef DEBUG
 	printf("StatAssign-->");
@@ -379,10 +392,13 @@ void SyntaxAnalyzer::StatAssign()
 	if (c_l->type !=lex_var)
 		throw SAException(*c_l, "StatAssignment : "
 									"Expected Variable\n");
+
 	Var();
+	assign = c_l;
 	ProcessTermSym(lex_assignment, "Statement Assignment: "
 												"Expected :=\n");
 	ArExpr();
+	rpn_lst.add_node(assign);
 }
 
 void SyntaxAnalyzer::StatIf()

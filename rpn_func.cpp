@@ -11,3 +11,11 @@ void RPNFunction::Evaluate(RPNItem** stack,
 
 	*cur_cmd = (*cur_cmd)->next;
 }
+
+void RPNFunVar::print() const 
+{ 
+	printf("[");
+	name.print();
+	printf("]");
+}
+
