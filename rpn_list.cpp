@@ -76,12 +76,13 @@ RPNTableConst TableConst(couple_const);
 void RPNList::add_node(lexeme *c_l)
 {
 	RPNConst *elem_const, *new_elem_const;
-	RPNFunc2 *elem_func;
+	RPNFunc2 *elem_func, *new_elem_func;
 
 	elem_func = TableFunc2.search_by(c_l->type);	
 	if (elem_func)
 	{
-		add_node_to_end(elem_func);
+		new_elem_func = elem_func->Clone();	
+		add_node_to_end(new_elem_func);
 //		print();
 		return;
 	}
@@ -117,6 +118,7 @@ void RPNList::print() const
 	while(tmp)
 	{
 		(tmp->elem)->print();
+		printf("->");
 		tmp = tmp->next;
 	}
 }

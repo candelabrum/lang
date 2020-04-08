@@ -11,6 +11,7 @@ public:
 	void Evaluate(RPNItem **stack,
 						RPNItem **cur_cmd) const;
 	virtual void set(string& str) = 0;
+	virtual ~RPNConst() {}
 };
 
 class RPNDouble	: public RPNConst	/* Maybe real like in Pascal */
@@ -24,7 +25,7 @@ public:
 	virtual RPNConst* Clone() const 
 		{ return new RPNDouble(value); }
 	double Get() const { return value; }
-	void print() const { printf("%2.2fl", value); }
+	void print() const { printf("[%2.2fl]", value); }
 };
 
 #endif

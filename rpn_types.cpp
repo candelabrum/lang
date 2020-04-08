@@ -1,4 +1,3 @@
-
 #include "rpn_types.hpp"
 
 void RPNDouble::set(string& number)
@@ -10,7 +9,7 @@ void RPNDouble::set(string& number)
 //	printf("%s VALUE %d\n", str, res);
 	value = (double)res;
 
-	delete str;
+	delete [] str;
 }
 
 void RPNConst::Evaluate(RPNItem **stack, RPNItem **cur_cmd) const
