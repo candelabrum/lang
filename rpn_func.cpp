@@ -1,3 +1,6 @@
+#include "rpn.hpp"
+#include "rpn_func.hpp"
+
 void RPNFunction::Evaluate(RPNItem** stack, 
 									RPNItem  **cur_cmd) const
 {
@@ -8,5 +11,3 @@ void RPNFunction::Evaluate(RPNItem** stack,
 
 	*cur_cmd = (*cur_cmd)->next;
 }
-
-

@@ -1,5 +1,3 @@
-#ifndef RPN_TYPES_H_SENTRY
-#define RPN_TYPES_H_SENTRY
 
 #include "rpn_types.hpp"
 
@@ -20,5 +18,3 @@ void RPNConst::Evaluate(RPNItem **stack, RPNItem **cur_cmd) const
 	Push(stack, Clone());
 	*cur_cmd = (*cur_cmd)->next;
 }
-
-#endif

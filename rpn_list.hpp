@@ -1,3 +1,6 @@
+#ifndef RPN_LIST_H_SENTRY
+#define RPN_LIST_H_SENTRY
+
 #include "rpn.hpp"
 #include "rpn_types.hpp"
 #include "rpn_func.hpp"
@@ -17,39 +20,6 @@ struct RPNList
 	void print() const;
 };
 
-struct couple_rpn_func2
-{
-	RPNFunc2 *elem;
-	type_lexeme type_lex;
-};
-
-struct couple_rpn_const
-{
-	RPNConst *elem;
-	type_lexeme type_lex;
-};
-
-class RPNTableFunc2
-{
-	couple_rpn_func2 *table;	
-public:
-	RPNTableFunc2(couple_rpn_func2 *a_table = 0) { table = a_table; } 
-	RPNFunc2* search_by(type_lexeme type) const;
-	/* There should have been a binary search here */
-};
-
-class RPNTableConst
-{
-	couple_rpn_const *table;	
-public:
-	RPNTableConst(couple_rpn_const *a_table = 0)
-	{
-		table = a_table; 
-	}
-	RPNConst* search_by(type_lexeme type) const;
-	/* There should have been a binary search here */
-};
-
 class RPNNoop : public RPNElem
 {
 public:
@@ -57,6 +27,7 @@ public:
 	virtual void Evaluate(RPNItem **stack,
 						RPNItem **cur_cmd) const {}
 	void print() const { printf("Noop"); }
-}noop, *rpn_noop = &noop;
+};
 
 
+#endif

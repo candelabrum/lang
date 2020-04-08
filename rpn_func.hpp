@@ -2,6 +2,7 @@
 #define RPN_FUNC_H_SENTRY
 
 #include "rpn.hpp"
+#include <stdio.h>
 
 class RPNFunction : public RPNElem
 {
@@ -24,8 +25,8 @@ class RPNFunPlus : public RPNFunc2
 public:
 	RPNFunPlus() {}
 	virtual ~RPNFunPlus() {}
-	virtual void print() const { printf("FuncPlus"); }
-}plus, *RPNPlus = &plus;
+	virtual void print() const { printf("+"); }
+};
 
 class RPNFunMinus : public RPNFunc2
 {
@@ -37,8 +38,8 @@ public:
 		/* Here should be body */
 		return 0;
 	}
-	virtual void print() const { printf("FuncMinus"); }
-}minus, *RPNMinus = &minus;
+	virtual void print() const { printf("-"); }
+};
 
 class RPNFunMultiply : public RPNFunc2
 {
@@ -50,8 +51,8 @@ public:
 		/* Here should be body */
 		return 0;
 	}
-	virtual void  print() const { printf("FuncMultiply"); }
-}mult, *RPNMult = &mult;
+	virtual void  print() const { printf("*"); }
+};
 
 class RPNFunDivision : public RPNFunc2
 {
@@ -63,8 +64,8 @@ public:
 		/* Here should be body */
 		return 0;
 	}
-	virtual void print() const { printf("FuncDivision"); }
-}div, *RPNDiv = &div;
+	virtual void print() const { printf("/"); }
+};
 
 class RPNFunLess: public RPNFunc2
 {
@@ -76,7 +77,48 @@ public:
 		/* Here should be body */
 		return 0;
 	}
-	virtual void print() const { printf("FuncLess(<)"); }
-}less, *RPNLess= &less;
+	virtual void print() const { printf("<"); }
+};
+
+class RPNFunGreater: public RPNFunc2
+{
+public:
+	RPNFunGreater() {}
+	virtual ~RPNFunGreater() {}
+	RPNElem* EvaluateFun(RPNItem **stack) const
+	{
+		/* Here should be body */
+		return 0;
+	}
+	virtual void print() const { printf(">"); }
+};
+
+class RPNFunLeq: public RPNFunc2
+{
+public:
+	RPNFunLeq() {}
+	virtual ~RPNFunLeq() {}
+	RPNElem* EvaluateFun(RPNItem **stack) const
+	{
+		/* Here should be body */
+		return 0;
+	}
+	virtual void print() const { printf("<="); }
+};
+
+class RPNFunGeq: public RPNFunc2
+{
+public:
+	RPNFunGeq() {}
+	virtual ~RPNFunGeq() {}
+	RPNElem* EvaluateFun(RPNItem **stack) const
+	{
+		/* Here should be body */
+		return 0;
+	}
+	virtual void print() const { printf(">="); }
+};
+
+
 
 #endif

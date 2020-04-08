@@ -1,3 +1,7 @@
+#ifndef RPN_TYPES_H_SENTRY
+#define RPN_TYPES_H_SENTRY
+
+
 #include "rpn.hpp"
 
 class RPNConst : public RPNElem
@@ -20,5 +24,7 @@ public:
 	virtual RPNConst* Clone() const 
 		{ return new RPNDouble(value); }
 	double Get() const { return value; }
-	void print() const { printf("Double %fl", value); }
-}number, *RPNNumber = &number;
+	void print() const { printf("%2.2fl", value); }
+};
+
+#endif
