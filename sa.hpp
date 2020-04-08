@@ -3,6 +3,7 @@
 
 #include "l.hpp"
 #include "rpn.hpp"
+#include "rpn_list.hpp"
 
 class SyntaxAnalyzer
 {

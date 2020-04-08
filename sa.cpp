@@ -4,6 +4,7 @@
 #include "l.hpp"
 #include "sa.hpp"
 #include "rpn.hpp"
+#include "rpn_list.hpp"
 
 SAException::SAException(lexeme &a_lex, const char *cmt)
 {
