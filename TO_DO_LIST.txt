@@ -32,3 +32,5 @@
 !!! Наверно стоит описать  Clone У RPNElem !!!
 !!! try_to_add is bad name !!!
 !!! Сделать нормальный шаблон из Table in rpn_list.cpp !!!
+!!! Сделать инкапсуляцию в rpn_list.cpp with couples !!!
+!!! Сделать статическим метод для создания объектов класса RPNElem 

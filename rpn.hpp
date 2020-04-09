@@ -12,7 +12,7 @@ public:
 	virtual ~RPNElem() {};
 	virtual void Evaluate(RPNItem **stack,
 								RPNItem **cur_cmd) const = 0;
-	virtual void print() const = 0;/
+	virtual void print() const = 0;
 	virtual static RPNElem* Convert2RPNElem(lexeme *l) const = 0;
 
 protected:
