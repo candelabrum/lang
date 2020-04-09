@@ -126,7 +126,7 @@ void SyntaxAnalyzer::ArExpr2()
 	if (c_l->type == lex_var)
 	{
 		Var();
-		add_operation(lex_take_addr);
+		add_item(lex_take_addr);
 	}
 	else
 	if (c_l->type == lex_func_one || c_l->type == lex_func_zero)
@@ -147,13 +147,6 @@ void SyntaxAnalyzer::ArExpr2()
 		get_lex();	
 	}
 	else
-	if(c_l->type == lex_plus || c_l->type == lex_minus)
-	{
-		/* here processing lexeme unary minus and plus */
-		/* BAD !!! IT CAN NOT WORK !!! *? */
-		get_lex();
-	}
-	else
 		throw SAException(*c_l, "Arithmetic Expression: "
 											"Unexpected lexeme\n");
 }
@@ -172,57 +165,47 @@ bool SyntaxAnalyzer::BelongToFirstBoolExpr(type_lexeme t)
 
 void SyntaxAnalyzer::BoolExpr()
 {
+	lexeme *op_or;
 #ifdef DEBUG
 	printf("BoolExpr-->");
 #endif
 	if (!BelongToFirstBoolExpr(c_l->type))
 		throw SAException(*c_l, "Expected Boolean Expression "
-										"with <, >, etc\n");
+										"with probably with |\n");
 	BoolExpr1();
-	if (IsCmpSign(c_l->type))
+	if (c_l->type == lex_or)
 	{
+		op_or = c_l;
 		get_lex();
 		BoolExpr1();
+		rpn_lst.add_node(op_or);
 	}
 }
 
 void SyntaxAnalyzer::BoolExpr1()
 {
+	lexeme *op_and;
 #ifdef DEBUG
 	printf("BoolExpr1-->");
 #endif
 	if (!BelongToFirstBoolExpr(c_l->type))
 		throw SAException(*c_l, "Expected Boolean Expression "
-											"probably with |\n");
+											"probably with &\n");
 	BoolExpr2();
-	while(c_l->type == lex_or)
+	while(c_l->type == lex_and)
 	{
+		op_and = c_l;
 		get_lex();
 		BoolExpr2();
+		rpn_lst.add_node(op_and);
 	}
 }
 
 void SyntaxAnalyzer::BoolExpr2()
 {
-#ifdef DEBUG
-	printf("BoolExpr2-->");
-#endif
-	if (!BelongToFirstBoolExpr(c_l->type))
-		throw SAException(*c_l, "Expected Boolean Expression "
-											"probably with |\n");
-	BoolExpr3();
-	while(c_l->type == lex_and)
-	{
-		get_lex();
-		BoolExpr3();
-	}
-}
-
-void SyntaxAnalyzer::BoolExpr3()
-{
 	lexeme *operation;
 #ifdef DEBUG
-	printf("BoolExpr3-->");
+	printf("BoolExpr2-->");
 #endif
 	if (c_l->type == lex_open_sq_br)
 	{
@@ -247,7 +230,7 @@ void SyntaxAnalyzer::BoolExpr3()
 	if (c_l->type == lex_neg)
 	{
 		get_lex();
-		BoolExpr3();
+		BoolExpr2();
 	}
 	else
 		throw SAException(*c_l, "BoolExpression: "
@@ -390,7 +373,7 @@ void SyntaxAnalyzer::StatAssign()
 	rpn_lst.add_node(assign);
 }
 
-void SyntaxAnalyzer::add_operation(type_lexeme t)
+void SyntaxAnalyzer::add_item(type_lexeme t)
 {
 	lexeme *new_lex = new lexeme();
 
@@ -411,10 +394,10 @@ void SyntaxAnalyzer::StatIf()
 	ProcessTermSym(lex_open_bracket, "Statement If: Expected (\n");
 	BoolExpr();
 /* !!! */	
-	add_operation(lex_noop);
+	add_item(lex_noop);
 	place_noop = rpn_lst.get_end();
 	ProcessTermSym(lex_close_bracket, "Statement If: Expected )\n");
-	add_operation(lex_op_go_false);
+	add_item(lex_op_go_false);
 	Statement();
 	place_label = rpn_lst.get_end();
 	rpn_lst.insert_jmp(place_noop, place_label);/*was label noop*/
@@ -465,21 +448,21 @@ void SyntaxAnalyzer::StatWhile()
 	Again = rpn_lst.get_end();
 	BoolExpr();
 
-	add_operation(lex_noop);
+	add_item(lex_noop);
 	JmpEscape = rpn_lst.get_end();
-	add_operation(lex_op_go_false);
+	add_item(lex_op_go_false);
 
 	ProcessTermSym(lex_close_bracket, "Statement While: "
 												"Expected )\n");
 	Statement();
-	add_operation(lex_noop);
+	add_item(lex_noop);
 	JmpAgain = rpn_lst.get_end();
 	
 	rpn_lst.insert_jmp(JmpAgain, Again);
 	Escape = rpn_lst.get_end();
 	rpn_lst.insert_jmp(JmpEscape, Escape);
 
-	add_operation(lex_op_go);
+	add_item(lex_op_go);
 }
 
 void SyntaxAnalyzer::ArgGmSt()

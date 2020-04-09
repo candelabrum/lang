@@ -46,6 +46,12 @@ public:
 	/* There should have been a binary search here */
 };
 
+couple_rpn_func couple_game_func [] {
+	{my_id, lex_my_id},
+	{turn, lex_turn}
+	{0, lex_null}
+};
+
 RPNFunPlus Plus, *plus = &Plus;
 RPNFunMinus Minus, *minus = &Minus;
 RPNFunMultiply Mult, *mult = &Mult;
@@ -59,6 +65,9 @@ RPNFunInd Ind, *ind = &Ind;
 RPNFunVar Var, *var = &Var;
 RPNFunTakeAddr TakeAddr, *take_addr = &TakeAddr;
 RPNFunEqual Equal, *equal = &Equal;
+RPNFunOr Or, *_or = &Or;
+RPNFunAnd And, *_and = &And;
+RPNFunNot Not, *_not = &Not;
 
 couple_rpn_func couple_func [] {
 	{plus, lex_plus},
@@ -74,6 +83,8 @@ couple_rpn_func couple_func [] {
 /*	{var, lex_var}, 		*/
 	{take_addr, lex_take_addr},
 	{equal, lex_equality},
+	{_or, lex_or},
+	{_and, lex_and},
 	{0, lex_null}
 };
 

@@ -179,6 +179,47 @@ public:
 	virtual	RPNFunction* Clone() const { return new RPNFunEqual();}
 };
 
+class RPNFunOr: public RPNFunc2
+{
+	RPNElem* EvaluateFun(RPNItem **stack) const
+	{
+		/* Here should be body */
+		return 0;
+	}
+public:
+	RPNFunOr() {}
+	virtual ~RPNFunOr() {}
+	virtual void print() const { printf("[|]"); }
+	virtual	RPNFunction* Clone() const { return new RPNFunOr();}
+};
+
+class RPNFunAnd: public RPNFunc2
+{
+	RPNElem* EvaluateFun(RPNItem **stack) const
+	{
+		/* Here should be body */
+		return 0;
+	}
+public:
+	RPNFunAnd() {}
+	virtual ~RPNFunAnd() {}
+	virtual void print() const { printf("[&]"); }
+	virtual	RPNFunction* Clone() const { return new RPNFunAnd();}
+};
+
+class RPNFunNot: public RPNFunc2
+{
+	RPNElem* EvaluateFun(RPNItem **stack) const
+	{
+		/* Here should be body */
+		return 0;
+	}
+public:
+	RPNFunNot() {}
+	virtual ~RPNFunNot() {}
+	virtual void print() const { printf("[!]"); }
+	virtual	RPNFunction* Clone() const { return new RPNFunNot();}
+};
 
 class RPNFunInd : public RPNFunc2
 {
@@ -250,6 +291,5 @@ public:
 		return new RPNFunVar(); 
 	}
 };
-
 
 #endif

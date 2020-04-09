@@ -9,7 +9,7 @@ class SyntaxAnalyzer
 {
 /* 			--- Reverse Polish Notation(RPN) ---        */
 	RPNList rpn_lst;
-	void add_operation(type_lexeme type);
+	void add_item(type_lexeme type);
 /*  		--- Auxiliary part of this class ---		*/
 	list<lexeme> lst;
 	lexeme *c_l;
@@ -28,7 +28,6 @@ class SyntaxAnalyzer
 	void BoolExpr();  /* Boolean Expression 		(6) */
 	void BoolExpr1(); /* Boolean Expression1		(7) */
 	void BoolExpr2(); /* Boolean Expression2	 	(8) */
-	void BoolExpr3(); /* Boolean Expression3		(9) */
 	void StatComp();  /* Statement Compound 		(10)*/
 	void StatList();  /* List of Statements. First ---- */
 	void Statement(); /* ------- 					(11)*/
