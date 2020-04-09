@@ -7,6 +7,7 @@
 
 /* Maybe better NOOP_CONST and NOOP_FUNC is better */
 /* make encapsulation of couple rpn * */
+
 struct couple_rpn_func
 {
 	RPNFunction *elem;
@@ -46,11 +47,41 @@ public:
 	/* There should have been a binary search here */
 };
 
-couple_rpn_func couple_game_func [] {
+class RPNTableOp
+{
+	couple_rpn_op *table;	
+public:
+	RPNTableOp(couple_rpn_op *a_table = 0)
+	{
+		table = a_table; 
+	}
+	RPNOp* search_by(type_lexeme type) const;
+	/* There should have been a binary search here */
+};
+
+
+couple_rpn_func couple_game_func[] {
 	{my_id, lex_my_id},
-	{turn, lex_turn}
+	{turn, lex_turn},
+	{players, lex_players},
+	{active_players, lex_active_players},
+	{supply, lex_supply},
+	{raw_price, lex_raw_price},
+	{demand, lex_demand},
+	{production_price, lex_production_price},
+	{money, lex_money},
+	{raw, lex_raw},
+	{production, lex_production},
+	{factories, lex_factories},
+	{manufactured, lex_manufactured},
+	{result_raw_sold, lex_result_raw_sold},
+	{result_raw_price, lex_result_price},
+	{result_prod_bought, lex_result_prod_bought},
+	{result_prod_price, lex_result_prod_price},
 	{0, lex_null}
 };
+
+RPNTableFunc TableGameFunc(couple_game_func);
 
 RPNFunPlus Plus, *plus = &Plus;
 RPNFunMinus Minus, *minus = &Minus;
@@ -112,52 +143,18 @@ couple_rpn_op couple_op [] {
 	{0, lex_null}
 };
 
-class RPNTableOp
-{
-	couple_rpn_op *table;	
-public:
-	RPNTableOp(couple_rpn_op *a_table = 0)
-	{
-		table = a_table; 
-	}
-	RPNOp* search_by(type_lexeme type) const;
-	/* There should have been a binary search here */
-};
-
 RPNTableOp TableOp(couple_op);
 
 void RPNList::add_node(lexeme *c_l)
 {
-	RPNConst *elem_const, *new_elem_const;
-	RPNFunction *elem_func, *new_elem_func;
-	RPNOp *elem_op, *new_elem_op;
-
-	if (c_l->type == lex_var)
+	RPNElem *new_elem;
+	
+	for(int i = 0; intermediate_classes[i]; i++)
 	{
-		RPNFunVar *new_var = new RPNFunVar();
-
-		new_var->set(c_l);
-		add_node_to_end(new_var);
-		return;
+		new_elem = intemediate_classes[i]::Convert2RPNElem(c_l);		   if (!new_elem)
+			break;
 	}
-	elem_func = TableFunc.search_by(c_l->type);	
-	if (elem_func)
-	{
-		new_elem_func = elem_func->Clone();	
-		add_node_to_end(new_elem_func);
-		return;
-	}
-	elem_op = TableOp.search_by(c_l->type);
-	if (elem_op)
-	{
-		new_elem_op = elem_op->Clone();
-		add_node_to_end(new_elem_op);
-		return;
-	}
-	elem_const = TableConst.search_by(c_l->type);
-	new_elem_const = elem_const->Clone();
-	new_elem_const->set(c_l->lex);
-	add_node_to_end(new_elem_const);
+	add_node(new_elem);
 }
 
 void RPNList::insert_jmp(RPNItem *jump_label,

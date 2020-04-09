@@ -11,6 +11,7 @@ public:
 						RPNItem **cur_cmd) const;
 	virtual void set(string& str) = 0;
 	virtual ~RPNConst() {}
+	static RPNElem* try_convert_2_RPNElem(lexeme *c_l) const;
 };
 
 class RPNDouble	: public RPNConst	/* Maybe real like in Pascal */

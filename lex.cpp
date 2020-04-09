@@ -56,36 +56,40 @@ const couple for_print[] = {
 	{0, lex_null}
 };
 
-const char* FunctionOneArg[] = {
-	"?money",
-	"?raw",
-	"?production",
-	"?factories",
-	"?manufactured",
-	"?result_raw_sold",
-	"?result_raw_price",
-	"?result_prod_bought",
-	"?result__prod_price",
-	0
+const couple function_one_arg[] = {
+	{"?money", lex_money},
+	{"?raw", lex_raw},
+	{"?production", lex_production},
+	{"?factories", lex_factories},
+	{"?manufactured", lex_manufactured},
+	{"?result_raw_sold", lex_result_raw_sold},
+	{"?result_raw_price", lex_result_raw_price},
+	{"?result_prod_bought", lex_result_prod_bought},
+	{"?result_prod_price", lex_result_prod_price},
+	{0, lex_null}
 };
 
-const char* FunctionZeroArg[] = {  /* Can I move { to next line? */
-	"?my_id",
-	"?turn",
-	"?players",
-	"?active_players",
-	"?supply",
-	"?raw_price",
-	"?demand",
-	"?production_price",
-	0
+const couple function_zero_arg[] = {
+	{"?my_id", lex_my_id},
+	{"?turn", lex_turn},
+	{"?players", lex_players},
+	{"?active_players", lex_active_players},
+	{"?supply", lex_supply},
+	{"?raw_price", lex_raw_price},
+	{"?demand", lex_demand},
+	{"?production_price", lex_production_price},
+	{0, lex_null}
 };
 
 Table TableDelimiters(delimiters);
 Table TableKeyWords(key_words);
 Table TablePrint(for_print);
+Table TableFunOneArg(function_one_arg);
+Table TableFunZeroArg(function_zero_arg);
 
-Table *AllTables[] = {&TableDelimiters, &TableKeyWords, &TablePrint, 0};
+Table *AllTables[] = {&TableDelimiters, &TableKeyWords, 
+						&TablePrint, &TableFunOneArg,
+						&TableFunZeroArg, 0};
 
 const char* Table::search_by(type_lexeme t) const
 {
@@ -110,12 +114,30 @@ type_lexeme Table::search_by(string& key) const
 /*  There should have been a binary search here */
 bool lexeme::is_func_one_arg()
 {
-	return lex.any_str_equal(FunctionOneArg);
+	type_lexeme t;
+	
+	t = TableFunOneArg.search_by(lex);
+	
+	if (t == lex_null)
+		return 0;
+	
+	type = t;
+
+	return 1;
 }
 
 bool lexeme::is_func_zero_arg()
 {
-	return lex.any_str_equal(FunctionZeroArg);
+	type_lexeme t;
+	
+	t = TableFunZeroArg.search_by(lex);
+	
+	if (t == lex_null)
+		return 0;
+	
+	type = t;
+
+	return 1;
 }
 
 void lexeme::prepare(char s, type_lexeme t) /* is bad function */

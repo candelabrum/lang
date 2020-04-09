@@ -48,6 +48,24 @@ enum type_lexeme
 	lex_and,				//("&"),
 	lex_or, 				//("|"),
 	lex_null,				//NULL,
+/*					--- Game Functions ---						*/
+	lex_my_id, 				//("my_id"),
+	lex_turn,				//("turn"),
+	lex_players,			//("players"),
+	lex_active_players,		//("active_players"),
+	lex_supply,				//("supply"),
+	lex_raw_price,			//("raw_price"),
+	lex_demand,				//("demand"),
+	lex_production_price,	//("production_price)",
+	lex_money,				//("money"),
+	lex_raw, 				//("raw"),
+	lex_production,			//("production"),
+	lex_factories,			//("factories"),
+	lex_manufactured,		//("manufactured"),
+	lex_result_raw_sold,	//(---)
+	lex_result_raw_price,	//(---)
+	lex_result_prod_bought, //(---)
+	lex_result_prod_price,	//(---)
 /*				--- Reverse Polish Notation --- 				*/
 	lex_take_addr,			//("$"),
 	lex_op_go_false,		//("!f"), 

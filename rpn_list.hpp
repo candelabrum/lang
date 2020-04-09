@@ -7,6 +7,10 @@
 
 struct RPNList
 {
+	RPNConst *const;
+	RPNFunc *func;
+	RPNOp *op;
+	RPNElem intermediate_classes[] = {const, func, op};
 	RPNList(RPNItem *a_head = 0, RPNItem *a_end = 0) 
 	{ 
 		head = a_head; 

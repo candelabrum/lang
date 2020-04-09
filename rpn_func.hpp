@@ -13,6 +13,7 @@ class RPNFunction : public RPNElem
 public:
 	virtual ~RPNFunction() {};
 	virtual	RPNFunction* Clone() const = 0;
+	static RPNElem* Convert2RPNElem(lexeme *c_l) const;
 };
 
 class RPNFunc2 : public RPNFunction 
