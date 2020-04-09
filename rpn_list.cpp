@@ -149,7 +149,7 @@ void RPNList::add_node(lexeme *c_l)
 	add_node_to_end(new_elem_const);
 }
 
-void RPNList::insert_label(RPNItem *jump_label,
+void RPNList::insert_jmp(RPNItem *jump_label,
 									RPNItem *place_label)
 {
 	RPNLabel *new_label= new RPNLabel(place_label);

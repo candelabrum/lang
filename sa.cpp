@@ -417,7 +417,7 @@ void SyntaxAnalyzer::StatIf()
 	add_operation(lex_op_go_false);
 	Statement();
 	place_label = rpn_lst.get_end();
-	rpn_lst.insert_label(place_noop, place_label);/*was label noop*/
+	rpn_lst.insert_jmp(place_noop, place_label);/*was label noop*/
 }
 
 void SyntaxAnalyzer::ArgPrint()
@@ -475,9 +475,9 @@ void SyntaxAnalyzer::StatWhile()
 	add_operation(lex_noop);
 	JmpAgain = rpn_lst.get_end();
 	
-	rpn_lst.insert_label(JmpAgain, Again);
+	rpn_lst.insert_jmp(JmpAgain, Again);
 	Escape = rpn_lst.get_end();
-	rpn_lst.insert_label(JmpEscape, Escape);
+	rpn_lst.insert_jmp(JmpEscape, Escape);
 
 	add_operation(lex_op_go);
 }
