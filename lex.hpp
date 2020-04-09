@@ -49,7 +49,10 @@ enum type_lexeme
 	lex_or, 				//("|"),
 	lex_null,				//NULL,
 /*				--- Reverse Polish Notation --- 				*/
-	lex_take_addr			//("$")
+	lex_take_addr,			//("$"),
+	lex_op_go_false,		//("!f"), 
+	lex_op_go, 				//("!"),
+	lex_noop				//("noop"),
 };
 
 struct couple

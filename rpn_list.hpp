@@ -18,15 +18,9 @@ struct RPNList
 	void add_node_to_end(RPNElem *elem);
 	void disappear();
 	void print() const;
-};
-
-class RPNNoop : public RPNElem
-{
-public:
-	virtual ~RPNNoop(){};
-	virtual void Evaluate(RPNItem **stack,
-						RPNItem **cur_cmd) const {}
-	void print() const { printf("Noop"); }
+	void insert_label(RPNItem *old_label, RPNItem *new_label);
+	RPNItem* get_head() { return head; }
+	RPNItem* get_end() { return end; }
 };
 
 

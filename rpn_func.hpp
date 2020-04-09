@@ -165,6 +165,21 @@ public:
 	}
 };
 
+class RPNFunEqual: public RPNFunc2
+{
+	RPNElem* EvaluateFun(RPNItem **stack) const
+	{
+		/* Here should be body */
+		return 0;
+	}
+public:
+	RPNFunEqual() {}
+	virtual ~RPNFunEqual() {}
+	virtual void print() const { printf("[=]"); }
+	virtual	RPNFunction* Clone() const { return new RPNFunEqual();}
+};
+
+
 class RPNFunInd : public RPNFunc2
 {
 public:
@@ -235,5 +250,6 @@ public:
 		return new RPNFunVar(); 
 	}
 };
+
 
 #endif

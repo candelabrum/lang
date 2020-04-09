@@ -9,6 +9,7 @@ class SyntaxAnalyzer
 {
 /* 			--- Reverse Polish Notation(RPN) ---        */
 	RPNList rpn_lst;
+	void add_operation(type_lexeme type);
 /*  		--- Auxiliary part of this class ---		*/
 	list<lexeme> lst;
 	lexeme *c_l;

@@ -118,17 +118,6 @@ void SyntaxAnalyzer::ArExpr1()
 	}
 }
 
-void add_func_take_addr(RPNList *rpn_lst, lexeme *c_l)
-{
-	lexeme *new_lex = new lexeme();
-
-	new_lex->number_line = c_l->number_line;
-	new_lex->type = lex_take_addr;
-	rpn_lst->add_node(new_lex);
-
-	delete new_lex;
-}
-
 void SyntaxAnalyzer::ArExpr2()
 {
 #ifdef DEBUG
@@ -137,7 +126,7 @@ void SyntaxAnalyzer::ArExpr2()
 	if (c_l->type == lex_var)
 	{
 		Var();
-		add_func_take_addr(&rpn_lst, c_l);
+		add_operation(lex_take_addr);
 	}
 	else
 	if (c_l->type == lex_func_one || c_l->type == lex_func_zero)
@@ -401,17 +390,34 @@ void SyntaxAnalyzer::StatAssign()
 	rpn_lst.add_node(assign);
 }
 
+void SyntaxAnalyzer::add_operation(type_lexeme t)
+{
+	lexeme *new_lex = new lexeme();
+
+	new_lex->type = t;
+	new_lex->number_line = c_l->number_line;
+	rpn_lst.add_node(new_lex);
+
+	delete new_lex;
+}
+
 void SyntaxAnalyzer::StatIf()
 {
-	/*Prepare TerminalSymbol will be good */
+	RPNItem *place_noop, *place_label;
 #ifdef DEBUG
 	printf("StateIf-->");
 #endif
 	ProcessTermSym(lex_if, "Expected if\n");
 	ProcessTermSym(lex_open_bracket, "Statement If: Expected (\n");
 	BoolExpr();
+/* !!! */	
+	add_operation(lex_noop);
+	place_noop = rpn_lst.get_end();
 	ProcessTermSym(lex_close_bracket, "Statement If: Expected )\n");
+	add_operation(lex_op_go_false);
 	Statement();
+	place_label = rpn_lst.get_end();
+	rpn_lst.insert_label(place_noop, place_label);/*was label noop*/
 }
 
 void SyntaxAnalyzer::ArgPrint()
@@ -449,16 +455,31 @@ void SyntaxAnalyzer::StatPrint()
 
 void SyntaxAnalyzer::StatWhile()
 {
+	RPNItem *Again, *JmpAgain, *Escape, *JmpEscape;
 #ifdef DEBUG
 	printf("StatWhile-->");
 #endif
 	ProcessTermSym(lex_while, "Statement While: Expected while\n");
 	ProcessTermSym(lex_open_bracket, "Statement While: "
 												"Expected (\n");
+	Again = rpn_lst.get_end();
 	BoolExpr();
+
+	add_operation(lex_noop);
+	JmpEscape = rpn_lst.get_end();
+	add_operation(lex_op_go_false);
+
 	ProcessTermSym(lex_close_bracket, "Statement While: "
 												"Expected )\n");
 	Statement();
+	add_operation(lex_noop);
+	JmpAgain = rpn_lst.get_end();
+	
+	rpn_lst.insert_label(JmpAgain, Again);
+	Escape = rpn_lst.get_end();
+	rpn_lst.insert_label(JmpEscape, Escape);
+
+	add_operation(lex_op_go);
 }
 
 void SyntaxAnalyzer::ArgGmSt()
