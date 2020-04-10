@@ -12,7 +12,7 @@ SAException::SAException(lexeme &a_lex, const char *cmt)
 	comment = cmt;
 }
 
-void SyntaxAnalyzer::Start(list<lexeme> a_lst)
+RPNList& SyntaxAnalyzer::Start(list<lexeme> a_lst)
 {
 	lst = a_lst; 
 	get_lex();
@@ -22,8 +22,9 @@ void SyntaxAnalyzer::Start(list<lexeme> a_lst)
 								"Probably you don't write ;\n");
 	printf("PRINT LIST\n");
 	rpn_lst.print();
-	rpn_lst.disappear();
 	printf("\nAlready done\n");
+
+	return rpn_lst;
 }
 
 void SyntaxAnalyzer::get_lex()
