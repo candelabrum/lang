@@ -27,5 +27,4 @@ struct RPNList
 	RPNItem* get_end() { return end; }
 };
 
-
 #endif

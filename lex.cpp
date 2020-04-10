@@ -31,7 +31,7 @@ const couple delimiters [] = {
 };
 
 const couple key_words[] = {
-	{"program", lex_prog},
+//	{"program", lex_prog},
 	{"if", lex_if},
 	{"while", lex_while},
 	{"print", lex_print},
