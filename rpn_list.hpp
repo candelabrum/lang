@@ -8,9 +8,12 @@
 
 struct RPNList
 {
-	RPNConst *r_const = 0;
-	RPNFunction *r_func = 0;
-	RPNOp *r_op = 0;
+	RPNDouble Double;
+	RPNConst *r_const = &Double;
+	RPNFunPlus Plus;
+	RPNFunction *r_func = &Plus;
+	RPNOpGo Go;
+	RPNOp *r_op = &Go;
 	RPNElem* intermediate_classes[4] = {r_const, r_func, r_op, 0};
 	RPNList(RPNItem *a_head = 0, RPNItem *a_end = 0) 
 	{ 

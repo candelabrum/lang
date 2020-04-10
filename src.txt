@@ -1,2 +1,2 @@
-while (1 < 1 | 10 < 4 & 5 > 2)
-	$A := $B
+print("Hello World");
+print(?my_id() + 5, ?manufactured(1))

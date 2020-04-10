@@ -14,7 +14,7 @@ class RPNTableOp
 	RPNOpGoFalse OpGoFalse, *op_go_false = &OpGoFalse;
 	RPNNoop Noop, *noop = &Noop;
 
-	couple_rpn_op table[] {
+	couple_rpn_op table[4] {
 		{op_go, lex_op_go},
 		{op_go_false, lex_op_go_false},
 		{noop, lex_noop},

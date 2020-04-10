@@ -44,6 +44,42 @@ void SyntaxAnalyzer::ProcessTermSym(type_lexeme t, const char *msg)
 	get_lex();
 }
 
+bool SyntaxAnalyzer::IsFunctionOneArg(type_lexeme t)
+{
+	static const type_lexeme array_lex [] =  {
+		lex_money, lex_raw, lex_production, lex_factories,
+				lex_manufactured, lex_result_raw_sold, 
+				lex_result_raw_price, lex_result_prod_bought,
+				lex_result_prod_price, lex_null
+		};
+	
+	for (int i = 0; array_lex[i] != lex_null; i++)
+	{
+		if (t == array_lex[i])
+			return 1;
+	}
+
+	return 0;
+}
+
+bool SyntaxAnalyzer::IsFunctionZeroArg(type_lexeme t)
+{
+	static const type_lexeme array_lex [] =  {
+		lex_my_id, lex_turn, lex_players, lex_active_players,
+				lex_supply, lex_raw_price, lex_demand, 
+				lex_production_price, lex_null
+		};
+	
+	for (int i = 0; array_lex[i] != lex_null; i++)
+	{
+		if (t == array_lex[i])
+			return 1;
+	}
+
+	return 0;
+}
+
+
 void SyntaxAnalyzer::Var()
 {
 #ifdef DEBUG
@@ -74,7 +110,7 @@ bool SyntaxAnalyzer::BelongToFirstArExpr(type_lexeme t)
 {
 	/* make a normal array of type_lexeme */
 	return t == lex_var || t == lex_integ || t == lex_fractional ||
-		t == lex_func_one || t == lex_func_zero || 
+		IsFunctionZeroArg(t) || IsFunctionOneArg(t) || 
 		t == lex_open_bracket || t == lex_plus || t == lex_minus;
 }
 
@@ -128,8 +164,8 @@ void SyntaxAnalyzer::ArExpr2()
 		Var();
 		add_item(lex_take_addr);
 	}
-	else
-	if (c_l->type == lex_func_one || c_l->type == lex_func_zero)
+	else /*!+*/
+	if (IsFunctionZeroArg(c_l->type) || IsFunctionOneArg(c_l->type))
 		Function();
 	else
 	if (c_l->type == lex_open_bracket)
@@ -259,17 +295,19 @@ void SyntaxAnalyzer::ArgsFunc1()
 
 void SyntaxAnalyzer::Function()
 {
+	type_lexeme type_function = c_l->type;
+
 #ifdef DEBUG
 	printf("Function-->");
 #endif
 	// make a switch or maybe not 
-	if (c_l->type == lex_func_zero)
+	if (IsFunctionZeroArg(c_l->type))
 	{
 		get_lex();
 		ArgsFunc0();		
 	}
 	else 
-	if (c_l->type == lex_func_one)
+	if (IsFunctionOneArg(c_l->type))
 	{
 		get_lex();
 		ArgsFunc1();	
@@ -277,6 +315,7 @@ void SyntaxAnalyzer::Function()
 	else
 		throw SAException(*c_l, "It is not Name Function, but"
 									"expected name Function \n");
+	add_item(type_function);
 }
 
 void SyntaxAnalyzer::StatComp()
@@ -408,9 +447,11 @@ void SyntaxAnalyzer::ArgPrint()
 #ifdef DEBUG
 	printf("ArgPrint-->");
 #endif
-	/* make a switch */
 	if (c_l->type == lex_strlit)
+	{
+		rpn_lst.add_node(c_l);
 		get_lex();
+	}
 	else 
 	if (BelongToFirstArExpr(c_l->type))
 		ArExpr();
@@ -434,6 +475,7 @@ void SyntaxAnalyzer::StatPrint()
 	}
 	ProcessTermSym(lex_close_bracket, "Statement Print: "
 												"Expected )\n");
+	add_item(lex_print);
 }
 
 void SyntaxAnalyzer::StatWhile()
@@ -510,13 +552,17 @@ void SyntaxAnalyzer::ProcName0()
 	ProcessTermSym(lex_end_turn, "ProcName0: Expected end_turn\n");
 	ProcessTermSym(lex_open_bracket, "ProcName0: Expected ( \n");
 	ProcessTermSym(lex_close_bracket, "ProcName0: Expected ) \n");
+	add_item(lex_end_turn);
 }
 
 void SyntaxAnalyzer::ProcName1()
 {
+	type_lexeme proc_type;
+
 #ifdef DEBUG
 	printf("ProcName1-->");
 #endif
+	proc_type = c_l->type;
 	if (c_l->type != lex_prod && c_l->type != lex_build)
 		throw SAException(*c_l, "ProcName1: "
 									"Expected prod or build\n");
@@ -524,13 +570,17 @@ void SyntaxAnalyzer::ProcName1()
 	ProcessTermSym(lex_open_bracket, "prod/build: Expected ( \n");
 	ArgGmSt();		
 	ProcessTermSym(lex_close_bracket, "prod/build: Expected ) \n");
+	add_item(proc_type);
 }
 
 void SyntaxAnalyzer::ProcName2()
 {
+	type_lexeme proc_type;
+
 #ifdef DEBUG
 	printf("ProcName2-->");
 #endif
+	proc_type = c_l->type;
 	if (c_l->type != lex_buy && c_l->type != lex_sell)
 		throw SAException(*c_l, "ProcName2: "
 									"Expected prod or build\n");
@@ -540,4 +590,6 @@ void SyntaxAnalyzer::ProcName2()
 	ProcessTermSym(lex_comma, "buy/sell: Expected , \n");
 	ArgGmSt();
 	ProcessTermSym(lex_close_bracket, "buy/sell: Expected ) \n");
+
+	add_item(proc_type);
 }

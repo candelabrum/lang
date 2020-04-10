@@ -13,6 +13,8 @@ class SyntaxAnalyzer
 /*  		--- Auxiliary part of this class ---		*/
 	list<lexeme> lst;
 	lexeme *c_l;
+	bool IsFunctionZeroArg(type_lexeme t);
+	bool IsFunctionOneArg(type_lexeme t);
 	bool BelongToFirstArExpr(type_lexeme type);
 	bool BelongToFirstBoolExpr(type_lexeme type);
 	bool BelongToFirstStatement(type_lexeme type);

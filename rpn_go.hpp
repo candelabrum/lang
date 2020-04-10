@@ -1,3 +1,6 @@
+#ifndef RPN_GO_H_SENTRY
+#define RPN_GO_H_SENTRY
+
 class RPNOp : public RPNElem
 {
 public: 
@@ -41,5 +44,4 @@ public:
 	void print() const { printf("Noop"); }
 };
 
-
-
+#endif

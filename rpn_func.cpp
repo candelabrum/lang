@@ -34,7 +34,7 @@ class RPNTableFunc
 	RPNFunSupply Supply, *supply = &Supply;
 	RPNFunRawPrice RawPrice, *raw_price = &RawPrice;
 	RPNFunDemand Demand, *demand = &Demand;
-	RPNFunProductionPrince ProdPr, *production_price = &ProdPr;
+	RPNFunProductionPrice ProdPr, *production_price = &ProdPr;
 	RPNFunMoney Money, *money = &Money;
 	RPNFunRaw Raw, *raw = &Raw;
 	RPNFunProduction Production, *production = &Production;
@@ -50,8 +50,9 @@ class RPNTableFunc
 	RPNFunBuild Build, *build = &Build;
 	RPNFunProd Prod, *prod = &Prod;
 	RPNFunEndTurn EndTurn, *end_turn = &EndTurn;
+	RPNFunPrint Print, *print = &Print;
 
-	couple_rpn_func table[] {
+	couple_rpn_func table[42] {
 /*					--- General functions ---					*/
 		{plus, lex_plus},
 		{minus, lex_minus},
@@ -83,7 +84,7 @@ class RPNTableFunc
 		{factories, lex_factories},
 		{manufactured, lex_manufactured},
 		{result_raw_sold, lex_result_raw_sold},
-		{result_raw_price, lex_result_price},
+		{result_raw_price, lex_result_raw_price},
 		{result_prod_bought, lex_result_prod_bought},
 		{result_prod_price, lex_result_prod_price},
 /*					--- Game Procedures ---						*/
@@ -92,6 +93,7 @@ class RPNTableFunc
 		{build, lex_build},
 		{prod, lex_prod},
 		{end_turn, lex_end_turn},
+		{print, lex_print},
 		{0, lex_null}
 	};
 
@@ -113,7 +115,7 @@ RPNFunction* RPNTableFunc::search_by(type_lexeme t) const
 RPNElem* RPNFunction::Convert2RPNElem(lexeme *c_l) const
 {
 	static RPNTableFunc TableFunc;
-	RPNFunction *elem_func, *new_elem_function;
+	RPNFunction *elem_func, *new_elem_func;
 	
 	if (c_l->type == lex_var)
 	{

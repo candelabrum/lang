@@ -9,10 +9,12 @@ class RPNTableConst
 	};
 
 	RPNDouble Number, *number = &Number;
-	
-	couple_rpn_const table[]{
+	RPNStringLiteral StrLit, *strlit = &StrLit;
+
+	couple_rpn_const table[4]{
 		{number, lex_fractional},
 		{number, lex_integ},
+		{strlit, lex_strlit},
 		{0, lex_null}
 	};
 

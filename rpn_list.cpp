@@ -5,25 +5,23 @@
 #include "rpn_go.hpp"
 #include "lex.hpp"
 
-/* Maybe better NOOP_CONST and NOOP_FUNC is better */
-/* make encapsulation of couple rpn * */
-
 void RPNList::add_node(lexeme *c_l)
 {
 	RPNElem *new_elem;
 	
-	for(int i = 0; intermediate_classes[i]; i++)
+	for(int i = 0; i < 3; i++)
 	{
-		new_elem = intemediate_classes[i]::Convert2RPNElem(c_l);		   if (!new_elem)
+		new_elem = intermediate_classes[i]->Convert2RPNElem(c_l);
+		if (new_elem)
 			break;
 	}
-	add_node(new_elem);
+	add_node_to_end(new_elem);
 }
 
 void RPNList::insert_jmp(RPNItem *jump_label,
 									RPNItem *place_label)
 {
-	RPNLabel *new_label= new RPNLabel(place_label);
+	RPNLabel *new_label = new RPNLabel(place_label);
 
 	delete jump_label->elem;
 
@@ -72,5 +70,3 @@ void RPNList::disappear()
 	head = 0;
 	end = 0;
 }
-
-
