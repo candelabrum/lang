@@ -4,13 +4,14 @@
 #include "rpn.hpp"
 #include "rpn_types.hpp"
 #include "rpn_func.hpp"
+#include "rpn_go.hpp"
 
 struct RPNList
 {
-	RPNConst *const;
-	RPNFunc *func;
-	RPNOp *op;
-	RPNElem intermediate_classes[] = {const, func, op};
+	RPNConst *r_const = 0;
+	RPNFunction *r_func = 0;
+	RPNOp *r_op = 0;
+	RPNElem* intermediate_classes[4] = {r_const, r_func, r_op, 0};
 	RPNList(RPNItem *a_head = 0, RPNItem *a_end = 0) 
 	{ 
 		head = a_head; 

@@ -1,7 +1,39 @@
 #include "rpn_types.hpp"
 
-static RPNElem* RPNConst::Convert2RPNElem(lexeme *c_l) const 
+class RPNTableConst
 {
+	struct couple_rpn_const
+	{
+		RPNConst *elem;
+		type_lexeme type_lex;
+	};
+
+	RPNDouble Number, *number = &Number;
+	
+	couple_rpn_const table[]{
+		{number, lex_fractional},
+		{number, lex_integ},
+		{0, lex_null}
+	};
+
+public:
+	RPNConst* search_by(type_lexeme type) const;
+	/* There should have been a binary search here */
+};
+
+RPNConst* RPNTableConst::search_by(type_lexeme t) const
+{
+	int i = 0;
+
+	while(table[i].type_lex != lex_null && table[i].type_lex != t)
+		i++;
+	
+	return table[i].elem;
+}
+
+RPNElem* RPNConst::Convert2RPNElem(lexeme *c_l) const 
+{
+	static RPNTableConst TableConst; /*???*/
 	RPNConst *elem_const, *new_elem_const;
 
 	elem_const = TableConst.search_by(c_l->type);
@@ -12,8 +44,6 @@ static RPNElem* RPNConst::Convert2RPNElem(lexeme *c_l) const
 
 	return new_elem_const;
 }
-
-
 
 void RPNDouble::set(string& number)
 { 
