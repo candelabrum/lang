@@ -1,3 +1,4 @@
+#include "string.h"
 #include "rpn_types.hpp"
 
 class RPNTableConst

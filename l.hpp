@@ -53,6 +53,7 @@ public:
 };
 
 template <class T>
+
 void list<T>::operator=(const list<T>& lst)
 {
 	head = lst.head;
@@ -175,25 +176,12 @@ int list<T>::get_len() const
 template <class T>
 void list<T>::add_node(T& a_data)
 {
-	node *new_node = new node(a_data); /* why here copying str */
+	node *new_node = new node(a_data); 
 
 	if (!head)
 		end = new_node;
 	new_node->next = head;
 	head = new_node;
-//	head->data = a_data; /* but here not copying str */
-}
-
-template <class T>
-void list<T>::add_node_cp(T a_data)
-{
-	node *new_node = new node(a_data); /* why here copying str */
-
-	if (!head)
-		end = new_node;
-	new_node->next = head;
-	head = new_node;
-//	head->data = a_data; /* but here not copying str */
 }
 
 template <class T>

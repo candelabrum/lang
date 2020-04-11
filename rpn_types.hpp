@@ -1,6 +1,7 @@
 #ifndef RPN_TYPES_H_SENTRY
 #define RPN_TYPES_H_SENTRY
 
+#include <stdio.h>
 #include "rpn.hpp"
 
 class RPNConst : public RPNElem

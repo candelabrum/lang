@@ -65,6 +65,7 @@ void RPNList::disappear()
 		printf("\nKILL!\n");
 		tmp = head;
 		head = head->next;
+        tmp.delete_elem();
 		delete tmp;
 	}
 	head = 0;

@@ -1,8 +1,8 @@
 #ifndef RPN_H_SENTRY
 #define RPN_H_SENTRY
 
-#include "l.hpp"
-
+#include "lex.hpp"
+#include "rpn_stack.hpp"
 
 struct RPNItem;
 
@@ -25,10 +25,13 @@ struct RPNItem
 	RPNElem *elem;
 	RPNItem *next;
 	RPNItem(RPNElem *a_elem) { elem = a_elem; next = 0;}
-	~RPNItem()
+	void delete_elem()
 	{
 		if (elem)
-			delete elem;
+        {
+			elem = 0;
+            delete elem; 
+        }
 	}
 };
 

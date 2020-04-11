@@ -1,6 +1,7 @@
 #ifndef RPN_GO_H_SENTRY
 #define RPN_GO_H_SENTRY
 
+#include <stdio.h>
 class RPNOp : public RPNElem
 {
 public: 
