@@ -9,9 +9,9 @@ class RPNFunction : public RPNElem
 {
     virtual RPNElem* EvaluateFun(RPNItem *stack) const = 0;
     void Evaluate(EvalInfo &eval_info) const;
-    double PopArg(RPNItem *stack);
-    bool PopArg(RPNItem *stack);
 public:
+    double PopArgDouble(RPNItem *stack) const;
+    bool PopArgBool(RPNItem *stack) const;
 	virtual ~RPNFunction() {};
 	virtual	RPNFunction* Clone() const = 0;
 	RPNElem* Convert2RPNElem(lexeme *c_l) const;
@@ -22,21 +22,6 @@ class RPNFunc2 : public RPNFunction
 public:
 	virtual	RPNFunction* Clone() const = 0;
 };
-
-class RPNFunArithm : public RPNFunc2 /* RPNDDDOp more better */
-{
-public:
-    virtual double EvalOperation(double a1, double a2) const = 0;
-    virtual RPNElem* EvaluateFun(RPNItem *stack) const = 0;
-};
-
-class RPNFunCmp: public RPNFunc2 /* RPNFun
-{
-public:
-    virtual bool EvalOperation(double a1, double a2) const = 0;
-    virtual RPNElem* EvaluateFun(RPNItem *stack) const = 0;
-};
-
 
 class RPNFunc1 : public RPNFunction 
 {
@@ -50,201 +35,17 @@ public:
 	virtual	RPNFunction* Clone() const = 0;
 };
 
-class RPNFunPlus : public RPNFuncArithm
-{
-public:
-
-    RPNFunPlus() {}
-	virtual ~RPNFunPlus() {}
-	virtual double EvalOperation(double a1, double a2) const
-        { return a1 + a2; }
-    virtual void print() const { printf("[+]"); }
-	virtual	RPNFunction* Clone() const { return new RPNFunPlus(); }
-};
-
-class RPNFunMinus : public RPNFuncArithm
-{
-public:
-	RPNFunMinus() {}
-	virtual ~RPNFunMinus() {}
-	double EvalOperation(double a1, double a2) const
-        { return a1 - a2; }
-	virtual	RPNFunction* Clone() const 
-        { return new RPNFunMinus(); }
-	virtual void print() const { printf("[-]"); }
-};
-
-class RPNFunMultiply : public RPNFuncArithm
-{
-public:
-	RPNFunMultiply() {}
-	virtual ~RPNFunMultiply() {}
-	double EvalOperation(double a1, double a2) const
-        { return a1 * a2; }
-	virtual void  print() const { printf("[*]"); }
-	virtual	RPNFunction* Clone() const 
-	    { return new RPNFunMultiply(); }
-};
-
-class RPNFunDivision : public RPNFuncArithm
-{
-public:
-	RPNFunDivision() {}
-	virtual ~RPNFunDivision() {}
-	double EvalOperation(double a1, double a2) const
-        { return a1 / a2; }
-	virtual void print() const { printf("[/]"); }
-	virtual	RPNFunction* Clone() const
-	    { return new RPNFunDivision(); }
-};
-
-class RPNFunLess: public RPNFuncCmp 
-{
-public:
-	RPNFunLess() {}
-	virtual ~RPNFunLess() {}
-	virtual void print() const { printf("[<]"); }
-	virtual	RPNFunction* Clone() const
-	    { return new RPNFunLess(); }
-};
-
-class RPNFunGreater: public RPNFuncCmp 
-{
-public:
-	RPNFunGreater() {}
-	virtual ~RPNFunGreater() {}
-	RPNElem* EvaluateFun(RPNItem *stack) const
-	{
-		/* Here should be body */
-		return 0;
-	}
-    double EvalOperation(double a1, double a2) const
-        { return a1 / a2; }
-
-	virtual void print() const { printf("[>]"); }
-	virtual	RPNFunction* Clone() const
-	{ 
-		return new RPNFunGreater(); 
-	}
-};
-
-class RPNFunLeq: public RPNFuncCmp 
-{
-public:
-	RPNFunLeq() {}
-	virtual ~RPNFunLeq() {}
-	RPNElem* EvaluateFun(RPNItem *stack) const
-	{
-		/* Here should be body */
-		return 0;
-	}
-    double EvalOperation(double a1, double a2) const
-        { return a1 / a2; }
-
-	virtual void print() const { printf("[<=]"); }
-	virtual	RPNFunction* Clone() const
-	{ 
-		return new RPNFunLeq(); 
-	}
-
-};
-
-class RPNFunGeq: public RPNFuncCmp 
-{
-public:
-	RPNFunGeq() {}
-	virtual ~RPNFunGeq() {}
-	RPNElem* EvaluateFun(RPNItem *stack) const
-	{
-		/* Here should be body */
-		return 0;
-	}
-    double EvalOperation(double a1, double a2) const
-        { return a1 / a2; }
-
-	virtual void print() const { printf("[>=]"); }
-	virtual	RPNFunction* Clone() const
-	{ 
-		return new RPNFunGeq(); 
-	}
-};
-
-class RPNFunEqual: public RPNFuncCmp 
-{
-	RPNElem* EvaluateFun(RPNItem *stack) const
-	{
-		/* Here should be body */
-		return 0;
-	}
-public:
-	RPNFunEqual() {}
-	virtual ~RPNFunEqual() {}
-    double EvalOperation(double a1, double a2) const
-        { return a1 / a2; }
-	virtual void print() const { printf("[=]"); }
-	virtual	RPNFunction* Clone() const { return new RPNFunEqual();}
-};
-
-class RPNFunOr: public RPNFunc2
-{
-	RPNElem* EvaluateFun(RPNItem *stack) const
-	{
-		/* Here should be body */
-		return 0;
-	}
-public:
-	RPNFunOr() {}
-	virtual ~RPNFunOr() {}
-	virtual void print() const { printf("[|]"); }
-    double EvalOperation(double a1, double a2) const
-        { return a1 / a2; }
-	virtual	RPNFunction* Clone() const { return new RPNFunOr();}
-};
-
-class RPNFunAnd: public RPNFunc2
-{
-	RPNElem* EvaluateFun(RPNItem *stack) const
-	{
-		/* Here should be body */
-		return 0;
-	}
-public:
-	RPNFunAnd() {}
-	virtual ~RPNFunAnd() {}
-	virtual void print() const { printf("[&]"); }
-    double EvalOperation(double a1, double a2) const
-        { return a1 / a2; }
-	virtual	RPNFunction* Clone() const { return new RPNFunAnd();}
-
-};
-
-class RPNFunNot: public RPNFunc2
-{
-	RPNElem* EvaluateFun(RPNItem *stack) const
-	{
-		/* Here should be body */
-		return 0;
-	}
-public:
-	RPNFunNot() {}
-	virtual ~RPNFunNot() {}
-	virtual void print() const { printf("[!]"); }
-    double EvalOperation(double a1, double a2) const
-        { return a1 / a2; }
-
-	virtual	RPNFunction* Clone() const { return new RPNFunNot();}
-};
-
 class RPNFunInd : public RPNFunc2
 {
+    RPNElem* EvaluateFun(RPNItem *stack) const
+	{
+		/* Here should be body */
+		return 0;
+	}
+
 public:
 	RPNFunInd() {}
 	virtual ~RPNFunInd() {}
-	RPNElem* EvaluateFun(RPNItem *stack) const
-	{
-		/* Here should be body */
-		return 0;
-	}
 	virtual void print() const { printf("[[]]");}
     double EvalOperation(double a1, double a2) const
         { return a1 / a2; }
@@ -679,29 +480,15 @@ public:
 	}
 };
 
-
-class RPNFunPrint: public RPNFunction 
+class RPNFunPrint : public RPNFunction 
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
-	{
-        while(!(stack->IsEmpty()))
-        {
-            RPNElem *arg;
-            
-            arg = stack->Pop();
-            arg->print();
-        }
-
-		return 0;
-	}
+	RPNElem* EvaluateFun(RPNItem *stack) const;
 public:
 	RPNFunPrint() {}
 	virtual ~RPNFunPrint() {}
 	virtual void print() const { printf("[Print]"); }
 	virtual	RPNFunction* Clone() const 
-	{ 
-		return new RPNFunPrint(); 
-	}
+	    { return new RPNFunPrint(); }
 };
 
 #endif

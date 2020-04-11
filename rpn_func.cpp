@@ -1,7 +1,11 @@
+#include <stdlib.h>
 #include "lex.hpp"
 #include "rpn.hpp"
 #include "rpn_func.hpp"
 #include "rpn_types.hpp"
+#include "rpn_far.hpp"
+#include "rpn_fcmp.hpp"
+#include "rpn_fbl.hpp"
 
 class RPNTableFunc
 {
@@ -53,7 +57,7 @@ class RPNTableFunc
 	RPNFunEndTurn EndTurn, *end_turn = &EndTurn;
 	RPNFunPrint Print, *print = &Print;
 
-	couple_rpn_func table[42] {
+	couple_rpn_func table[43] {
 /*					--- General functions ---					*/
 		{plus, lex_plus},
 		{minus, lex_minus},
@@ -136,37 +140,6 @@ RPNElem* RPNFunction::Convert2RPNElem(lexeme *c_l) const
 	return new_elem_func;
 }
 
-RPNElem* RPNFuncArithm::EvaluateFun(RPNItem *stack) const
-{
-    RPNDouble *dbl;
-    double arg1, arg2, res;
-
-    arg1 = PopArg(stack);
-    arg2 = PopArg(stack);
-    
-    res = EvalOperation(arg1, arg2);
-    
-    dbl = new RPNDouble(res);
-    
-    return dbl;
-}
-
-RPNElem* RPNFuncCmp::EvaluateFun(RPNItem *stack) const
-{
-    RPNBool *Boolean;
-    double arg1, arg2;
-    bool res;
-
-    arg1 = PopArg(stack);
-    arg2 = PopArg(stack);
-    
-    res = EvalOperation(arg1, arg2);
-    
-    Boolean = new RPNBool(res);
-    
-    return Boolean;
-}
-
 void RPNFunction::Evaluate(EvalInfo &eval_info) const
 {
 	RPNElem *res = EvaluateFun(eval_info.stack);
@@ -185,7 +158,27 @@ void RPNFunVar::print() const
 	printf("]");
 }
 
-double RPNFunction::PopArg(RPNItem *stack)
+RPNElem* RPNFunPrint::EvaluateFun(RPNItem *stack) const
+{
+#ifdef DEBUG_EXEC
+    printf("STACK\n");
+    stack->Print();
+#endif
+
+    while(!(stack->IsEmpty()))
+    {
+        RPNElem *arg;
+           
+        arg = stack->Pop();
+        arg->print();
+
+        delete arg;
+    }
+
+	return 0;
+}
+
+double RPNFunction::PopArgDouble(RPNItem *stack) const
 {
     RPNDouble *dbl;
 
@@ -199,29 +192,16 @@ double RPNFunction::PopArg(RPNItem *stack)
     return dbl->Get();
 }
 
-bool RPNFunction::PopArg(RPNItem *stack)
+bool RPNFunction::PopArgBool(RPNItem *stack) const
 {
-    RPNBool *bool;
+    RPNBool *bl;
 
-    bool = dynamic_cast<RPNBool*>(stack->Pop());
-    if (!bool)
+    bl = dynamic_cast<RPNBool*>(stack->Pop());
+    if (!bl)
     {
-        fprintf(stderr, "GOOD BYE: IN FUNC2 has not int \n");
+        fprintf(stderr, "GOOD BYE: IN FUNC2 has not BOOL\n");
         exit(1);
     }
     
-    return bool->Get();
-}
-
-RPNElem* RPNPrint::EvaluateFun(RPNItem *stack) const
-{
-    while(!stack.IsEmpty())
-    {
-        RPNElem *arg;
-           
-        arg = stack->Pop();
-        arg->print();
-    }
-
-	return 0;
+    return bl->Get();
 }

@@ -5,6 +5,9 @@
 #include "rpn_types.hpp"
 #include "rpn_func.hpp"
 #include "rpn_go.hpp"
+#include "rpn_far.hpp"
+#include "rpn_fcmp.hpp"
+#include "rpn_fbl.hpp"
 
 struct RPNList : RPNItem
 {
@@ -27,7 +30,11 @@ struct RPNList : RPNItem
 	RPNItem *end;
 	void add_node(lexeme *lex);
 	void add_node_to_end(RPNElem *elem);
-	void disappear() { head->Disappear(); }
+	void disappear() 
+    { 
+        if (head)
+            head->Disappear(); 
+    }
 	void print() const { head->Print(); }
 	void insert_jmp(RPNItem *old_label, RPNItem *new_label);
 	RPNItem* get_head() { return head; }

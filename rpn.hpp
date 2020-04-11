@@ -22,8 +22,12 @@ public:
 
 struct RPNItem
 {
-    RPNItem(RPNItem *a_next = 0) { next = a_next; }
-	bool IsEmpty() const { return next; }
+    RPNItem(RPNElem *a_elem = 0, RPNItem *a_next = 0) 
+    { 
+        elem = a_elem; 
+        next = a_next; 
+    }
+	bool IsEmpty() const { return !(next || elem); }
 	void Push(RPNElem* elem); 
    	RPNElem* Pop();
 	void Print() const;
@@ -32,14 +36,26 @@ struct RPNItem
 	RPNElem *elem;
     RPNItem *next;
 
-	RPNItem(RPNElem *a_elem) { elem = a_elem; next = 0;}
+/*	RPNItem(RPNElem *a_elem) { elem = a_elem; next = 0;} */
 	void delete_elem();
 };
 
 struct EvalInfo
 {
+    EvalInfo(RPNItem **a_cur_cmd)
+    {
+        RPNItem *a_stack = new RPNItem();
+        
+        cur_cmd = a_cur_cmd;
+        stack = a_stack;
+    }
     RPNItem **cur_cmd;
     RPNItem *stack;
+
+    ~EvalInfo()
+    {
+        delete stack;
+    }
 };
 
 #endif

@@ -45,12 +45,12 @@ class RPNBool: public RPNConst	/* Maybe real like in Pascal */
 {
 	bool value;
 public:
-	RPNBool(bool a = 0) { value = a; }
-	void set(string& value);
+	RPNBool(bool a = true) { value = a; }
+	void set(string& a_value){ printf("HELLO SET BOOL\n"); }
 	virtual ~RPNBool() {}
 	virtual RPNConst* Clone() const 
 		{ return new RPNBool(value); }
-	double Get() const { return value; }
+	bool Get() const { return value; }
 	void print() const 
         { value ? printf("True") : printf("False"); }
 };

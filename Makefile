@@ -1,8 +1,9 @@
-SRCMODULES = str.cpp edges.cpp lex.cpp sa.cpp rpn.cpp l.cpp rpn_func.cpp rpn_types.cpp rpn_list.cpp rpn_go.cpp main.cpp exe.cpp 
+SRCMODULES = str.cpp edges.cpp lex.cpp sa.cpp rpn.cpp l.cpp rpn_func.cpp rpn_types.cpp rpn_list.cpp rpn_go.cpp main.cpp exe.cpp rpn_far.cpp rpn_fcmp.cpp rpn_fbl.cpp
 OBJMODULES = $(SRCMODULES: c=.o)
 CXXHARDFLAGS = -g -Wall -Weffc++ -Wextra -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast -Wunreachable-code -Wconversion -Wsign-conversion -Winit-self
-CXXFLAGS = -g -Wall -Wfatal-errors 
-CXXFLAGSDEBUG = -g -Wall -Wfatal-errors -D DEBUG
+CXXFLAGS = -g -Wall -Wfatal-errors -D DEBUG_EXE
+CXXFLAGSDEBUG = -g -Wall -Wfatal-errors -D DEBUG DEBUG_EXE
+
 
 string.o:
 	gcc -Wall -g -c string.c -o string.o
