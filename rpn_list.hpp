@@ -6,7 +6,7 @@
 #include "rpn_func.hpp"
 #include "rpn_go.hpp"
 
-struct RPNList
+struct RPNList : RPNItem
 {
 /* 					--- intermediate_classes --- 				*/
 	RPNDouble Double;
@@ -27,8 +27,8 @@ struct RPNList
 	RPNItem *end;
 	void add_node(lexeme *lex);
 	void add_node_to_end(RPNElem *elem);
-	void disappear();
-	void print() const;
+	void disappear() { head->Disappear(); }
+	void print() const { head->Print(); }
 	void insert_jmp(RPNItem *old_label, RPNItem *new_label);
 	RPNItem* get_head() { return head; }
 	RPNItem* get_end() { return end; }

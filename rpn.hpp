@@ -2,7 +2,6 @@
 #define RPN_H_SENTRY
 
 #include "lex.hpp"
-#include "rpn_stack.hpp"
 
 struct RPNItem;
 
@@ -17,22 +16,29 @@ public:
 
 protected:
 	static void Push(RPNItem **stack, RPNElem *elem) {} 
-	static RPNElem* Pop(RPNElem **stack) {return 0;} 
+	static RPNElem* Pop(RPNItem **stack) { return 0; } 
 };
 
 struct RPNItem
 {
+    RPNItem(RPNItem *a_next = 0) { next = a_next; }
+	bool IsEmpty() const { return next; }
+	void Push(RPNElem* elem); 
+   	RPNElem* Pop();
+	void Print() const;
+	void Disappear(); 
+
 	RPNElem *elem;
-	RPNItem *next;
+    RPNItem *next;
+
 	RPNItem(RPNElem *a_elem) { elem = a_elem; next = 0;}
-	void delete_elem()
-	{
-		if (elem)
-        {
-			elem = 0;
-            delete elem; 
-        }
-	}
+	void delete_elem();
+};
+
+struct EvalInfo
+{
+    RPNItem **cur_cmd;
+    RPNItem stack;
 };
 
 #endif

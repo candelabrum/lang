@@ -40,3 +40,5 @@
 !!! Бороться с константами в программет как 11, 4 и прочее !!!
 !!! Переименовать SyntaxAnalyzer -> Parser !!!
 !!! Executor : exe.cpp is a bad name !!!
+!!! Подумать что делать со строками в rpn.cpp:
+next->next = next;

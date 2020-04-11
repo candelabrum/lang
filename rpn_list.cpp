@@ -1,8 +1,5 @@
 #include "rpn.hpp"
 #include "rpn_list.hpp"
-#include "rpn_func.hpp"
-#include "rpn_types.hpp"
-#include "rpn_go.hpp"
 #include "lex.hpp"
 
 void RPNList::add_node(lexeme *c_l)
@@ -40,34 +37,4 @@ void RPNList::add_node_to_end(RPNElem *elem)
 	}
 	head = new_item;
 	end = new_item;
-}
-
-void RPNList::print() const
-{
-	RPNItem *tmp = head;
-	
-	while(tmp)
-	{
-		(tmp->elem)->print();
-		printf("->");
-		tmp = tmp->next;
-	}
-}
-
-void RPNList::disappear()
-{
-	RPNItem *tmp;
-	
-	if (head)
-		printf("DESTRUCTOR\n");
-	while(head)
-	{
-		printf("\nKILL!\n");
-		tmp = head;
-		head = head->next;
-        tmp.delete_elem();
-		delete tmp;
-	}
-	head = 0;
-	end = 0;
 }
