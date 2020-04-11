@@ -1,4 +1,3 @@
-#include "rpn.hpp"
 #include "rpn_list.hpp"
 
 class RPNStack : private RPNList 

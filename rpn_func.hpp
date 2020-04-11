@@ -1,6 +1,7 @@
 #ifndef RPN_FUNC_H_SENTRY
 #define RPN_FUNC_H_SENTRY
 
+#include "rpn_stack.hpp"
 #include "rpn.hpp"
 #include "lex.hpp"
 #include <stdio.h>

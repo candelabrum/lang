@@ -2,6 +2,7 @@
 #define RPN_TYPES_H_SENTRY
 
 #include <stdio.h>
+#include "rpn_stack.hpp"
 #include "rpn.hpp"
 
 class RPNConst : public RPNElem
