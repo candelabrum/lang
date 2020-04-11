@@ -1,6 +1,7 @@
+#include "lex.hpp"
 #include "rpn.hpp"
 #include "rpn_func.hpp"
-#include "lex.hpp"
+#include "rpn_types.hpp"
 
 class RPNTableFunc
 {
@@ -135,13 +136,44 @@ RPNElem* RPNFunction::Convert2RPNElem(lexeme *c_l) const
 	return new_elem_func;
 }
 
-void RPNFunction::Evaluate(RPNItem** stack, 
-									RPNItem  **cur_cmd) const
+RPNElem* RPNFuncArithm::EvaluateFun(RPNItem *stack) const
 {
-	RPNElem *res = EvaluateFun(stack);
+    RPNDouble *dbl;
+    double arg1, arg2, res;
+
+    arg1 = PopArg(stack);
+    arg2 = PopArg(stack);
+    
+    res = EvalOperation(arg1, arg2);
+    
+    dbl = new RPNDouble(res);
+    
+    return dbl;
+}
+
+RPNElem* RPNFuncCmp::EvaluateFun(RPNItem *stack) const
+{
+    RPNBool *Boolean;
+    double arg1, arg2;
+    bool res;
+
+    arg1 = PopArg(stack);
+    arg2 = PopArg(stack);
+    
+    res = EvalOperation(arg1, arg2);
+    
+    Boolean = new RPNBool(res);
+    
+    return Boolean;
+}
+
+void RPNFunction::Evaluate(EvalInfo &eval_info) const
+{
+	RPNElem *res = EvaluateFun(eval_info.stack);
+    RPNItem **cur_cmd = eval_info.cur_cmd;
 
 	if (res)
-		Push(stack, res);
+		(eval_info.stack)->Push(res);
 
 	*cur_cmd = (*cur_cmd)->next;
 }
@@ -153,3 +185,43 @@ void RPNFunVar::print() const
 	printf("]");
 }
 
+double RPNFunction::PopArg(RPNItem *stack)
+{
+    RPNDouble *dbl;
+
+    dbl = dynamic_cast<RPNDouble*>(stack->Pop());
+    if (!dbl)
+    {
+        fprintf(stderr, "GOOD BYE: IN FUNC2 has not int \n");
+        exit(1);
+    }
+    
+    return dbl->Get();
+}
+
+bool RPNFunction::PopArg(RPNItem *stack)
+{
+    RPNBool *bool;
+
+    bool = dynamic_cast<RPNBool*>(stack->Pop());
+    if (!bool)
+    {
+        fprintf(stderr, "GOOD BYE: IN FUNC2 has not int \n");
+        exit(1);
+    }
+    
+    return bool->Get();
+}
+
+RPNElem* RPNPrint::EvaluateFun(RPNItem *stack) const
+{
+    while(!stack.IsEmpty())
+    {
+        RPNElem *arg;
+           
+        arg = stack->Pop();
+        arg->print();
+    }
+
+	return 0;
+}

@@ -2,15 +2,13 @@
 #define RPN_TYPES_H_SENTRY
 
 #include <stdio.h>
-#include "rpn_stack.hpp"
 #include "rpn.hpp"
 
 class RPNConst : public RPNElem
 {
 public:
 	virtual RPNConst* Clone() const = 0;
-	void Evaluate(RPNItem **stack,
-						RPNItem **cur_cmd) const;
+	void Evaluate(EvalInfo &eval_info) const;
 	virtual void set(string& str) = 0;
 	virtual ~RPNConst() {}
 	RPNElem* Convert2RPNElem(lexeme *c_l) const;
@@ -43,6 +41,19 @@ public:
 	void print() const { printf("[%2.2fl]", value); }
 };
 
+class RPNBool: public RPNConst	/* Maybe real like in Pascal */
+{
+	bool value;
+public:
+	RPNBool(bool a = 0) { value = a; }
+	void set(string& value);
+	virtual ~RPNBool() {}
+	virtual RPNConst* Clone() const 
+		{ return new RPNBool(value); }
+	double Get() const { return value; }
+	void print() const 
+        { value ? printf("True") : printf("False"); }
+};
 
 class RPNLabel: public RPNConst	/* Maybe real like in Pascal */
 {

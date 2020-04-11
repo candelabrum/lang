@@ -11,11 +11,13 @@ class RPNTableConst
 
 	RPNDouble Number, *number = &Number;
 	RPNStringLiteral StrLit, *strlit = &StrLit;
+    RPNBool Boolean, *boolean = &Boolean;
 
-	couple_rpn_const table[4]{
+	couple_rpn_const table[5]{
 		{number, lex_fractional},
 		{number, lex_integ},
 		{strlit, lex_strlit},
+        {boolean, lex_bool},
 		{0, lex_null}
 	};
 
@@ -60,8 +62,10 @@ void RPNDouble::set(string& number)
 	delete [] str;
 }
 
-void RPNConst::Evaluate(RPNItem **stack, RPNItem **cur_cmd) const
+void RPNConst::Evaluate(EvalInfo &eval_info) const
 {
-	Push(stack, Clone());
+    RPNItem **cur_cmd = eval_info.cur_cmd;
+
+	(eval_info.stack)->Push(Clone());
 	*cur_cmd = (*cur_cmd)->next;
 }

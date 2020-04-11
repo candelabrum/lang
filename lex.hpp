@@ -67,6 +67,7 @@ enum type_lexeme
 	lex_result_prod_bought, //(---)
 	lex_result_prod_price,	//(---)
 /*				--- Reverse Polish Notation --- 				*/
+    lex_bool,               //(---),
 	lex_take_addr,			//("$"),
 	lex_op_go_false,		//("!f"), 
 	lex_op_go, 				//("!"),

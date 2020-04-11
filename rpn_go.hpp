@@ -1,7 +1,6 @@
 #ifndef RPN_GO_H_SENTRY
 #define RPN_GO_H_SENTRY
 
-#include "rpn_stack.hpp"
 #include <stdio.h>
 
 class RPNOp : public RPNElem
@@ -13,8 +12,7 @@ public:
 
 class RPNOpGo : public RPNOp
 {
-	void Evaluate(RPNItem** stack, 
-								RPNItem  **cur_cmd) const {}
+	void Evaluate(EvalInfo &eval_info) const {}
 public:
 	virtual RPNOpGo* Clone() const 
 		{ return new RPNOpGo(); }
@@ -24,8 +22,7 @@ public:
 
 class RPNOpGoFalse: public RPNOp
 {
-	void Evaluate(RPNItem** stack, 
-								RPNItem  **cur_cmd) const {}
+	void Evaluate(EvalInfo &eval_info) const {}
 public:
 	virtual ~RPNOpGoFalse() {};
 	virtual RPNOpGoFalse* Clone() const 
@@ -37,8 +34,7 @@ public:
 class RPNNoop : public RPNOp
 {
 	
-	virtual void Evaluate(RPNItem **stack,
-						RPNItem **cur_cmd) const {}
+	virtual void Evaluate(EvalInfo &eval_info) const {}
 public:
 	virtual ~RPNNoop(){};
 	virtual RPNNoop* Clone() const 

@@ -5,18 +5,19 @@
 
 struct RPNItem;
 
+struct EvalInfo;
+
 class RPNElem
 {
 public:
 	virtual ~RPNElem() {};
-	virtual void Evaluate(RPNItem **stack,
-								RPNItem **cur_cmd) const = 0;
+	virtual void Evaluate(EvalInfo &eval_info) const = 0;
 	virtual void print() const = 0;
 	virtual RPNElem* Convert2RPNElem(lexeme *l) const = 0;
 
-protected:
-	static void Push(RPNItem **stack, RPNElem *elem) {} 
-	static RPNElem* Pop(RPNItem **stack) { return 0; } 
+/*protected:
+	static void Push(RPNItem *stack, RPNElem *elem) {} 
+	static RPNElem* Pop(RPNItem *stack) { return 0; } */
 };
 
 struct RPNItem
@@ -38,7 +39,7 @@ struct RPNItem
 struct EvalInfo
 {
     RPNItem **cur_cmd;
-    RPNItem stack;
+    RPNItem *stack;
 };
 
 #endif
