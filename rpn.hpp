@@ -27,34 +27,58 @@ struct RPNItem
         elem = a_elem; 
         next = a_next; 
     }
-	bool IsEmpty() const { return !(next || elem); }
-	void Push(RPNElem* elem); 
-   	RPNElem* Pop();
+/*	bool IsEmpty() const { return !(next || elem); } */
 	void Print() const;
-	void Disappear(); 
+    void Disappear();
 
-	RPNElem *elem;
+    RPNElem *elem;
     RPNItem *next;
 
 /*	RPNItem(RPNElem *a_elem) { elem = a_elem; next = 0;} */
 	void delete_elem();
 };
 
+class RPNStack /*: public RPNItem*/
+{
+public:
+    RPNStack (RPNItem *a_head = 0) { head = a_head; }
+    RPNItem *head;
+    void Push(RPNElem* elem); 
+   	RPNElem* Pop();
+    bool IsEmpty() { return !head; }
+    void Print() const 
+    { 
+        if (head)
+            head->Print();
+    }
+
+	void Disappear()
+    {
+        if (head)
+            head->Disappear();
+    }
+
+};
+
 struct EvalInfo
 {
     EvalInfo(RPNItem **a_cur_cmd)
     {
-        RPNItem *a_stack = new RPNItem();
-        
         cur_cmd = a_cur_cmd;
-        stack = a_stack;
     }
     RPNItem **cur_cmd;
-    RPNItem *stack;
+    RPNStack stack;
 
     ~EvalInfo()
     {
-        delete stack;
+        stack.Disappear();
+    }
+    void next_cmd()
+    {
+        if ((*cur_cmd)->next)
+	        cur_cmd = &((*cur_cmd)->next);
+        else 
+            cur_cmd = 0;
     }
 };
 

@@ -5,7 +5,7 @@ class RPNFunBool : public RPNFunc2
 {
 public:
     virtual bool EvalOperation(bool a1, bool a2) const = 0;
-    virtual RPNElem* EvaluateFun(RPNItem *stack) const;
+    virtual RPNElem* EvaluateFun(RPNStack *stack) const;
 };
 
 class RPNFunOr: public RPNFunBool
@@ -32,7 +32,7 @@ public:
 
 class RPNFunNot: public RPNFunc1
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 	    RPNBool *bl;
         bool arg, res;

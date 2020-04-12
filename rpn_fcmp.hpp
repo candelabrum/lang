@@ -4,7 +4,7 @@ class RPNFunCmp: public RPNFunc2
 {
 public:
     virtual bool EvalOperation(double a1, double a2) const = 0;
-    virtual RPNElem* EvaluateFun(RPNItem *stack) const;
+    virtual RPNElem* EvaluateFun(RPNStack *stack) const;
 };
 
 class RPNFunLess: public RPNFunCmp 

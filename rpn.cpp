@@ -1,37 +1,24 @@
 #include <stdio.h>
 #include "rpn.hpp"
 
-void RPNItem::Push(RPNElem* a_elem) 
+void RPNStack::Push(RPNElem* a_elem) 
 { 
-    if (elem)
-    {
-        RPNItem *new_item = new RPNItem(elem); 
+    RPNItem *new_item = new RPNItem(a_elem); 
     
-        new_item->next = next;
-	    next = new_item;
-
-        return;
-    }
-    elem = a_elem;
+    new_item->next = head;
+    head = new_item;
 }
 
-RPNElem* RPNItem::Pop() 
+RPNElem* RPNStack::Pop() 
 { 
-    RPNElem *first_elem;
-    
-    if (next)
-    {
-        RPNItem **first_item = &next;
-        
-        first_elem = next->elem;
-        *first_item = (*first_item)->next;
-        delete *first_item;
-        
-        return first_elem;
-    }
-    
-    first_elem = elem;
-    elem = 0;
+    RPNItem *first_item = head;
+    RPNElem *first_elem = head->elem; 
+
+    if (!head)
+        return 0;
+
+    head = head->next; 
+    delete first_item;
 
     return first_elem;
 } 
@@ -39,9 +26,8 @@ RPNElem* RPNItem::Pop()
 void RPNItem::Print() const
 {
 	RPNItem *tmp = next;
-
-    if (elem)
-        elem->print();
+    
+    elem->print();
     printf("->");
 	while(tmp)
 	{
@@ -65,7 +51,6 @@ void RPNItem::Disappear()
         tmp->delete_elem();
 		delete tmp;
 	}
-    delete_elem();
 	next = 0;
     delete this;
 }

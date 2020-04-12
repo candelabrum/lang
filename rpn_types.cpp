@@ -66,6 +66,10 @@ void RPNConst::Evaluate(EvalInfo &eval_info) const
 {
     RPNItem **cur_cmd = eval_info.cur_cmd;
 
-	(eval_info.stack)->Push(Clone());
-	*cur_cmd = (*cur_cmd)->next;
+	(eval_info.stack).Push(Clone());
+    if ((*cur_cmd)->next)
+	    cur_cmd = &((*cur_cmd)->next);
+    else 
+        cur_cmd = 0;
+    eval_info.cur_cmd = cur_cmd;
 }

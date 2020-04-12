@@ -2,7 +2,7 @@
 #include "rpn_far.hpp"
 #include "rpn_types.hpp"
 
-RPNElem* RPNFunArithm::EvaluateFun(RPNItem *stack) const
+RPNElem* RPNFunArithm::EvaluateFun(RPNStack *stack) const
 {
     RPNDouble *dbl;
     double arg1, arg2, res;

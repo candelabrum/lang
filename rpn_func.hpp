@@ -7,11 +7,11 @@
 
 class RPNFunction : public RPNElem
 {
-    virtual RPNElem* EvaluateFun(RPNItem *stack) const = 0;
+    virtual RPNElem* EvaluateFun(RPNStack *stack) const = 0;
     void Evaluate(EvalInfo &eval_info) const;
 public:
-    double PopArgDouble(RPNItem *stack) const;
-    bool PopArgBool(RPNItem *stack) const;
+    double PopArgDouble(RPNStack *stack) const;
+    bool PopArgBool(RPNStack *stack) const;
 	virtual ~RPNFunction() {};
 	virtual	RPNFunction* Clone() const = 0;
 	RPNElem* Convert2RPNElem(lexeme *c_l) const;
@@ -37,7 +37,7 @@ public:
 
 class RPNFunInd : public RPNFunc2
 {
-    RPNElem* EvaluateFun(RPNItem *stack) const
+    RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -61,7 +61,7 @@ class RPNFunAssign : public RPNFunc2
 public:
 	RPNFunAssign() {}
 	virtual ~RPNFunAssign() {}
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -81,7 +81,7 @@ class RPNFunTakeAddr: public RPNFunc1
 public:
 	RPNFunTakeAddr() {}
 	virtual ~RPNFunTakeAddr() {}
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -103,7 +103,7 @@ public:
 	RPNFunVar() {}
 	virtual ~RPNFunVar() {}
 	void set(lexeme *c_l) { name = c_l->lex; }
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -123,7 +123,7 @@ public:
 
 class RPNFunMyId: public RPNFunc0
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -137,7 +137,7 @@ public:
 
 class RPNFunTurn: public RPNFunc0
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -151,7 +151,7 @@ public:
 
 class RPNFunPlayers: public RPNFunc0
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -168,7 +168,7 @@ public:
 
 class RPNFunActivePlayers: public RPNFunc0
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -185,7 +185,7 @@ public:
 
 class RPNFunSupply: public RPNFunc0
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -202,7 +202,7 @@ public:
 
 class RPNFunRawPrice: public RPNFunc0
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -219,7 +219,7 @@ public:
 
 class RPNFunDemand: public RPNFunc0
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -236,7 +236,7 @@ public:
 
 class RPNFunProductionPrice: public RPNFunc0
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -253,7 +253,7 @@ public:
 
 class RPNFunMoney: public RPNFunc1
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -270,7 +270,7 @@ public:
 
 class RPNFunRaw: public RPNFunc1
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -287,7 +287,7 @@ public:
 
 class RPNFunProduction: public RPNFunc1
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -304,7 +304,7 @@ public:
 
 class RPNFunFactories: public RPNFunc1
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -321,7 +321,7 @@ public:
 
 class RPNFunManufactured: public RPNFunc1
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -338,7 +338,7 @@ public:
 
 class RPNFunResultRawSold: public RPNFunc1
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -355,7 +355,7 @@ public:
 
 class RPNFunResultRawPrice: public RPNFunc1
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -372,7 +372,7 @@ public:
 
 class RPNFunResultProdBought: public RPNFunc1
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -389,7 +389,7 @@ public:
 
 class RPNFunResultProdPrice: public RPNFunc1
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -406,7 +406,7 @@ public:
 /*					--- Game Procedures --- 					*/
 class RPNFunBuy: public RPNFunc2
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -420,7 +420,7 @@ public:
 
 class RPNFunSell: public RPNFunc2
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -434,7 +434,7 @@ public:
  
 class RPNFunProd: public RPNFunc1
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -448,7 +448,7 @@ public:
 
 class RPNFunBuild: public RPNFunc1
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -465,7 +465,7 @@ public:
 
 class RPNFunEndTurn: public RPNFunc0
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
+	RPNElem* EvaluateFun(RPNStack *stack) const
 	{
 		/* Here should be body */
 		return 0;
@@ -482,7 +482,7 @@ public:
 
 class RPNFunPrint : public RPNFunction 
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const;
+	RPNElem* EvaluateFun(RPNStack *stack) const;
 public:
 	RPNFunPrint() {}
 	virtual ~RPNFunPrint() {}

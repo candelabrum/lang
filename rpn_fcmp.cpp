@@ -1,7 +1,7 @@
 #include "rpn_fcmp.hpp"
 #include "rpn_types.hpp"
 
-RPNElem* RPNFunCmp::EvaluateFun(RPNItem *stack) const
+RPNElem* RPNFunCmp::EvaluateFun(RPNStack *stack) const
 {
     RPNBool *Boolean;
     double arg1, arg2;

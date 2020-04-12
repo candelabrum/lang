@@ -2,7 +2,7 @@
 #include "rpn_fbl.hpp"
 #include "rpn_types.hpp"
 
-RPNElem* RPNFunBool::EvaluateFun(RPNItem *stack) const 
+RPNElem* RPNFunBool::EvaluateFun(RPNStack *stack) const 
 {
     RPNBool *bl;
     bool arg1, arg2, res;

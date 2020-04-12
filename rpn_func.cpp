@@ -142,13 +142,12 @@ RPNElem* RPNFunction::Convert2RPNElem(lexeme *c_l) const
 
 void RPNFunction::Evaluate(EvalInfo &eval_info) const
 {
-	RPNElem *res = EvaluateFun(eval_info.stack);
-    RPNItem **cur_cmd = eval_info.cur_cmd;
+	RPNElem *res = EvaluateFun(&(eval_info.stack));
 
 	if (res)
-		(eval_info.stack)->Push(res);
+		(eval_info.stack).Push(res);
 
-	*cur_cmd = (*cur_cmd)->next;
+    eval_info.next_cmd();
 }
 
 void RPNFunVar::print() const 
@@ -158,7 +157,7 @@ void RPNFunVar::print() const
 	printf("]");
 }
 
-RPNElem* RPNFunPrint::EvaluateFun(RPNItem *stack) const
+RPNElem* RPNFunPrint::EvaluateFun(RPNStack *stack) const
 {
 #ifdef DEBUG_EXEC
     printf("STACK\n");
@@ -178,9 +177,10 @@ RPNElem* RPNFunPrint::EvaluateFun(RPNItem *stack) const
 	return 0;
 }
 
-double RPNFunction::PopArgDouble(RPNItem *stack) const
+double RPNFunction::PopArgDouble(RPNStack *stack) const
 {
     RPNDouble *dbl;
+    double res;
 
     dbl = dynamic_cast<RPNDouble*>(stack->Pop());
     if (!dbl)
@@ -189,12 +189,16 @@ double RPNFunction::PopArgDouble(RPNItem *stack) const
         exit(1);
     }
     
-    return dbl->Get();
+    res = dbl->Get();
+    delete dbl;
+    
+    return res; 
 }
 
-bool RPNFunction::PopArgBool(RPNItem *stack) const
+bool RPNFunction::PopArgBool(RPNStack *stack) const
 {
     RPNBool *bl;
+    bool res;
 
     bl = dynamic_cast<RPNBool*>(stack->Pop());
     if (!bl)
@@ -203,5 +207,8 @@ bool RPNFunction::PopArgBool(RPNItem *stack) const
         exit(1);
     }
     
-    return bl->Get();
+    res = bl->Get();
+    delete bl;
+
+    return res;
 }
