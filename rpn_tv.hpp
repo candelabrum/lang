@@ -16,7 +16,7 @@ class TableVar
     int max_len;
     couple_var *table_var;
     void Resize();
-    unsigned int FindCouple(string &var) const;
+    int FindCouple(string &var) const;
 public:
     TableVar (couple_var *a_table_var = 0) 
     { 

@@ -6,6 +6,7 @@
 #include "rpn_far.hpp"
 #include "rpn_fcmp.hpp"
 #include "rpn_fbl.hpp"
+#include "rpn_var.hpp"
 
 class RPNTableFunc
 {
@@ -142,7 +143,7 @@ RPNElem* RPNFunction::Convert2RPNElem(lexeme *c_l) const
 
 void RPNFunction::Evaluate(EvalInfo &eval_info) const
 {
-	RPNElem *res = EvaluateFun(&(eval_info.stack));
+	RPNElem *res = EvaluateFun(eval_info);
 
 	if (res)
 		(eval_info.stack).Push(res);
@@ -157,8 +158,9 @@ void RPNFunVar::print() const
 	printf("]");
 }
 
-RPNElem* RPNFunPrint::EvaluateFun(RPNStack *stack) const
+RPNElem* RPNFunPrint::EvaluateFun(EvalInfo &eval_info) const
 {
+    RPNStack *stack = &(eval_info.stack);
 #ifdef DEBUG_EXEC
     printf("STACK\n");
     stack->Print();

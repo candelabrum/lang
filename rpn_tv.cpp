@@ -19,18 +19,14 @@ void TableVar::Resize()
 	table_var = new_table_var;
 }
 
-unsigned int TableVar::FindCouple(string &var) const
+int TableVar::FindCouple(string &var) const
 {
 	int i = 0;
 
 	while(i < len && !var.is_equal(table_var[i].name_var))
 		i++;
-	
     if (i == len)
-    {
-        printf("HELLO Exit from TalbeVar\n");
-        exit(1);
-    }
+        return -1;
 
 	return i; 
 }
@@ -46,14 +42,26 @@ void TableVar::AddVar(string &var)
 
 double TableVar::GetValue(string &var)
 {
-   int index = FindCouple(var);
+    int index = FindCouple(var);
 
-   return table_var[index].value_var;
+    if (index == -1)
+    {
+        AddVar(var);
+        index = len;
+    }
+
+    return table_var[index].value_var;
 }
 
 void TableVar::SetValue(string &var, double value)
 {
     int index = FindCouple(var);
+
+    if (index == -1)
+    {
+        AddVar(var);
+        index = len;
+    }
 
     table_var[index].value_var = value;
 }

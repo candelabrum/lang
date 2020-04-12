@@ -35,6 +35,7 @@ public:
 	RPNDouble(double a = 0) { value = a; }
 	void set(string& number);
 	virtual ~RPNDouble() {}
+    void set(double number) { value = number; }
 	virtual RPNConst* Clone() const 
 		{ return new RPNDouble(value); }
 	double Get() const { return value; }

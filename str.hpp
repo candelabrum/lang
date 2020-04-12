@@ -31,7 +31,7 @@ public:
 	void print_f() const;
 	bool is_equal(const char *a_str) const;
     bool is_equal(string &a_str) const;
-
+    void concat_ind(char *index);
 };
 
 #endif

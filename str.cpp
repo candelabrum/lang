@@ -4,6 +4,21 @@
 #include "str.hpp"
 
 /* make more good name for is_balanced */
+void string::concat_ind(char *index)
+{
+    char *new_str;
+    
+    len = len + strlen(index);
+    max_len = len;
+    new_str = new char[2*len + 1];
+
+    snprintf(new_str, 2*len + 1, "%s[%s]", str, index);
+    printf(" AFTER CONCAT %s\n", new_str);
+
+    delete [] str;
+    str = new_str;
+}
+
 bool string::is_equal(const char *a_str) const
 {
 	return str_equal(str, a_str);

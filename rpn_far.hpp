@@ -5,7 +5,7 @@ class RPNFunArithm : public RPNFunc2 /* RPNDDDOp more better */
 {
 public:
     virtual double EvalOperation(double a1, double a2) const = 0;
-    virtual RPNElem* EvaluateFun(RPNStack *stack) const;
+    virtual RPNElem* EvaluateFun(EvalInfo &eval_info) const;
 };
 
 class RPNFunPlus : public RPNFunArithm

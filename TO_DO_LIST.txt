@@ -46,3 +46,4 @@ next->next = next;
 !!! Быть может следует в EvaluateFun вместо RPNElem* возвращать
 RPNDouble*/RPNConst*
 !!! Плохая реализация search_by или где-то в схожих функциях в while !!!
+!!! SNPRINTF is crutch in rpn-var !!!

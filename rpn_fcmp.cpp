@@ -1,8 +1,9 @@
 #include "rpn_fcmp.hpp"
 #include "rpn_types.hpp"
 
-RPNElem* RPNFunCmp::EvaluateFun(RPNStack *stack) const
+RPNElem* RPNFunCmp::EvaluateFun(EvalInfo &eval_info) const
 {
+    RPNStack *stack = &(eval_info.stack);
     RPNBool *Boolean;
     double arg1, arg2;
     bool res;

@@ -2,8 +2,9 @@
 #include "rpn_far.hpp"
 #include "rpn_types.hpp"
 
-RPNElem* RPNFunArithm::EvaluateFun(RPNStack *stack) const
+RPNElem* RPNFunArithm::EvaluateFun(EvalInfo &eval_info) const
 {
+    RPNStack *stack = &(eval_info.stack);
     RPNDouble *dbl;
     double arg1, arg2, res;
 
