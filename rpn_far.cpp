@@ -7,8 +7,8 @@ RPNElem* RPNFunArithm::EvaluateFun(RPNStack *stack) const
     RPNDouble *dbl;
     double arg1, arg2, res;
 
-    arg1 = PopArgDouble(stack);
     arg2 = PopArgDouble(stack);
+    arg1 = PopArgDouble(stack);
     
     res = EvalOperation(arg1, arg2);
     

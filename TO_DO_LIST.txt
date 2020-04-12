@@ -45,3 +45,4 @@ next->next = next;
 !!! Убрать впоследствии весь dynamic_cast из RPN !!!
 !!! Быть может следует в EvaluateFun вместо RPNElem* возвращать
 RPNDouble*/RPNConst*
+!!! Плохая реализация search_by или где-то в схожих функциях в while !!!

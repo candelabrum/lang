@@ -40,18 +40,20 @@ void RPNItem::Print() const
 void RPNItem::Disappear()
 {
 	RPNItem *tmp;
-	
-	if (next)
+	RPNItem **next_item = &next;
+
+	if (*next_item)
 		printf("DESTRUCTOR\n");
 	while(next)
 	{
 		printf("\nKILL!\n");
-		tmp = next;
-		next = next->next;
+		tmp = *next_item;
+		*next_item = (*next_item)->next;
         tmp->delete_elem();
 		delete tmp;
 	}
-	next = 0;
+	*next_item = 0;
+    delete_elem();
     delete this;
 }
 
