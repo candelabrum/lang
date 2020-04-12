@@ -1,50 +1,23 @@
-#include "rpn.hpp"
+#include "rpn_stack.hpp"
 
-void RPNStack::Push(RPNElem* elem) 
+void RPNStack::Push(RPNElem* a_elem) 
 { 
-    RPNItem *new_item = new RPNItem(elem); 
-
+    RPNItem *new_item = new RPNItem(a_elem); 
+    
     new_item->next = head;
-	head = new_item;
+    head = new_item;
 }
 
 RPNElem* RPNStack::Pop() 
 { 
     RPNItem *first_item = head;
-    RPNElem *first = head->elem;
+    RPNElem *first_elem = head->elem; 
 
-    head = head->next;
-    delete first_item();
-        
-    return head;
+    if (!head)
+        return 0;
+
+    head = head->next; 
+    delete first_item;
+
+    return first_elem;
 } 
-
-void RPNStack::PrintStack() const
-{
-	RPNItem *tmp = head;
-	
-	while(tmp)
-	{
-		(tmp->elem)->print();
-		printf("->");
-		tmp = tmp->next;
-	}
-}
-
-void RPNStack::DeleteStack()
-{
-	RPNItem *tmp;
-	
-	if (head)
-		printf("DESTRUCTOR\n");
-	while(head)
-	{
-		printf("\nKILL!\n");
-		tmp = head;
-		head = head->next;
-        tmp.delete_elem();
-		delete tmp;
-	}
-	head = 0;
-	end = 0;
-}

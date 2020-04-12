@@ -2,6 +2,7 @@
 #define RPN_H_SENTRY
 
 #include "lex.hpp"
+#include "rpn_tv.hpp"
 
 struct RPNItem;
 
@@ -68,7 +69,7 @@ struct EvalInfo
     }
     RPNItem **cur_cmd;
     RPNStack stack;
-
+    TableVar tv;
     ~EvalInfo()
     {
         stack.Disappear();
