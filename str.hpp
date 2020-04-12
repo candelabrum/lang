@@ -30,6 +30,8 @@ public:
 	const string& operator=(const string& str);
 	void print_f() const;
 	bool is_equal(const char *a_str) const;
+    bool is_equal(string &a_str) const;
+
 };
 
 #endif

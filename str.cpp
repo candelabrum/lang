@@ -9,6 +9,11 @@ bool string::is_equal(const char *a_str) const
 	return str_equal(str, a_str);
 }
 
+bool string::is_equal(string &a_str) const
+{
+    return a_str.is_equal(str);
+}
+
 const string& string::operator=(const string& s)
 {
 	str = s.get_str();

@@ -1,8 +1,10 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "rpn_tv.hpp"
 
 void TableVar::Resize()
 {
-    char *new_table_var;
+    couple_var *new_table_var;
 	
     new_table_var = new couple_var[2*len + 1];
 	max_len = 2*len;
@@ -17,11 +19,11 @@ void TableVar::Resize()
 	table_var = new_table_var;
 }
 
-unsigned int FindCouple(string &var) const
+unsigned int TableVar::FindCouple(string &var) const
 {
 	int i = 0;
 
-	while(i < len && !var.is_equal(table[i].str))
+	while(i < len && !var.is_equal(table_var[i].name_var))
 		i++;
 	
     if (i == len)
@@ -42,14 +44,14 @@ void TableVar::AddVar(string &var)
     table_var[len].name_var = var;
 }
 
-double GetValue(string &var)
+double TableVar::GetValue(string &var)
 {
    int index = FindCouple(var);
 
    return table_var[index].value_var;
 }
 
-void SetValue(string var, double value)
+void TableVar::SetValue(string &var, double value)
 {
     int index = FindCouple(var);
 

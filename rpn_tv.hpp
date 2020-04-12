@@ -3,10 +3,11 @@
 
 struct couple_var
 {
-    couple_var : name_var() (double value = 0) 
-        { value_var = value; }
     string name_var;
     double value_var;
+    couple_var (double value = 0) : name_var() 
+        { value_var = value; }
+
 };
 
 class TableVar
@@ -18,8 +19,12 @@ class TableVar
     unsigned int FindCouple(string &var) const;
 public:
     TableVar (couple_var *a_table_var = 0) 
-        { table_var = a_table_var; }
+    { 
+        table_var = a_table_var;
+        len = 0;
+        max_len = 0;
+    }
     void AddVar(string &var);
     double GetValue(string &var);
-    double SetValue(string &var);
+    void SetValue(string &var, double value);
 };
