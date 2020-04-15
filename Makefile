@@ -1,22 +1,22 @@
-SRCMODULES = str.cpp edges.cpp lex.cpp sa.cpp rpn.cpp l.cpp rpn_func.cpp rpn_types.cpp rpn_list.cpp rpn_go.cpp main.cpp exe.cpp rpn_far.cpp rpn_fcmp.cpp rpn_fbl.cpp rpn_tv.cpp rpn_var.cpp
+SRCMODULES = str.cpp edges.cpp lex.cpp sa.cpp rpn.cpp l.cpp rpn_func.cpp rpn_types.cpp rpn_list.cpp rpn_go.cpp main.cpp exe.cpp rpn_far.cpp rpn_fcmp.cpp rpn_fbl.cpp rpn_tv.cpp rpn_var.cpp interp.cpp main.cpp
 OBJMODULES = $(SRCMODULES: c=.o)
 CXXHARDFLAGS = -g -Wall -Weffc++ -Wextra -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast -Wunreachable-code -Wconversion -Wsign-conversion -Winit-self
 CXXFLAGS = -g -Wall -Wfatal-errors -D DEBUG_EXE
 
 CXXFLAGSDEBUG = -g -Wall -Wfatal-errors -D DEBUG DEBUG_EXE
 
+game_info.o:
+	cd first_step
+	make game_info.o
+	mv game_info.o ..
 
-game_info.o
-    cd first_step
-    make game_info.o
-    mv game_info.o ..
 string.o:
 	gcc -Wall -g -c string.c -o string.o
 
 %o: %.c %.h l.hpp str.hpp edges.hpp lex.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o %@ > G++LOG
 
-la: la.cpp $(OBJMODULES) l.hpp str.hpp edges.hpp game_info.o
+main: main.cpp $(OBJMODULES) l.hpp str.hpp edges.hpp game_info.o
 	$(CXX) $(CXXFLAGS) $^ string.o -o $@ >> G++LOG
 
 ifneq (clean, $(MAKECMDGOALS))
@@ -28,7 +28,7 @@ deps.mk: $(SRCMODULES)
 
 clean:
 	rm *.o 
-	rm la
+	rm main 
 	gcc -Wall -g -c string.c -o string.o
 run: la
 	make string.o
@@ -43,3 +43,4 @@ gdb_at: la
 res:
 	make clean
 	make run
+
