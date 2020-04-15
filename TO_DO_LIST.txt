@@ -1,4 +1,3 @@
-/*StatGmSt is a bad name */ 
 /*Alphabet of terminal characters*/
 /* Make first for all NonTerminal Symbols and check this in if */
 /* make in lex.cpp global variables belong to classes */
@@ -47,3 +46,6 @@ next->next = next;
 RPNDouble*/RPNConst*
 !!! Плохая реализация search_by или где-то в схожих функциях в while !!!
 !!! SNPRINTF is crutch in rpn-var !!!
+!!! Сделать защиту от повторного включения во всех rpn-модулях !!!
+!!! Для окончательной реализации осталось реализовать метки и
+!!! Плохо сделано в set_info с установкой all_players !!!

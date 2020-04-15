@@ -16,6 +16,8 @@ public:
 #ifdef DEBUG_EXE
             printf("\nSTACK\n");
             (eval_info.stack).Print();
+            printf("\nTABLE VAR\n");
+            eval_info.tv.print();
 #endif
             (*(eval_info.cur_cmd))->elem->Evaluate(eval_info);
         }

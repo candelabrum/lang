@@ -3,6 +3,7 @@
 
 #include "lex.hpp"
 #include "rpn_tv.hpp"
+#include "first_step/game_info.hpp"
 
 struct RPNItem;
 
@@ -39,7 +40,7 @@ struct RPNItem
 	void delete_elem();
 };
 
-class RPNStack /*: public RPNItem*/
+class RPNStack
 {
 public:
     RPNStack (RPNItem *a_head = 0) { head = a_head; }
@@ -67,13 +68,13 @@ struct EvalInfo
     {
         cur_cmd = a_cur_cmd;
     }
+
     RPNItem **cur_cmd;
     RPNStack stack;
     TableVar tv;
-    ~EvalInfo()
-    {
-        stack.Disappear();
-    }
+    Game *game;
+
+    ~EvalInfo() { stack.Disappear(); }
     void next_cmd()
     {
         if ((*cur_cmd)->next)

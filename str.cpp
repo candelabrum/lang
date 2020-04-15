@@ -8,7 +8,7 @@ void string::concat_ind(char *index)
 {
     char *new_str;
     
-    len = len + strlen(index);
+    len = len + strlen(index) + 2;
     max_len = len;
     new_str = new char[2*len + 1];
 

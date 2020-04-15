@@ -52,7 +52,14 @@ public:
 	RPNFunVar() {}
 	virtual ~RPNFunVar() {}
 	void set(lexeme *c_l) { name = c_l->lex; }
-	RPNElem* EvaluateFun(EvalInfo &eval_info) const { return 0; }
+	RPNElem* EvaluateFun(EvalInfo &eval_info) const 
+    { 
+        RPNFunVar *var = new RPNFunVar();
+
+        *var = (*this);
+
+        return var; 
+    }
 	string& GetName() { return name; }
 	virtual void print() const;
 	virtual	RPNFunction* Clone() const

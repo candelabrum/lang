@@ -10,15 +10,16 @@ RPNElem* RPNFunInd::EvaluateFun(EvalInfo &eval_info) const
     char *number = new char[size_number]; 
     RPNStack *stack = &(eval_info.stack);
 
+    value = PopArgDouble(stack);
     var = dynamic_cast<RPNFunVar*>(stack->Pop()); 
     if (!var) 
     { 
         printf(" IT IS NOT A VARIABLE\n");
         exit(1);
     }
-    value = PopArgDouble(stack);
-    sprintf(number, "%fl", value);
+    sprintf(number, "%d", (int)value);
     (var->GetName()).concat_ind(number);
+    delete [] number;
 
     return var;
 }
@@ -29,9 +30,15 @@ RPNElem* RPNFunAssign::EvaluateFun(EvalInfo &eval_info) const
     double number;
     RPNStack *stack = &(eval_info.stack);
 
-    var = dynamic_cast<RPNFunVar*>(stack->Pop());
     number = PopArgDouble(stack);
+    var = dynamic_cast<RPNFunVar*>(stack->Pop());
+    if (!var)
+    {
+        printf(" Expected var\n");
+        exit(1);
+    }
     eval_info.tv.SetValue(var->GetName(), number);
+    delete var;
     		
     return 0;
 }
@@ -49,6 +56,7 @@ RPNElem* RPNFunTakeAddr::EvaluateFun(EvalInfo &eval_info) const
         exit(1);
     }
     value = eval_info.tv.GetValue(var->GetName());
+    delete var;
     dbl->set(value); 
 
     return dbl;

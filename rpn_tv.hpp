@@ -1,5 +1,6 @@
 #include "str.hpp"
 #include "lex.hpp"
+#include <stdio.h>
 
 struct couple_var
 {
@@ -7,7 +8,12 @@ struct couple_var
     double value_var;
     couple_var (double value = 0) : name_var() 
         { value_var = value; }
-
+    void print() const
+    {
+        printf(" Name Var | Value Var \n");
+        name_var.print();
+        printf("    %fl\n", value_var);
+    }
 };
 
 class TableVar
@@ -27,4 +33,15 @@ public:
     void AddVar(string &var);
     double GetValue(string &var);
     void SetValue(string &var, double value);
+    void print() const
+    {
+        int i = 0;
+
+        while(i < len)
+        {
+            table_var[i].print();
+            i++;
+        }
+    }
+    ~TableVar() { delete [] table_var; }
 };

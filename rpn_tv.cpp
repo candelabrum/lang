@@ -6,6 +6,14 @@ void TableVar::Resize()
 {
     couple_var *new_table_var;
 	
+    if (!table_var)
+    {
+        table_var = new couple_var[2];
+        len = 0;
+        max_len = 1;
+        return;
+    }
+    
     new_table_var = new couple_var[2*len + 1];
 	max_len = 2*len;
 
@@ -25,6 +33,7 @@ int TableVar::FindCouple(string &var) const
 
 	while(i < len && !var.is_equal(table_var[i].name_var))
 		i++;
+
     if (i == len)
         return -1;
 
@@ -37,7 +46,7 @@ void TableVar::AddVar(string &var)
         Resize();
 
     len++;
-    table_var[len].name_var = var;
+    table_var[len-1].name_var = var;
 }
 
 double TableVar::GetValue(string &var)
@@ -47,7 +56,7 @@ double TableVar::GetValue(string &var)
     if (index == -1)
     {
         AddVar(var);
-        index = len;
+        index = len - 1;
     }
 
     return table_var[index].value_var;
@@ -60,7 +69,7 @@ void TableVar::SetValue(string &var, double value)
     if (index == -1)
     {
         AddVar(var);
-        index = len;
+        index = len - 1;
     }
 
     table_var[index].value_var = value;
