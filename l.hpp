@@ -1,7 +1,7 @@
 #ifndef LIST_H_SENTRY
 #define LIST_H_SENTRY
 
-#include "string.h"
+#include "mystr.h"
 #include <stdio.h>
 #include <string.h>
 #include "str.hpp"
@@ -39,6 +39,7 @@ public:
 	bool is_empty();
 	void add_node_to_end(T& a_data);
 	~list(){/*nothing*/}
+	void free() {/* nothing*/}
 };
 
 template <class T>

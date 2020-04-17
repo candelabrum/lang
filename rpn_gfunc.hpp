@@ -1,15 +1,16 @@
 #include "rpn.hpp"
 #include "rpn_func.hpp"
+#include "rpn_types.hpp"
 
-define MAX_LEN_CMD 30
+#define MAX_LEN_CMD 30
 
 class RPNFunMyId: public RPNFunc0
 {
 	RPNElem* EvaluateFun(EvalInfo &eval_info) const
 	{
-        RPNDouble dbl = new RPNDouble(eval_info.game->my_id());
+        RPNDouble *dbl = new RPNDouble(eval_info.game->my_id());
 
-		return &dbl;
+		return dbl;
 	}
 public:
 	RPNFunMyId() {}
@@ -156,7 +157,7 @@ class RPNFunMoney: public RPNFunc1
 		RPNDouble *res;
         double arg;
         
-        arg = PopArgDouble();
+        arg = PopArgDouble(eval_info.stack);
         res = new RPNDouble(eval_info.game->gi->money(arg));
 
 		return res;

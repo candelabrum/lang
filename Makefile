@@ -1,45 +1,47 @@
-SRCMODULES = str.cpp edges.cpp lex.cpp sa.cpp rpn.cpp l.cpp rpn_func.cpp rpn_types.cpp rpn_list.cpp rpn_go.cpp main.cpp exe.cpp rpn_far.cpp rpn_fcmp.cpp rpn_fbl.cpp rpn_tv.cpp rpn_var.cpp interp.cpp main.cpp
-OBJMODULES = $(SRCMODULES: c=.o)
-CXXHARDFLAGS = -g -Wall -Weffc++ -Wextra -Woverloaded-virtual -Wnon-virtual-dtor -Wold-style-cast -Wunreachable-code -Wconversion -Wsign-conversion -Winit-self
 CXXFLAGS = -g -Wall -Wfatal-errors -D DEBUG_EXE
 
 CXXFLAGSDEBUG = -g -Wall -Wfatal-errors -D DEBUG DEBUG_EXE
 
-game_info.o:
-	cd first_step
-	make game_info.o
-	mv game_info.o ..
+source_dirs := . first_step
 
-string.o:
-	gcc -Wall -g -c string.c -o string.o
+search_wildcards := $(addsuffix /*.cpp,$(source_dirs)) 
 
-%o: %.c %.h l.hpp str.hpp edges.hpp lex.hpp
-	$(CXX) $(CXXFLAGS) -c $< -o %@ > G++LOG
-
-main: main.cpp $(OBJMODULES) l.hpp str.hpp edges.hpp game_info.o
+main: $(notdir $(patsubst %.cpp,%.o,$(wildcard $(search_wildcards))))
 	$(CXX) $(CXXFLAGS) $^ string.o -o $@ >> G++LOG
 
-ifneq (clean, $(MAKECMDGOALS))
--include deps.mk
-endif
+VPATH := $(source_dirs)
+     
+%.o: %.cpp
+	g++ $(CXXFLAGS) -c -MD $(addprefix -I,$(source_dirs)) $<
 
-deps.mk: $(SRCMODULES)
-	$(GXX) -MM $^ > $@
+include $(wildcard *.d) 
+
+mystr.o:
+	gcc -Wall -g -c mystr.c -o mystr.o
+
+string.h:
+	echo "hello" > counter.txt
+first_step/l.hpp:
+	echo "hello" > counter.txt
+
+%.o: %.cpp %.hpp
+	$(CXX) $(CXXFLAGS) -c -MD $(addprefix -I,$(SOURCE_DIRS)) $<
 
 clean:
 	rm *.o 
+	rm *.d
 	rm main 
 	gcc -Wall -g -c string.c -o string.o
-run: la
+run: main
 	make string.o
-	valgrind --leak-check=full ./la src.txt
-runv: la
-	valgrind ./la src.txt > VG_LOG
+	valgrind --leak-check=full ./main src.txt
+runv: main 
+	valgrind ./main src.txt > VG_LOG
 	cat VG_LOG
-gdb: la
-	gdb --args ./la src.txt
-gdb_at: la
-	valgrind --vgdb=yes --vgdb-error=1 ./la src.txt
+gdb: main 
+	gdb --args ./main src.txt
+gdb_at: main 
+	valgrind --vgdb=yes --vgdb-error=1 ./main src.txt
 res:
 	make clean
 	make run

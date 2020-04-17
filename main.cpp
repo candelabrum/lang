@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "game_info.hpp"
+#include "first_step/game.hpp"
 #include "interp.hpp"
 
 int main(int argc, char **argv)

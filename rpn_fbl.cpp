@@ -1,3 +1,4 @@
+#include "rpn.hpp"
 #include "rpn_func.hpp"
 #include "rpn_fbl.hpp"
 #include "rpn_types.hpp"
@@ -17,5 +18,3 @@ RPNElem* RPNFunBool::EvaluateFun(EvalInfo &eval_info) const
     
     return bl;
 }
-
-

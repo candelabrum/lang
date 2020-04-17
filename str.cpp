@@ -1,9 +1,20 @@
 #include <stdio.h>
 #include <string.h>
-#include "string.h"
+#include "mystr.h"
 #include "str.hpp"
 
 /* make more good name for is_balanced */
+
+/*int strlen(const char *str)
+{
+	int i = 0;
+
+	while(str[i])
+		i++;
+
+	return i;
+}
+*/
 void string::concat_ind(char *index)
 {
     char *new_str;

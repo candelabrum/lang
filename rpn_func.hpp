@@ -10,8 +10,8 @@ class RPNFunction : public RPNElem
     virtual RPNElem* EvaluateFun(EvalInfo &eval_info) const = 0;
     void Evaluate(EvalInfo &eval_info) const;
 public:
-    double PopArgDouble(RPNStack * eval_info) const;
-    bool PopArgBool(RPNStack * eval_info) const;
+    double PopArgDouble(RPNStack *stack) const;
+    bool PopArgBool(RPNStack *stack) const;
 	virtual ~RPNFunction() {};
 	virtual	RPNFunction* Clone() const = 0;
 	RPNElem* Convert2RPNElem(lexeme *c_l) const;

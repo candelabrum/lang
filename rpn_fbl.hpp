@@ -1,3 +1,6 @@
+#ifndef RPN_FBL_H_SENTRY
+#define RPN_FBL_H_SENTRY
+
 #include "rpn_func.hpp"
 #include "rpn_types.hpp"
 
@@ -52,3 +55,5 @@ public:
 	virtual	RPNFunction* Clone() const 
         { return new RPNFunNot(); }
 };
+
+#endif

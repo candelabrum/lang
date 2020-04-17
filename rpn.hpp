@@ -3,7 +3,7 @@
 
 #include "lex.hpp"
 #include "rpn_tv.hpp"
-#include "first_step/game_info.hpp"
+#include "first_step/game.hpp"
 
 struct RPNItem;
 

@@ -7,6 +7,7 @@
 #include "rpn_fcmp.hpp"
 #include "rpn_fbl.hpp"
 #include "rpn_var.hpp"
+#include "rpn_gfunc.hpp"
 
 class RPNTableFunc
 {
