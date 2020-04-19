@@ -3,11 +3,11 @@
 class Executor
 {
 public:
-	void Execute(RPNList &rpn_lst)
+	void Execute(RPNList &rpn_lst, Game *game)
 	{ 
-        EvalInfo eval_info(&(rpn_lst.head)); /* must in private */
         RPNItem *save_head; 
         
+		EvalInfo eval_info(&(rpn_lst.head), game);
         printf("Something executing...");
         save_head = rpn_lst.head;
 

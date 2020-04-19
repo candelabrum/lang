@@ -2,33 +2,56 @@
 #define RPN_GO_H_SENTRY
 
 #include <stdio.h>
+#include "rpn_func.hpp"
+#include "rpn_types.hpp"
 
 class RPNOp : public RPNElem
 {
 public: 
 	virtual RPNOp* Clone() const = 0;
 	RPNElem* Convert2RPNElem(lexeme *c_l) const;
+	RPNElem* PopArgLabel(RPNStack *stack) const;
 };
 
 class RPNOpGo : public RPNOp
 {
-	void Evaluate(EvalInfo &eval_info) const {}
 public:
 	virtual RPNOpGo* Clone() const 
 		{ return new RPNOpGo(); }
 	virtual ~RPNOpGo() {};
 	virtual void print() const { printf("OpGo"); }
+	void Evaluate(EvalInfo &eval_info) const 
+	{
+		RPNLabel *label;
+
+		label = PopArgLabel(&eval_info.stack);
+		
+		eval_info.cur_cmd = &(label);
+
+//		delete label; /* ? */
+	}
 };
 
 class RPNOpGoFalse: public RPNOp
 {
-	void Evaluate(EvalInfo &eval_info) const {}
 public:
 	virtual ~RPNOpGoFalse() {};
 	virtual RPNOpGoFalse* Clone() const 
 		{ return new RPNOpGoFalse(); }
 	virtual void print() const { printf("OpGoFalse"); }
+	void Evaluate(EvalInfo &eval_info) const 
+	{
+		RPNBool *bl;
+		RPNElem *label;
 
+		bl = PopArgBool(&eval_info.stack);
+		label = PopArgLabel(&eval_info.stack);
+		
+		eval_info.cur_cmd = label;
+
+//		delete bl; /* ? */
+//		delete label; /* ? */
+	}
 };
 
 class RPNNoop : public RPNOp

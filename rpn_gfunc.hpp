@@ -157,7 +157,7 @@ class RPNFunMoney: public RPNFunc1
 		RPNDouble *res;
         double arg;
         
-        arg = PopArgDouble(eval_info.stack);
+        arg = PopArgDouble(&eval_info.stack);
         res = new RPNDouble(eval_info.game->gi->money(arg));
 
 		return res;
@@ -179,7 +179,7 @@ class RPNFunRaw: public RPNFunc1
 		RPNDouble *res;
         double arg;
         
-        arg = PopArgDouble();
+        arg = PopArgDouble(&eval_info.stack);
         res = new RPNDouble(eval_info.game->gi->raw(arg));
 
 		return res;
@@ -201,7 +201,7 @@ class RPNFunProduction: public RPNFunc1
 		RPNDouble *res;
         double arg;
         
-        arg = PopArgDouble();
+        arg = PopArgDouble(&eval_info.stack);
         res = new RPNDouble(eval_info.game->gi->production(arg));
 
 		return res;
@@ -223,7 +223,7 @@ class RPNFunFactories: public RPNFunc1
 		RPNDouble *res;
         double arg;
         
-        arg = PopArgDouble();
+        arg = PopArgDouble(&eval_info.stack);
         res = new RPNDouble(eval_info.game->gi->factories(arg));
 
 		return res;
@@ -245,7 +245,7 @@ class RPNFunManufactured: public RPNFunc1
 		RPNDouble *res;
         double arg;
         
-        arg = PopArgDouble();
+        arg = PopArgDouble(&eval_info.stack);
         res = new RPNDouble(eval_info.game->gi->manufactured(arg));
 
 		return res;
@@ -267,7 +267,7 @@ class RPNFunResultRawSold: public RPNFunc1
 		RPNDouble *res;
         double a;
         
-        a = PopArgDouble();
+        a = PopArgDouble(&eval_info.stack);
         res = new RPNDouble(eval_info.game->gi->result_raw_sold(a));
 
 		return res;
@@ -289,7 +289,7 @@ class RPNFunResultRawPrice: public RPNFunc1
 		RPNDouble *res;
         double a;
         
-        a = PopArgDouble();
+        a = PopArgDouble(&eval_info.stack);
         res = new RPNDouble(eval_info.game->gi->result_raw_price(a));
 
 		return res;
@@ -308,10 +308,10 @@ class RPNFunResultProdBought: public RPNFunc1
 {
 	RPNElem* EvaluateFun(EvalInfo &eval_info) const
 	{
-		RPNDouble *res
+		RPNDouble *res;
         double a;
         
-        a = PopArgDouble();
+        a = PopArgDouble(&eval_info.stack);
         res = new RPNDouble(
             eval_info.game->gi->result_prod_bought(a));
 
@@ -334,7 +334,7 @@ class RPNFunResultProdPrice: public RPNFunc1
 		RPNDouble *res;
         double a;
         
-        a = PopArgDouble();
+        a = PopArgDouble(&eval_info.stack);
         res = new RPNDouble(
             eval_info.game->gi->result_prod_price(a));
 
@@ -355,9 +355,10 @@ class RPNFunBuy: public RPNFunc2
 	RPNElem* EvaluateFun(EvalInfo &eval_info) const
 	{
         char *str = new char[MAX_LEN_CMD];
+		int arg2, arg1;
 
-        arg2 = PopArgDouble(eval_info.stack);
-        arg1 = PopArgDouble(eval_info.stack);
+        arg2 = PopArgDouble(&eval_info.stack);
+        arg1 = PopArgDouble(&eval_info.stack);
         snprintf(str, MAX_LEN_CMD, "buy %d %d\n", arg1, arg2);
         
         eval_info.game->req.set_buy(str);
@@ -376,9 +377,10 @@ class RPNFunSell: public RPNFunc2
 	RPNElem* EvaluateFun(EvalInfo &eval_info) const
 	{
         char *str = new char[MAX_LEN_CMD];
+		int arg2, arg1;
 
-        arg2 = PopArgDouble(eval_info.stack);
-        arg1 = PopArgDouble(eval_info.stack);
+        arg2 = PopArgDouble(&eval_info.stack);
+        arg1 = PopArgDouble(&eval_info.stack);
         snprintf(str, MAX_LEN_CMD, "sell %d %d\n", arg1, arg2);
         
         eval_info.game->req.set_sell(str);
@@ -397,9 +399,10 @@ class RPNFunProd: public RPNFunc1
 	RPNElem* EvaluateFun(EvalInfo  &eval_info) const
 	{
         char *str = new char[MAX_LEN_CMD];
+		int arg2;
 
-        arg2 = PopArgDouble(eval_info.stack);
-        snprintf(str, MAX_LEN_CMD, "prod %d\n", arg1);
+        arg2 = PopArgDouble(&eval_info.stack);
+        snprintf(str, MAX_LEN_CMD, "prod %d\n", arg2);
         
         eval_info.game->req.set_prod(str);
 
@@ -417,9 +420,10 @@ class RPNFunBuild: public RPNFunc1
 	RPNElem* EvaluateFun(EvalInfo  &eval_info) const
 	{
 		char *str = new char[MAX_LEN_CMD];
+		int arg2;
 
-        arg2 = PopArgDouble(eval_info.stack);
-        snprintf(str, MAX_LEN_CMD, "build %d\n", arg1);
+        arg2 = PopArgDouble(&eval_info.stack);
+        snprintf(str, MAX_LEN_CMD, "build %d\n", arg2);
         
         eval_info.game->req.set_build(str);
 
@@ -439,8 +443,8 @@ class RPNFunEndTurn: public RPNFunc0
 {
 	RPNElem* EvaluateFun(EvalInfo &eval_info) const
 	{
-        eval_info.game->me.make_move(eval_info.gi, eval_info.req);
-        eva_info.req.disappear();   
+        eval_info.game->me.make_move(eval_info.game->gi, eval_info.game->req);
+        eval_info.game->req.disappear();
 
         return 0;
 	}

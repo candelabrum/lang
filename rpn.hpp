@@ -64,10 +64,11 @@ public:
 
 struct EvalInfo
 {
-    EvalInfo(RPNItem **a_cur_cmd)
-    {
-        cur_cmd = a_cur_cmd;
-    }
+    EvalInfo(RPNItem **a_cur_cmd, Game *a_game)
+    {	
+		cur_cmd = a_cur_cmd;
+		game = a_game;
+	}
 
     RPNItem **cur_cmd;
     RPNStack stack;

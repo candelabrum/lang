@@ -215,3 +215,5 @@ bool RPNFunction::PopArgBool(RPNStack *stack) const
 
     return res;
 }
+
+

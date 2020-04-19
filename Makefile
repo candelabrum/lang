@@ -7,7 +7,7 @@ source_dirs := . first_step
 search_wildcards := $(addsuffix /*.cpp,$(source_dirs)) 
 
 main: $(notdir $(patsubst %.cpp,%.o,$(wildcard $(search_wildcards))))
-	$(CXX) $(CXXFLAGS) $^ string.o -o $@ >> G++LOG
+	$(CXX) $(CXXFLAGS) $^ mystr.o -o $@ >> G++LOG
 
 VPATH := $(source_dirs)
      
@@ -33,8 +33,7 @@ clean:
 	rm main 
 	gcc -Wall -g -c string.c -o string.o
 run: main
-	make string.o
-	valgrind --leak-check=full ./main src.txt
+	valgrind --leak-check=full ./main 0 4774 .create 2 bot src.txt
 runv: main 
 	valgrind ./main src.txt > VG_LOG
 	cat VG_LOG

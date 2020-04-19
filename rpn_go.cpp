@@ -50,3 +50,22 @@ RPNElem* RPNOp::Convert2RPNElem(lexeme *c_l) const
 
 	return new_elem_op;
 }
+
+RPNElem* RPNOp::PopArgLabel(RPNStack *stack) const
+{
+    RPNLabel *label;
+    RPNElem *res;
+
+    label = dynamic_cast<RPNLabel*>(stack->Pop());
+    if (!label)
+    {
+        fprintf(stderr, "GOOD BYE: IN FUNC2 has not BOOL\n");
+        exit(1);
+    }
+    
+    res = label->Get();
+    delete label;
+
+    return res;
+}
+

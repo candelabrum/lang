@@ -65,7 +65,7 @@ public:
 	virtual ~RPNLabel() {}
 	virtual RPNConst* Clone() const 
 		{ return new RPNLabel(value); }
-	RPNItem *Get() const { return value; }
+	RPNItem* Get() const { return value; }
 	void print() const { printf("Label");}
 };
 
