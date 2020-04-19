@@ -51,10 +51,10 @@ RPNElem* RPNOp::Convert2RPNElem(lexeme *c_l) const
 	return new_elem_op;
 }
 
-RPNElem* RPNOp::PopArgLabel(RPNStack *stack) const
+RPNItem* RPNOp::PopArgLabel(RPNStack *stack) const
 {
     RPNLabel *label;
-    RPNElem *res;
+    RPNItem *res;
 
     label = dynamic_cast<RPNLabel*>(stack->Pop());
     if (!label)
@@ -68,4 +68,3 @@ RPNElem* RPNOp::PopArgLabel(RPNStack *stack) const
 
     return res;
 }
-

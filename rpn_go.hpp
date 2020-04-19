@@ -10,7 +10,7 @@ class RPNOp : public RPNElem
 public: 
 	virtual RPNOp* Clone() const = 0;
 	RPNElem* Convert2RPNElem(lexeme *c_l) const;
-	RPNElem* PopArgLabel(RPNStack *stack) const;
+	RPNItem* PopArgLabel(RPNStack *stack) const;
 };
 
 class RPNOpGo : public RPNOp
@@ -22,7 +22,7 @@ public:
 	virtual void print() const { printf("OpGo"); }
 	void Evaluate(EvalInfo &eval_info) const 
 	{
-		RPNLabel *label;
+		RPNItem *label;
 
 		label = PopArgLabel(&eval_info.stack);
 		
@@ -42,12 +42,13 @@ public:
 	void Evaluate(EvalInfo &eval_info) const 
 	{
 		RPNBool *bl;
-		RPNElem *label;
+		RPNItem *label;
 
 		bl = PopArgBool(&eval_info.stack);
 		label = PopArgLabel(&eval_info.stack);
 		
-		eval_info.cur_cmd = label;
+		if (!(bl->Get())
+			eval_info.cur_cmd = &(label);
 
 //		delete bl; /* ? */
 //		delete label; /* ? */
