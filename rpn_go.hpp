@@ -47,9 +47,9 @@ public:
 		RPNItem *label;
 		bool bl;
 
-		bl = PopArgBool(&eval_info.stack);
 		label = PopArgLabel(&eval_info.stack);
-		
+		bl = PopArgBool(&eval_info.stack);
+
 		if (!bl)
 			eval_info.cur_cmd = &(label);
 

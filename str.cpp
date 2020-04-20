@@ -84,7 +84,6 @@ void string::print_f() const
 	printf("[%20.19s]", str);
 }
 
-
 string::string(const char *a_str)
 {
 	if (!a_str)
@@ -113,6 +112,8 @@ void string::set(const char *a_str)
 {
 	len = strlen(a_str);
 	max_len = len;
+	if (str)
+		delete [] str; /* ! */
 	str = new char[len + 1];
 	str[len] = 0;
 	strcpy(str, a_str);
