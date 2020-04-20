@@ -8,8 +8,7 @@
 class RPNOp : public RPNFunction 
 {
 public: 
-	virtual RPNElem* EvaluateFun(EvalInfo &eval_info) const
-		{ return 0; }
+	virtual RPNElem* EvaluateFun(EvalInfo &eval_info) const = 0;
 
 	virtual RPNOp* Clone() const = 0;
 /*	RPNElem* Convert2RPNElem(lexeme *c_l) const; */
@@ -23,7 +22,7 @@ public:
 		{ return new RPNOpGo(); }
 /*	virtual ~RPNOpGo() {};*/
 	virtual void print() const { printf("OpGo"); }
-	void Evaluate(EvalInfo &eval_info) const 
+	virtual RPNElem* EvaluateFun(EvalInfo &eval_info) const 
 	{
 		RPNItem *label;
 
@@ -32,6 +31,8 @@ public:
 		eval_info.cur_cmd = &(label);
 
 //		delete label; /* ? */
+
+		return 0;
 	}
 };
 
@@ -42,7 +43,7 @@ public:
 	virtual RPNOpGoFalse* Clone() const 
 		{ return new RPNOpGoFalse(); }
 	virtual void print() const { printf("OpGoFalse"); }
-	void Evaluate(EvalInfo &eval_info) const 
+	virtual RPNElem* EvaluateFun(EvalInfo &eval_info) const 
 	{
 		RPNItem *label;
 		bool bl;
@@ -55,13 +56,16 @@ public:
 
 //		delete bl; /* ? */
 //		delete label; /* ? */
+	
+		return 0;
 	}
 };
 
 class RPNNoop : public RPNOp
 {
 	
-	virtual void Evaluate(EvalInfo &eval_info) const {}
+	virtual RPNElem* EvaluateFun(EvalInfo &eval_info) const 
+		{ return 0; }
 public:
 /*	virtual ~RPNNoop(){};*/
 	virtual RPNNoop* Clone() const 
