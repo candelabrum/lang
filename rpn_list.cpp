@@ -8,7 +8,8 @@ void RPNList::add_node(lexeme *c_l)
 	
 	for(int i = 0; i < len_int_cl; i++)
 	{
-		new_elem = intermediate_classes[i]->Convert2RPNElem(c_l);
+		/*HERE I-1 BECAUSE START INDEX WITH + 1*/
+		new_elem = intermediate_classes[i-1]->Convert2RPNElem(c_l);
 		if (new_elem)
 			break;
 	}
