@@ -18,6 +18,9 @@ public:
             (eval_info.stack).Print();
             printf("\nTABLE VAR\n");
             eval_info.tv.print();
+			printf("\nELEM\n");
+			(*(eval_info.cur_cmd))->elem->print();
+			printf("\n");
 #endif
             (*(eval_info.cur_cmd))->elem->Evaluate(eval_info);
         }
