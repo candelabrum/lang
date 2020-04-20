@@ -1,6 +1,6 @@
-CXXFLAGS = -g -Wall -Wfatal-errors -D DEBUG_EXE
+CXXFLAGS = -g -Wall -Wfatal-errors -D DEBUG_EXE -D FIRST
 
-CXXFLAGSDEBUG = -g -Wall -Wfatal-errors -D DEBUG DEBUG_EXE
+CXXFLAGSDEBUG = -g -Wall -Wfatal-errors -D FIRST DEBUG_EXE DEBUG
 
 source_dirs := . first_step
 
@@ -38,7 +38,7 @@ runv: main
 	valgrind ./main src.txt > VG_LOG
 	cat VG_LOG
 gdb: main 
-	gdb --args ./main src.txt
+	gdb --args ./main 0 4774 .create 2 bot src.txt
 gdb_at: main 
 	valgrind --vgdb=yes --vgdb-error=1 ./main src.txt
 res:

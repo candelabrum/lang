@@ -37,15 +37,5 @@ public:
 
 /* 						--- Game Functions ---					*/ 
 
-class RPNFunPrint : public RPNFunction 
-{
-	RPNElem* EvaluateFun(EvalInfo &eval_info) const;
-public:
-	RPNFunPrint() {}
-	virtual ~RPNFunPrint() {}
-	virtual void print() const { printf("[Print]"); }
-	virtual	RPNFunction* Clone() const 
-	    { return new RPNFunPrint(); }
-};
 
 #endif

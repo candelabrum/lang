@@ -8,6 +8,7 @@
 #include "rpn_fbl.hpp"
 #include "rpn_var.hpp"
 #include "rpn_gfunc.hpp"
+#include "rpn_go.hpp"
 
 class RPNTableFunc
 {
@@ -58,8 +59,12 @@ class RPNTableFunc
 	RPNFunProd Prod, *prod = &Prod;
 	RPNFunEndTurn EndTurn, *end_turn = &EndTurn;
 	RPNFunPrint Print, *print = &Print;
+/* 						--- RPNOP ---							*/
+	RPNOpGo OpGo, *op_go = &OpGo;
+	RPNOpGoFalse OpGoFalse, *op_go_false = &OpGoFalse;
+	RPNNoop Noop, *noop = &Noop;
 
-	couple_rpn_func table[43] {
+	couple_rpn_func table[50] {
 /*					--- General functions ---					*/
 		{plus, lex_plus},
 		{minus, lex_minus},
@@ -101,6 +106,10 @@ class RPNTableFunc
 		{prod, lex_prod},
 		{end_turn, lex_end_turn},
 		{print, lex_print},
+/* 					--- RPN OP ---								*/
+		{op_go, lex_op_go},
+		{op_go_false, lex_op_go_false},
+		{noop, lex_noop},
 		{0, lex_null}
 	};
 
@@ -159,7 +168,7 @@ void RPNFunVar::print() const
 	printf("]");
 }
 
-RPNElem* RPNFunPrint::EvaluateFun(EvalInfo &eval_info) const
+/*RPNElem* RPNFunPrint::EvaluateFun(EvalInfo &eval_info) const
 {
     RPNStack *stack = &(eval_info.stack);
 #ifdef DEBUG_EXEC
@@ -178,7 +187,7 @@ RPNElem* RPNFunPrint::EvaluateFun(EvalInfo &eval_info) const
     }
 
 	return 0;
-}
+}*/
 
 double RPNFunction::PopArgDouble(RPNStack *stack) const
 {

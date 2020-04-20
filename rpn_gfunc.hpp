@@ -457,3 +457,15 @@ public:
 		return new RPNFunEndTurn(); 
 	}
 };
+
+class RPNFunPrint : public RPNFunction 
+{
+	RPNElem* EvaluateFun(EvalInfo &eval_info) const;
+public:
+	RPNFunPrint() {}
+	virtual ~RPNFunPrint() {}
+	virtual void print() const { printf("[Print]"); }
+	virtual	RPNFunction* Clone() const 
+	    { return new RPNFunPrint(); }
+};
+

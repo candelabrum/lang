@@ -225,7 +225,8 @@ string string::cut_line_start(char symbol)
 		return res;
 	res.add_to_len(index + 1);
 	memmove(res.str, str, index + 1);
-	memmove(str, str + index, len - index - 1);
+	/* in second argument was without 1 */
+	memmove(str, str + index + 1, len - index - 1);
 	(*this).add_to_len(-(index + 1));
 
 	return res;

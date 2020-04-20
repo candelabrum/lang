@@ -1,8 +1,9 @@
+#include <stdlib.h>
 #include "rpn.hpp"
 #include "lex.hpp"
 #include "rpn_go.hpp"
 
-class RPNTableOp
+/*class RPNTableOp
 {
 	struct couple_rpn_op
 	{
@@ -23,7 +24,6 @@ class RPNTableOp
 
 public:
 	RPNOp* search_by(type_lexeme type) const;
-	/* There should have been a binary search here */
 };
 
 RPNOp* RPNTableOp::search_by(type_lexeme t) const
@@ -50,6 +50,7 @@ RPNElem* RPNOp::Convert2RPNElem(lexeme *c_l) const
 
 	return new_elem_op;
 }
+*/
 
 RPNItem* RPNOp::PopArgLabel(RPNStack *stack) const
 {
