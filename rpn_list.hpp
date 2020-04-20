@@ -16,9 +16,10 @@ struct RPNList : RPNItem
 	RPNConst *r_const = &Double;
 	RPNFunPlus Plus;
 	RPNFunction *r_func = &Plus;
-	RPNOpGo Go;
-	RPNOp *r_op = &Go;
-	RPNElem* intermediate_classes[4] = {r_const, r_func, r_op, 0};
+/*	RPNOpGo Go;
+	RPNOp *r_op = &Go;*/
+	static const int len_int_cl = 2;
+	RPNElem* intermediate_classes[len_int_cl] = {r_func, r_const};
 
 /*							--- main ---						*/
 	RPNList(RPNItem *a_head = 0, RPNItem *a_end = 0) 

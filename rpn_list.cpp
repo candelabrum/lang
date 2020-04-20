@@ -6,7 +6,7 @@ void RPNList::add_node(lexeme *c_l)
 {
 	RPNElem *new_elem;
 	
-	for(int i = 0; i < 3; i++)
+	for(int i = 0; i < len_int_cl; i++)
 	{
 		new_elem = intermediate_classes[i]->Convert2RPNElem(c_l);
 		if (new_elem)
