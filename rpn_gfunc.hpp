@@ -443,6 +443,7 @@ class RPNFunEndTurn: public RPNFunc0
 {
 	RPNElem* EvaluateFun(EvalInfo &eval_info) const
 	{
+		eval_info.game->req.set_end_turn();
         eval_info.game->me.make_move(eval_info.game->gi, eval_info.game->req);
         eval_info.game->req.disappear();
 

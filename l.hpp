@@ -38,8 +38,7 @@ public:
 	void print_reverse();
 	bool is_empty();
 	void add_node_to_end(T& a_data);
-	~list(){/*nothing*/}
-	void free() {/* nothing*/}
+	void free() { Delete(); }
 };
 
 template <class T>

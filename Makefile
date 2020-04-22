@@ -1,4 +1,4 @@
-CXXFLAGS = -g -Wall -Wfatal-errors -D DEBUG_EXE -D FIRST
+CXXFLAGS = -g -Wall -Wfatal-errors -D DEBUG_EXE -D FIRST -D DEBUG
 
 CXXFLAGSDEBUG = -g -Wall -Wfatal-errors -D FIRST DEBUG_EXE DEBUG
 

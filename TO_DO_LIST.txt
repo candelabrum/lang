@@ -51,3 +51,4 @@ RPNDouble*/RPNConst*
 !!! Плохо сделано в set_info с установкой all_players !!!
 !!! Не работае без & data_info::set(///) ПОЧЕМУ ??? 
 !!! ПОЧЕМУ ИНДЕКСИРОВАНИЕ С -1????????? RPN_LIST.CPP :11
+!!! Плохая реализация set_end_turn !!!

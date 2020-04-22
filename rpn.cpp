@@ -27,7 +27,9 @@ void RPNItem::Print() const
 {
 	RPNItem *tmp = next;
     
-    elem->print();
+    if (!elem)
+		return;
+	elem->print();
     printf("->");
 	while(tmp)
 	{

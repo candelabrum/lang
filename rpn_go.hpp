@@ -28,7 +28,7 @@ public:
 
 		label = PopArgLabel(&eval_info.stack);
 		
-		eval_info.cur_cmd = &(label);
+		eval_info.cur_cmd = label;
 
 //		delete label; /* ? */
 
@@ -52,8 +52,7 @@ public:
 		bl = PopArgBool(&eval_info.stack);
 
 		if (!bl)
-			eval_info.cur_cmd = &(label); /* very bad place.
-												Invalid read here*/
+			eval_info.cur_cmd = label;
 
 //		delete bl; /* ? */
 //		delete label; /* ? */

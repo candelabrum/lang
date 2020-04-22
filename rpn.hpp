@@ -64,13 +64,13 @@ public:
 
 struct EvalInfo
 {
-    EvalInfo(RPNItem **a_cur_cmd, Game *a_game)
+    EvalInfo(RPNItem *a_cur_cmd, Game *a_game)
     {	
 		cur_cmd = a_cur_cmd;
 		game = a_game;
 	}
 
-    RPNItem **cur_cmd;
+    RPNItem *cur_cmd;
     RPNStack stack;
     TableVar tv;
     Game *game;
@@ -78,20 +78,7 @@ struct EvalInfo
     ~EvalInfo() { stack.Disappear(); }
     void next_cmd()
     {
-		if (cur_cmd)
-			printf("\n");
-		if (*cur_cmd)
-			printf("\n");
-		if ((*cur_cmd)->elem)
-		{
-			printf("ELEM IS \n");
-			(*cur_cmd)->elem->print();	
-			printf("END ELEM IS\n");
-		}
-        if ((*cur_cmd)->next)
-	        cur_cmd = &((*cur_cmd)->next);
-        else 
-            cur_cmd = 0;
+		cur_cmd = cur_cmd->next;
     }
 };
 
