@@ -1,11 +1,8 @@
-while(1 < 2)
+$a := 0;
+if (3 < 2)
 {
-	print("Hello");
-	buy(2, ?raw_price());
-	sell(?production(?my_id()), ?production_price());
-	$toprod := 2;
-	if (?raw(?my_id()) < $toprod)
-		$toprod := ?raw(?my_id());
-	prod($toprod);
-	end_turn()
-}
+	$a := 2;
+	$a := 4;
+	$a := 6
+};
+print("Hell")

@@ -52,7 +52,8 @@ public:
 		bl = PopArgBool(&eval_info.stack);
 
 		if (!bl)
-			eval_info.cur_cmd = &(label);
+			eval_info.cur_cmd = &(label); /* very bad place.
+												Invalid read here*/
 
 //		delete bl; /* ? */
 //		delete label; /* ? */

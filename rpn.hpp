@@ -78,6 +78,16 @@ struct EvalInfo
     ~EvalInfo() { stack.Disappear(); }
     void next_cmd()
     {
+		if (cur_cmd)
+			printf("\n");
+		if (*cur_cmd)
+			printf("\n");
+		if ((*cur_cmd)->elem)
+		{
+			printf("ELEM IS \n");
+			(*cur_cmd)->elem->print();	
+			printf("END ELEM IS\n");
+		}
         if ((*cur_cmd)->next)
 	        cur_cmd = &((*cur_cmd)->next);
         else 
