@@ -24,7 +24,9 @@ int main(int argc, char **argv)
 	if (!f)
 	    return 0;
 	interp.Run(f, game); 
-//	fclose(f);
+	fclose(f);
+
+	delete game;
 
 	return 0;
 }

@@ -441,11 +441,16 @@ public:
 
 class RPNFunEndTurn: public RPNFunc0
 {
-	RPNElem* EvaluateFun(EvalInfo &eval_info) const
+	RPNElem* EvaluateFun(EvalInfo &ei) const
 	{
-		eval_info.game->req.set_end_turn();
-        eval_info.game->me.make_move(eval_info.game->gi, eval_info.game->req);
-        eval_info.game->req.disappear();
+		int is_game_now;
+
+		ei.game->req.set_end_turn();
+        is_game_now = ei.game->me.make_move(ei.game->gi,
+													ei.game->req);
+		if (!is_game_now)
+			ei.cur_cmd = 0;
+        ei.game->req.disappear();
 
         return 0;
 	}
