@@ -1,6 +1,11 @@
-$i := 0;
-while($i < 2)
+while(1 < 2)
 {
 	print("Hello");
-	$i := $i + 1
+	buy(2, ?raw_price());
+	sell(?production(?my_id()), ?production_price());
+	$toprod := 2;
+	if (?raw(?my_id()) < $toprod)
+		$toprod := ?raw(?my_id());
+	prod($toprod);
+	end_turn()
 }

@@ -502,10 +502,12 @@ void SyntaxAnalyzer::StatWhile()
 	JmpAgain = rpn_lst.get_end();
 	
 	rpn_lst.insert_jmp(JmpAgain, Again);
+	
+	add_item(lex_op_go);
+
 	Escape = rpn_lst.get_end();
 	rpn_lst.insert_jmp(JmpEscape, Escape);
 
-	add_item(lex_op_go);
 }
 
 void SyntaxAnalyzer::ArgGmSt()
