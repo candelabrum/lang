@@ -1,6 +1,24 @@
 #include "l.hpp"
 
 template <>
+void list<char**>::free()
+{
+	node *tmp;
+	
+	if (head)
+		printf("DESTRUCTOR\n");
+	while(head)
+	{
+		tmp = head;
+		head = head->next;
+		free_argv(tmp->data);
+		delete tmp;
+	}
+	head = 0;
+	end = 0;
+}
+
+template <>
 void list<char*>::print_data(char* str) const
 {
 	if (str)

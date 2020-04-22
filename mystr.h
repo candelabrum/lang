@@ -18,7 +18,7 @@ int len_of_number(int number);
 void str_move(char *str1, char *str2, int len);
 char* int_to_str(int number);
 char any_str_equal(const char *str, const char **argV);
-
+void free_argv(char **argv);
 
 #ifdef __cplusplus
 }

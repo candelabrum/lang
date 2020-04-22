@@ -406,3 +406,16 @@ char** make_argv(char *str)
 	
 	return argv;
 }
+
+void free_argv(char **argv)
+{
+	int i = 0;
+
+	if (!argv)
+		return;
+	while(argv[i])
+	{
+		free(argv[i]);
+		i++;
+	}
+}

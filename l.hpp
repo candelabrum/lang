@@ -147,6 +147,9 @@ void list<T>::Delete()
 	end = 0;
 }
 
+
+
+
 template <class T>
 void list<T>::print_data(T data) const
 {
