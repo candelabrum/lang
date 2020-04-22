@@ -78,7 +78,8 @@ struct EvalInfo
     ~EvalInfo() { stack.Disappear(); }
     void next_cmd()
     {
-		cur_cmd = cur_cmd->next;
+		if (cur_cmd)
+			cur_cmd = cur_cmd->next;
     }
 };
 

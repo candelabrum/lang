@@ -1,11 +1,4 @@
 while(1 < 2)
 {
-	print("Hello");
-	buy(2, ?raw_price());
-	sell(?production(?my_id()), ?production_price());
-	$toprod := 2;
-	if (?raw(?my_id()) < $toprod)
-		$toprod := ?raw(?my_id());
-	prod($toprod);
-	end_turn()
+	print("Hello")
 }

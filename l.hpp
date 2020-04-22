@@ -106,7 +106,10 @@ T* list<T>::get_node(unsigned int index) const
 	unsigned int i = 0;
 
 	while(tmp && i < index)
+	{
 		tmp = tmp->next;
+		i++;
+	}
 
 	if (i == index)
 		return &(tmp->data);
