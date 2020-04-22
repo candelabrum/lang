@@ -15,6 +15,12 @@
 	return i;
 }
 */
+void string::set(const string &a_str)
+{
+	delete [] str;
+	this->operator=(a_str);
+}
+
 void string::concat_ind(char *index)
 {
     char *new_str;
