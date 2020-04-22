@@ -9,6 +9,7 @@
 #include "rpn_fcmp.hpp"
 #include "rpn_fbl.hpp"
 
+
 struct RPNList : RPNItem
 {
 /* 					--- intermediate_classes --- 				*/
@@ -26,6 +27,15 @@ struct RPNList : RPNItem
 	{ 
 		head = a_head; 
 		end = a_end;
+		if (!(head || end))
+		{
+			RPNNoop *head_noop = new RPNNoop();
+			RPNNoop *end_noop = new RPNNoop();
+
+			head = new RPNItem(head_noop);
+			end = new RPNItem(end_noop);
+			head->next = end;
+		}
 	} 
 	RPNItem *head;
 	RPNItem *end;

@@ -62,7 +62,6 @@ class RPNTableFunc
 /* 						--- RPNOP ---							*/
 	RPNOpGo OpGo, *op_go = &OpGo;
 	RPNOpGoFalse OpGoFalse, *op_go_false = &OpGoFalse;
-	RPNNoop Noop, *noop = &Noop;
 
 	couple_rpn_func table[50] {
 /*					--- General functions ---					*/
@@ -109,7 +108,6 @@ class RPNTableFunc
 /* 					--- RPN OP ---								*/
 		{op_go, lex_op_go},
 		{op_go_false, lex_op_go_false},
-		{noop, lex_noop},
 		{0, lex_null}
 	};
 

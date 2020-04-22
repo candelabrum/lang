@@ -83,4 +83,22 @@ struct EvalInfo
     }
 };
 
+class RPNNoop : public RPNElem
+{
+	
+	virtual void Evaluate(EvalInfo &eval_info) const 
+		{ eval_info.next_cmd(); }
+public:
+	virtual RPNNoop* Clone() const 
+		{ return new RPNNoop(); }
+
+	void print() const { printf("Noop"); }
+	virtual RPNElem* Convert2RPNElem(lexeme *l) const
+	{
+		if (l->type == lex_noop)
+			return Clone();
+		return 0;
+	}
+};
+
 #endif

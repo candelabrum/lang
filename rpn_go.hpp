@@ -61,17 +61,4 @@ public:
 	}
 };
 
-class RPNNoop : public RPNOp
-{
-	
-	virtual RPNElem* EvaluateFun(EvalInfo &eval_info) const 
-		{ return 0; }
-public:
-/*	virtual ~RPNNoop(){};*/
-	virtual RPNNoop* Clone() const 
-		{ return new RPNNoop(); }
-
-	void print() const { printf("Noop"); }
-};
-
 #endif
