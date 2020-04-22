@@ -153,6 +153,7 @@ void string::set(char *a_str, int a_len)
 {
 	len = a_len;
 	max_len = a_len;
+	delete [] str;
 	str = new char[len + 1];
 	memmove(str, a_str, a_len);
 	str[a_len] = 0;
