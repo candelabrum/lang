@@ -418,4 +418,5 @@ void free_argv(char **argv)
 		free(argv[i]);
 		i++;
 	}
+	free(argv);
 }

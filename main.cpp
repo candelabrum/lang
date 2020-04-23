@@ -26,6 +26,8 @@ int main(int argc, char **argv)
 	interp.Run(f, game); 
 	fclose(f);
 
+	game->gi->disappear();
+
 	delete game;
 
 	return 0;

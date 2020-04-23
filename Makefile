@@ -1,4 +1,4 @@
-CXXFLAGS = -g -Wall -Wfatal-errors -D FIRST 
+CXXFLAGS = -g -Wall -Wfatal-errors 
 
 CXXFLAGSDEBUG = -g -Wall -Wfatal-errors -D FIRST DEBUG_EXE DEBUG
 
@@ -33,7 +33,7 @@ clean:
 	rm main 
 	gcc -Wall -g -c string.c -o string.o
 run: main
-	valgrind --leak-check=full ./main 0 4774 .create 2 bot src.txt > VG_LOG
+	valgrind ./main 0 4774 .create 2 bot src.txt
 runv: main 
 	valgrind ./main src.txt > VG_LOG
 	cat VG_LOG
