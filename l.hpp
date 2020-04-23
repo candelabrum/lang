@@ -135,8 +135,6 @@ void list<T>::Delete()
 {
 	node *tmp;
 	
-	if (head)
-		printf("DESTRUCTOR\n");
 	while(head)
 	{
 		tmp = head;

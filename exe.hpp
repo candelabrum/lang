@@ -8,8 +8,6 @@ public:
         RPNItem *save_head; 
         
 		EvalInfo eval_info(rpn_lst.head, game);
-        printf("Something executing...");
-		rpn_lst.print();
         save_head = rpn_lst.head;
 
         while(eval_info.cur_cmd)

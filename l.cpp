@@ -5,8 +5,6 @@ void list<char**>::free()
 {
 	node *tmp;
 	
-	if (head)
-		printf("ARGV DESTRUCTOR\n");
 	while(head)
 	{
 		tmp = head;

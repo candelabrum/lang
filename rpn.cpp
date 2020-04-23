@@ -44,11 +44,8 @@ void RPNItem::Disappear()
 	RPNItem *tmp;
 	RPNItem **next_item = &next;
 
-	if (*next_item)
-		printf("DESTRUCTOR\n");
 	while(next)
 	{
-		printf("\nKILL!\n");
 		tmp = *next_item;
 		*next_item = (*next_item)->next;
         tmp->delete_elem();

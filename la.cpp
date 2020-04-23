@@ -60,10 +60,6 @@ list<lexeme> LexicalAnalyzer::start(FILE *f)
 		}	
 		fsm.make_step((char)c); /* maybe bad */
 	}
-	putchar('\n');
-	printf("        String         ||       Type     ||   Line:\n");  
-	printf("=====================================================\n");
-	(fsm.get_lst()).print();
 	
 	return fsm.get_lst();
 }

@@ -20,9 +20,6 @@ RPNList& SyntaxAnalyzer::Start(list<lexeme> a_lst)
 	StatList();
 	ProcessTermSym(lex_fin, "Expected end of file. "
 								"Probably you don't write ;\n");
-	printf("PRINT LIST\n");
-	rpn_lst.print();
-	printf("\nAlready done\n");
 
 	return rpn_lst;
 }
