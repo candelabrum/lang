@@ -6,7 +6,7 @@ void list<char**>::free()
 	node *tmp;
 	
 	if (head)
-		printf("DESTRUCTOR\n");
+		printf("ARGV DESTRUCTOR\n");
 	while(head)
 	{
 		tmp = head;

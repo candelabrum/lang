@@ -40,7 +40,7 @@ runv: main
 gdb: main 
 	gdb --args ./main 0 4774 .create 2 bot src.txt
 gdb_at: main 
-	valgrind --vgdb=yes --vgdb-error=1 ./main src.txt
+	valgrind --vgdb=yes --vgdb-error=1 ./main src.txt 
 res:
 	make clean
 	make run
