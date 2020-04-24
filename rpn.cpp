@@ -54,7 +54,7 @@ void RPNItem::Disappear()
 	*next_item = 0;
 	elem->print();
     delete_elem();
-    delete this;
+//  delete this;
 }
 
 void RPNItem::delete_elem()

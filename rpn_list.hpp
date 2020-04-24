@@ -45,6 +45,13 @@ struct RPNList : RPNItem
     { 
         if (head)
             head->Disappear(); 
+		delete head;
+	}
+	void operator=(const RPNList &other)
+	{
+		disappear();
+		head = other.head;
+		end = other.end;
 	}
 	void print() const { head->Print(); }
 	void insert_jmp(RPNItem *old_label, RPNItem *new_label);

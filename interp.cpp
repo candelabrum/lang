@@ -23,6 +23,7 @@ int Interpretator::Run(FILE *f, Game *game)
 		return 1;
 	}
 	lst.Delete();
+	rpn_list.print();
 	executor.Execute(rpn_list, game);
 	rpn_list.disappear();
 
