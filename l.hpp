@@ -39,6 +39,8 @@ public:
 	bool is_empty();
 	void add_node_to_end(T& a_data);
 	void free() { Delete(); }
+	T* get_ptr_data(unsigned int index);
+
 };
 
 template <class T>
@@ -105,13 +107,15 @@ T* list<T>::get_node(unsigned int index) const
 	node *tmp = head;
 	unsigned int i = 0;
 
+	if (!tmp)
+		return 0;
 	while(tmp && i < index)
 	{
 		tmp = tmp->next;
 		i++;
 	}
 
-	if (i == index)
+	if (tmp && i == index)
 		return &(tmp->data);
 	
 	return 0;
@@ -120,6 +124,12 @@ T* list<T>::get_node(unsigned int index) const
 template <class T>
 void list<T>::delete_nodes(type_lexeme t)
 {}
+
+template <class T>
+T* list<T>::get_ptr_data(unsigned int index)
+{
+	return get_node(index);
+}
 
 template <class T>
 T& list<T>::get_data(unsigned int index)

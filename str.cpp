@@ -85,6 +85,11 @@ void string::print() const
 	printf("%s", str);
 }
 
+void string::print_ff() const
+{
+	printf(str);
+}
+
 void string::print_f() const
 {
 	printf("[%20.19s]", str);
