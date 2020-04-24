@@ -7,6 +7,8 @@ if (?raw(?my_id()) < $toprod)
 	$toprod := ?raw(?my_id());
 prod($toprod);
 $turn := $turn + 1;
+$prod_pr := ?production_price();
+$raw_pr := ?raw_price();
 
 while(1 < 2)
 {
@@ -25,46 +27,50 @@ while(1 < 2)
 		$i := $i + 1
 	};
 	$i := 0;
-	while($i < ?active_players())
+	while($i <= ?active_players())
 	{
 		if (?result_prod_price($i) > 0)
 			$curty_prod[$i] := ?result_prod_price($i) -
-											?production_price();
+											$prod_pr;
 		print("result_prod_price", ?result_prod_price($i));
-		print("production_price", ?production_price(), "\n");
+		print("production_price(prev)", $prod_pr, "\n");
 		$i := $i + 1
 	};
 #   Curiosity of players : criteria - raw 
 	$i := 0;
-	while($i < ?active_players())
+	while($i <= ?active_players())
 	{
 		if (?result_prod_price($i) > 0)
 			$curty_raw[$i] := ?result_raw_price($i) -
-											?raw_price();
+											$raw_price;
 		$i := $i + 1
 	
 	}; 
 	$i := 0;
-	while($i < ?active_players())
+	while($i <= ?active_players())
 	{
 		print("Curiosity by product: ", $curty_prod[$i], "\n");
 		$i := $i + 1
 	}; 
+	$prod_pr := ?production_price();
+	$raw_pr := ?raw_price();
+#_______________________END_TURN________________________________
+	end_turn();
 	$i := 0;
 #   Will be deficit of product in current move?
-	while($i < ?active_players())
+	while($i <= ?active_players())
 	{
 		$product_pl:= $product_pl+ ?production($i);
 		$i := $i + 1
 	};
 #   Will be deficit of raw in current move ?
 	$i := 0;
-	while($i < ?active_players())
+	while($i <= ?active_players())
 	{
 		if (?raw($i) <= ?factories($i))
 			$def_pl_raw := ?factories($i);
 		if (?raw($i) > ?factories($i))
-			$def_pl_raw := 2*?factories - ?raw($i);
+			$def_pl_raw := 2*?factories($i) - ?raw($i);
 		$deficit := $deficit + $def_pl_raw;
 		$def_pl_raw := 0;
 		$i := $i + 1
@@ -94,6 +100,5 @@ while(1 < 2)
 			$toprod := ?raw(?my_id());
 		prod($toprod);
 		$turn := $turn + 1
-	};
-	end_turn()
+	}
 }

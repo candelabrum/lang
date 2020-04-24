@@ -329,14 +329,13 @@ public:
 
 class RPNFunResultProdPrice: public RPNFunc1
 {
-	RPNElem* EvaluateFun(EvalInfo &eval_info) const
+	RPNElem* EvaluateFun(EvalInfo &ei) const
 	{
 		RPNDouble *res;
         double a;
         
-        a = PopArgDouble(&eval_info.stack);
-        res = new RPNDouble(
-            eval_info.game->gi->result_prod_price(a));
+        a = PopArgDouble(&ei.stack);
+        res = new RPNDouble(ei.game->gi->result_prod_price(a));
 
 		return res;
 	}
