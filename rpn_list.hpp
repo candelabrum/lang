@@ -45,7 +45,7 @@ struct RPNList : RPNItem
     { 
         if (head)
             head->Disappear(); 
-    }
+	}
 	void print() const { head->Print(); }
 	void insert_jmp(RPNItem *old_label, RPNItem *new_label);
 	RPNItem* get_head() { return head; }
