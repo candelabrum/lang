@@ -50,12 +50,7 @@ class RPNFunGeq: public RPNFunCmp
 public:
 	RPNFunGeq() {}
 	virtual ~RPNFunGeq() {}
-	RPNElem* EvaluateFun(RPNItem *stack) const
-	{
-		/* Here should be body */
-		return 0;
-	}
-    bool EvalOperation(double a1, double a2) const
+	bool EvalOperation(double a1, double a2) const
         { return a1 >= a2; }
 
 	virtual void print() const { printf("[>=]"); }
@@ -65,16 +60,11 @@ public:
 
 class RPNFunEqual: public RPNFunCmp 
 {
-	RPNElem* EvaluateFun(RPNItem *stack) const
-	{
-		/* Here should be body */
-		return 0;
-	}
 public:
 	RPNFunEqual() {}
 	virtual ~RPNFunEqual() {}
     bool EvalOperation(double a1, double a2) const
-        { return a1 >= a2; }
+        { return a1 == a2; }
     virtual void print() const { printf("[=]"); }
 	virtual	RPNFunction* Clone() const 
         { return new RPNFunEqual(); }

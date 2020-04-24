@@ -30,8 +30,9 @@ void string::concat_ind(char *index)
     new_str = new char[2*len + 1];
 
     snprintf(new_str, 2*len + 1, "%s[%s]", str, index);
+#ifdef DEBUG_EXE
     printf(" AFTER CONCAT %s\n", new_str);
-
+#endif
     delete [] str;
     str = new_str;
 }
