@@ -62,7 +62,7 @@ while(1 < 2)
 	$i := 0;
 	while($i < ?active_players())
 	{
-		print("Curiosity by product: ", curty_prod[i]);
+		print("Curiosity by product: ", curty_prod[i], "\n");
 		$i := $i + 1
 	} 
 }

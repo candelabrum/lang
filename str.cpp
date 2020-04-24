@@ -90,6 +90,20 @@ void string::print_ff() const
 	printf(str);
 }
 
+void string::print_pc() const
+{
+	int len1 = len - 1;
+
+	for(int i = 1; i < len1; i++)
+		if (str[i] == '\\' && i < len - 2 && str[i + 1] == 'n')
+		{
+			putchar('\n');
+			i++;
+		}
+		else
+			putchar(str[i]);
+}
+
 void string::print_f() const
 {
 	printf("[%20.19s]", str);

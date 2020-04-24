@@ -25,7 +25,7 @@ public:
 	virtual RPNConst* Clone() const 
 		{ return new RPNStringLiteral(value); }
 	string& Get() { return value; }
-	void print() const { value.print_ff(); }
+	void print() const { value.print_pc(); }
 };
 
 class RPNDouble	: public RPNConst	/* Maybe real like in Pascal */
