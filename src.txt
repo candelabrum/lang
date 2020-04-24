@@ -2,44 +2,12 @@ $turn := 0;
 
 while(1 < 2)
 {
-	$flag := 0;
-	$raw_players := 0;
-	$i := 0;
-	$product_pl := 0;
-	$deficit := 0;
-	while($i < ?active_players())
-	{
-		$product_pl:= $product_pl+ ?production($i);
-		$i := $i + 1
-	};
-	$i := 0;
-	while($i < ?active_players())
-	{
-		$deficit := $deficit + ?raw($i) - ?factories($i);
-		$i := $i + 1
-	};
-	if ($product_pl <= ?demand() & $deficit <= ?supply())
-	{
-		$flag := 1;
-		print("Is good move ");	
-		buy(2, ?raw_price());
-		sell(?production(?my_id()), ?production_price());
-		$toprod := 2;
-		if (?raw(?my_id()) < $toprod)
-			$toprod := ?raw(?my_id());
-		prod($toprod);
-		$turn := $turn + 1;
-		end_turn()
-	};
-
-	if ($product_pl > ?demand() & $flag > 0)
-	{
-		print("Is bad move ");
-		end_turn()
-	}
-	$i := 0;
-	while($i < ?active_players())
-	{
-		curty_prod[i] := ?
-
+	buy(2, ?raw_price());
+	sell(?production(?my_id()), ?production_price());
+	$toprod := 2;
+	if (?raw(?my_id()) < $toprod)
+		$toprod := ?raw(?my_id());
+	prod($toprod);
+	$turn := $turn + 1;
+	end_turn()
 }
