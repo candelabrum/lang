@@ -157,7 +157,9 @@ class Whole_to_Home : public Edge
 public:
 	bool condition(char sym, lexeme& c_l)
 	{
-		return IsWhiteSpace(sym) || IsDelimiter(sym) || IsLetter(sym) || sym == '@';
+		return IsWhiteSpace(sym) || IsDelimiter(sym) 
+			|| IsLetter(sym) || sym == '@' 
+			|| sym == '<' || sym == '>';
 	}
 	void transition(char sym, lexeme& c_l, list<lexeme>& lst)
 	{
@@ -212,7 +214,7 @@ public:
 	bool condition(char sym, lexeme& c_l) 
 	{ 
 		return IsWhiteSpace(sym) || IsDelimiter(sym) ||
-			IsLetter(sym) || sym == '@'; 
+			IsLetter(sym) || sym == '@' || sym == '<' || sym == '>'; 
 	}
 	void transition(char sym, lexeme& c_l, list<lexeme>& lst)
 	{
@@ -269,7 +271,8 @@ public:
 
 bool Identificator_to_Home::auxiliary_cond(char s)
 {
-	return IsWhiteSpace(s) || IsDelimiter(s) || s == '@' || s == ':'; 
+	return IsWhiteSpace(s) || IsDelimiter(s) || s == '@' 
+			|| s == ':' || s == '<' || s == '>'; 
 }
 
 class Identificator_to_Identificator  : public Edge
@@ -410,8 +413,9 @@ class ServiceWord_to_Home : public Edge
 public:
 	bool condition(char s, lexeme& c_l)
 	{
-		return (IsWhiteSpace(s) || IsDelimiter(s) || s == '@') && 
-			TableKeyWords.search_by(c_l.lex) != lex_null;
+		return (IsWhiteSpace(s) || IsDelimiter(s) || s == '@'
+			|| s == '<' || s == '>') &&
+		 TableKeyWords.search_by(c_l.lex) != lex_null;
 	}
 	void transition(char sym, lexeme& c_l, list<lexeme>& lst)
 	{

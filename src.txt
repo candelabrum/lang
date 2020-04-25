@@ -19,7 +19,7 @@ $i := 0;
 $product_pl := 0;
 $deficit := 0;
 $def_pl_raw := 0;
-while($i < ?active_players())
+while($i <= ?active_players())
 {
 	$curty_prod[$i] := 0;
 	$curty_raw[$i] := 0;
@@ -54,7 +54,7 @@ while($i <= ?active_players())
 #___________________print curty______________________
 #____________________________________________________
 $i := 0;
-while($i <= ?active_players())
+while($i<= ?active_players())
 {
 	print("Curiosity by product: ", $curty_prod[$i], "\n");
 	print("Curiosity by raw: ", $curty_raw[$i], "\n");
@@ -113,7 +113,7 @@ while(1 < 2)
 	$turn_curty_raw := $turn_curty_raw + 1;
 	$extreme := 0;
 
-	while($i < ?active_players())
+	while($i <= ?active_players())
 	{
 		$curty_prod[$i] := 0;
 		$curty_raw[$i] := 0;
