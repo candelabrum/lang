@@ -1,6 +1,7 @@
 $turn := 0;
 $turn_curty_pr := 1;
 $turn_curty_raw := 1;
+# $to_extreme := 100;
 
 buy(2, ?raw_price());
 sell(?production(?my_id()), ?production_price());
@@ -224,6 +225,19 @@ while(1 < 2)
 	print("DEFICIT ", $deficit, "\n");
 	print("SUPPLY ", ?supply(), "\n");
 
+	if (?raw(?my_id()) <= ?factories(?my_id()))
+		$def_my_raw := ?factories(?my_id());
+	if (?raw(?my_id()) > ?factories(?my_id()))
+		$def_my_raw := 2*?factories(?my_id()) - 
+												?raw(?my_id());	
+	if ($def_my_raw > ?supply())
+		$def_my_raw := ?supply();
+
+	$taxes := ?raw(?my_id())*300 + ?production(?my_id())*500 
+					+ 1000*?factories(?my_id()) 
+					+ 2000*?production(?my_id()) 
+					+ $def_my_raw*?raw_price();
+
 	if ($product_pl > ?demand())
 		print("Deficit by product\n");
 	if ($deficit > ?supply())
@@ -231,15 +245,13 @@ while(1 < 2)
 #____________________________________________________________
 # 	If deficit is not now
 #____________________________________________________________
+
 	if ($product_pl <= ?demand() & $deficit <= ?supply())
 	{
 		$flag := 1;
 		print("Is good move\n ");	
-		if (?raw(?my_id()) <= ?factories(?my_id()))
-			$def_my_raw := ?factories(?my_id());
-		if (?raw(?my_id()) > ?factories(?my_id()))
-			$def_my_raw := 2*?factories(?my_id()) - 
-												?raw(?my_id());	
+	#	if ($taxes < ?money(?my_id()) - 50000)
+	#		build(1);
 		buy($def_my_raw, ?raw_price());
 		$to_sell := ?demand();
 		if ($to_sell > ?production(?my_id()))
@@ -257,17 +269,15 @@ while(1 < 2)
 	{
 		print("flag = ", $flag);
 		print("Is bad move\n ");
-		if (?raw(?my_id()) <= ?factories(?my_id()))
-			$def_my_raw := ?factories(?my_id());
-		if (?raw(?my_id()) > ?factories(?my_id()))
-			$def_my_raw := 2*?factories(?my_id()) - 
-													?raw(?my_id());
-		$taxes := ?raw(?my_id())*300 + ?production(?my_id())*500 
-					+ 1000*?factories(?my_id()) 
-					+ 2000*?production(?my_id()) 
-					+ $def_my_raw*?raw_price();
+	#	if ($taxes < ?money(?my_id()) - 50000)
+	#		build(1);
+
 		if ($taxes > ?money(?my_id()))
-			$extreme := 100;
+		{
+#			$extreme := $to_extreme;
+#			$to_extreme := $to_extreme + 50 
+			$extreme := 100
+		};
 					
 #________________________RAW_DEFICIT_______________
 		if ($deficit > ?supply()) 		#deficit by raw
