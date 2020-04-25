@@ -110,6 +110,7 @@ while(1 < 2)
 	$def_pl_raw := 0;
 	$turn_curty_pr := $turn_curty_pr + 1;
 	$turn_curty_raw := $turn_curty_raw + 1;
+	$extreme := 0;
 
 	while($i < ?active_players())
 	{
@@ -256,24 +257,34 @@ while(1 < 2)
 	{
 		print("flag = ", $flag);
 		print("Is bad move\n ");
+		if (?raw(?my_id()) <= ?factories(?my_id()))
+			$def_my_raw := ?factories(?my_id());
+		if (?raw(?my_id()) > ?factories(?my_id()))
+			$def_my_raw := 2*?factories(?my_id()) - 
+													?raw(?my_id());
+		$taxes := ?raw(?my_id())*300 + ?production(?my_id())*500 
+					+ 1000*?factories(?my_id()) 
+					+ 2000*?production(?my_id()) 
+					+ $def_my_raw*?raw_price();
+		if ($taxes > ?money(?my_id()))
+			$extreme := 100;
+					
+#________________________RAW_DEFICIT_______________
 		if ($deficit > ?supply()) 		#deficit by raw
 		{
-			if (?raw(?my_id()) <= ?factories(?my_id()))
-				$def_my_raw := ?factories(?my_id());
-			if (?raw(?my_id()) > ?factories(?my_id()))
-				$def_my_raw := 2*?factories(?my_id()) - 
-													?raw(?my_id());
+			
 			print("AVER_RAW IS ", $aver_raw);
 			print("TURN_CURTY_RAW  IS ", $turn_curty_pr, "\n");
 			buy($def_my_raw,
 				?raw_price() + $aver_raw/$turn_curty_raw + 1)
 		};
 		if ($deficit <= ?supply())
-			buy(2, ?raw_price());
+			buy($def_my_raw, ?raw_price());
 		print("PRODUCT_PL ", $product_pl, "\n");
 		print("DEMAND ", ?demand(), "\n");
 		print("DEFICIT ", $deficit, "\n");
 		print("SUPPLY ", ?supply(), "\n");
+#____________________SELL_DEFICIT _____________________
 		$to_sell := ?demand();
 		if ($to_sell > ?production(?my_id()))
 			$to_sell := ?production(?my_id());
@@ -282,7 +293,8 @@ while(1 < 2)
 			print("AVER_PR IS ", $aver_pr, "\n");
 			print("TURN_CURTY_PR ", $turn_curty_pr, "\n");
 			sell($to_sell, 
-				?production_price() - $aver_pr/$turn_curty_pr - 1)
+				?production_price() -
+					$extreme -$aver_pr/$turn_curty_pr - 1)
 		};
 		if ($product_pl <= ?demand())
 			sell($to_sell, ?production_price());
