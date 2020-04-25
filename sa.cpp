@@ -263,8 +263,10 @@ void SyntaxAnalyzer::BoolExpr2()
 	else
 	if (c_l->type == lex_neg)
 	{
+		operation = c_l;
 		get_lex();
 		BoolExpr2();
+		rpn_lst.add_node(operation);
 	}
 	else
 		throw SAException(*c_l, "BoolExpression: "

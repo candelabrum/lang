@@ -19,7 +19,6 @@ while(1 < 2)
 	$product_pl := 0;
 	$deficit := 0;
 	$def_pl_raw := 0;
-#   Curiosity of players : criteria - product 
 	while($i < ?active_players())
 	{
 		$curty_prod[$i] := 0;
@@ -27,6 +26,7 @@ while(1 < 2)
 		$i := $i + 1
 	};
 	$i := 0;
+#   Curiosity of players : criteria - product 
 	while($i <= ?active_players())
 	{
 		if (?result_prod_price($i) > 0)
@@ -40,18 +40,45 @@ while(1 < 2)
 	$i := 0;
 	while($i <= ?active_players())
 	{
-		if (?result_prod_price($i) > 0)
+		if (?result_raw_price($i) > 0)
 			$curty_raw[$i] := ?result_raw_price($i) -
-											$raw_price;
+											$raw_pr;
+		print("result_raw_price", ?result_raw_price($i));
+		print("raw_price(prev)", $raw_pr, "\n");
 		$i := $i + 1
-	
 	}; 
+#________________________print curty ________________
 	$i := 0;
 	while($i <= ?active_players())
 	{
 		print("Curiosity by product: ", $curty_prod[$i], "\n");
+		print("Curiosity by raw: ", $curty_raw[$i], "\n");
 		$i := $i + 1
 	}; 
+#					EVALUATE AVERAGE_PRODUCT	
+	$aver_pr := 0;
+	$i := 0;
+	while($i <= ?active_players())
+	{
+		if (![$i = ?my_id()])
+			$aver_pr := $aver_pr + $curty_prod[$i];
+		$i := $i + 1
+	};
+	$aver_pr := $aver_pr /(?active_players() - 1);
+	print("Average curty_pr is ", $aver_pr, "\n");
+#	___________________________________________________________
+#				EVALUATE AVERAGE_RAW
+	$aver_raw := 0;
+	$i := 0;
+	while($i <= ?active_players())
+	{
+		if (![$i = ?my_id()])
+			$aver_raw := $aver_raw + $curty_raw[$i];
+		$i := $i + 1
+	};
+	$aver_raw:= $aver_raw /(?active_players() - 1);
+	print("Average curty_raw is ", $aver_raw, "\n");
+# _________________________________________________________
 	$prod_pr := ?production_price();
 	$raw_pr := ?raw_price();
 #_______________________END_TURN________________________________
@@ -75,6 +102,10 @@ while(1 < 2)
 		$def_pl_raw := 0;
 		$i := $i + 1
 	};
+	if ($product_pl > ?demand())
+		print("Deficit by product\n");
+	if ($deficit > ?supply())
+		print("Deficit by raw\n");
 # 	If deficit 
 	if ($product_pl <= ?demand() & $deficit <= ?supply())
 	{

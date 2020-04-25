@@ -53,11 +53,11 @@ RPNElem* RPNConst::Convert2RPNElem(lexeme *c_l) const
 void RPNDouble::set(string& number)
 { 
 	char *str = number.get_str();
-	int res;
+	double res;
 
-	str_to_int(str, &res);
+	sscanf(str, "%lf", &res);
 //	printf("%s VALUE %d\n", str, res);
-	value = (double)res;
+	value = res;
 
 	delete [] str;
 }

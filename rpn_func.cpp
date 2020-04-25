@@ -80,6 +80,7 @@ class RPNTableFunc
 		{equal, lex_equality},
 		{_or, lex_or},
 		{_and, lex_and},
+		{_not, lex_neg},
 /*					--- Functions for Game ---					*/
 		{my_id, lex_my_id},
 		{turn, lex_turn},
