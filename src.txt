@@ -1,4 +1,6 @@
 $turn := 0;
+$turn_curty_pr := 1;
+$turn_curty_raw := 1;
 
 buy(2, ?raw_price());
 sell(?production(?my_id()), ?production_price());
@@ -12,7 +14,6 @@ $raw_pr := ?raw_price();
 
 while(1 < 2)
 {
-	print("The current number move is ", $turn, "\n");
 	$flag := 0;
 	$raw_players := 0;
 	$i := 0;
@@ -26,17 +27,20 @@ while(1 < 2)
 		$i := $i + 1
 	};
 	$i := 0;
+#______________________________________________________________
 #   Curiosity of players : criteria - product 
+#_____________________________________________________________
 	while($i <= ?active_players())
 	{
 		if (?result_prod_price($i) > 0)
-			$curty_prod[$i] := ?result_prod_price($i) -
-											$prod_pr;
+			$curty_prod[$i] := $prod_pr - ?result_prod_price($i);
 		print("result_prod_price", ?result_prod_price($i));
 		print("production_price(prev)", $prod_pr, "\n");
 		$i := $i + 1
 	};
+#____________________________________________________
 #   Curiosity of players : criteria - raw 
+#____________________________________________________
 	$i := 0;
 	while($i <= ?active_players())
 	{
@@ -46,8 +50,10 @@ while(1 < 2)
 		print("result_raw_price", ?result_raw_price($i));
 		print("raw_price(prev)", $raw_pr, "\n");
 		$i := $i + 1
-	}; 
-#________________________print curty ________________
+	};
+#____________________________________________________
+#___________________print curty______________________
+#____________________________________________________
 	$i := 0;
 	while($i <= ?active_players())
 	{
@@ -55,42 +61,57 @@ while(1 < 2)
 		print("Curiosity by raw: ", $curty_raw[$i], "\n");
 		$i := $i + 1
 	}; 
+#_________________________________________________________
 #					EVALUATE AVERAGE_PRODUCT	
-	$aver_pr := 0;
+#_________________________________________________________
+	$aver_pr_c := 0;
 	$i := 0;
 	while($i <= ?active_players())
 	{
 		if (![$i = ?my_id()])
-			$aver_pr := $aver_pr + $curty_prod[$i];
+			$aver_pr_c := $aver_pr_c + $curty_prod[$i];
 		$i := $i + 1
 	};
-	$aver_pr := $aver_pr /(?active_players() - 1);
+	$aver_pr_c := $aver_pr_c /(?active_players() - 1);
+	if ($aver_pr_c > 0)
+		$turn_curty_pr := $turn_curty_pr + 1;
+	$aver_pr := $aver_pr + $aver_pr_c;
 	print("Average curty_pr is ", $aver_pr, "\n");
 #	___________________________________________________________
-#				EVALUATE AVERAGE_RAW
-	$aver_raw := 0;
+#					EVALUATE AVERAGE_RAW
+#	__________________________________________________________
+	$aver_raw_c := 0;
 	$i := 0;
 	while($i <= ?active_players())
 	{
 		if (![$i = ?my_id()])
-			$aver_raw := $aver_raw + $curty_raw[$i];
+			$aver_raw_c := $aver_raw_c + $curty_raw[$i];
 		$i := $i + 1
 	};
-	$aver_raw:= $aver_raw /(?active_players() - 1);
+	$aver_raw_c := $aver_raw_c /(?active_players() - 1);
+	if ($aver_raw_c > 0)
+		$turn_curty_raw := $turn_curty_raw + 1;
+	$aver_raw := $aver_raw + $aver_raw_c;
 	print("Average curty_raw is ", $aver_raw, "\n");
 # _________________________________________________________
 	$prod_pr := ?production_price();
 	$raw_pr := ?raw_price();
 #_______________________END_TURN________________________________
-	end_turn();
+	end_turn();	
+	$turn := $turn + 1;
+	print("The current number move is ", $turn, "\n");
 	$i := 0;
+#_________________________________________________________
 #   Will be deficit of product in current move?
+#______________________________________________________________
 	while($i <= ?active_players())
 	{
-		$product_pl:= $product_pl+ ?production($i);
+		$product_pl:= $product_pl + ?production($i);
 		$i := $i + 1
 	};
+#__________________________________________________________
 #   Will be deficit of raw in current move ?
+#__________________________________________________________
 	$i := 0;
 	while($i <= ?active_players())
 	{
@@ -102,11 +123,16 @@ while(1 < 2)
 		$def_pl_raw := 0;
 		$i := $i + 1
 	};
+#__________________________________________________________
+#	Write deficit or not
+#__________________________________________________________
 	if ($product_pl > ?demand())
 		print("Deficit by product\n");
 	if ($deficit > ?supply())
 		print("Deficit by raw\n");
-# 	If deficit 
+#____________________________________________________________
+# 	If deficit is not now
+#____________________________________________________________
 	if ($product_pl <= ?demand() & $deficit <= ?supply())
 	{
 		$flag := 1;
@@ -116,20 +142,41 @@ while(1 < 2)
 		$toprod := 2;
 		if (?raw(?my_id()) < $toprod)
 			$toprod := ?raw(?my_id());
-		prod($toprod);
-		$turn := $turn + 1
+		prod($toprod)
 	};
-#	If deficit is not now 
+#___________________________________________________________
+#	If deficit is now 
+#___________________________________________________________
 	if ($flag = 0)
 	{
 		print("flag = ", $flag);
 		print("Is bad move\n ");
-		buy(2, ?raw_price());
-		sell(?production(?my_id()), ?production_price());
+		if ($deficit > ?supply()) 		#deficit by raw
+		{
+			if (?raw(?my_id()) <= ?factories(?my_id()))
+				$def_my_raw := ?factories(?my_id());
+			if (?raw(?my_id()) > ?factories(?my_id()))
+				$def_my_raw := 2*?factories(?my_id()) - 
+													?raw(?my_id());
+			print("AVER_RAW IS ", $aver_raw);
+			buy($def_my_raw,
+				?raw_price() + $aver_raw/$turn + 1)
+		};
+		if ($deficit <= ?supply())
+			buy(2, ?raw_price());
+		print("PRODUCT_PL ", $product_pl, "\n");
+		print("DEMAND ", ?demand(), "\n");
+		print("DEFICIT ", $deficit, "\n");
+		print("SUPPLY ", ?supply(), "\n");
+		if ($product_pl > ?demand())	#deficit by product
+		{
+			print("AVER_PR IS ", $aver_pr);
+			sell(?production(?my_id()), 
+				?production_price() - $aver_pr/$turn - 1)
+		};
+		if ($product_pl <= ?demand())
+			sell(?production(?my_id()), ?production_price());
 		$toprod := 2;
-		if (?raw(?my_id()) < $toprod)
-			$toprod := ?raw(?my_id());
-		prod($toprod);
-		$turn := $turn + 1
+		prod(?production(?my_id()))
 	}
 }
