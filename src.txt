@@ -1,6 +1,8 @@
 $turn := 0;
 $turn_curty_pr := 1;
 $turn_curty_raw := 1;
+$lost_auct_raw := 1;
+$lost_auct_prod := 1;
 # $to_extreme := 100;
 
 buy(2, ?raw_price());
@@ -225,6 +227,13 @@ while(1 < 2)
 	print("DEFICIT ", $deficit, "\n");
 	print("SUPPLY ", ?supply(), "\n");
 
+#_____________________COLLECT_LOST_AUCTIONS___________
+	if (?result_raw_price(?my_id()) > 0)
+		$lost_auct_raw := $lost_auct_raw/8 + 1;
+	if (?result_prod_price(?my_id()) > 0)
+		$lost_auct_prod := $lost_auct_raw/8 + 1;
+
+#__________________CALCULATE $DEF_MY_RAW________________
 	if (?raw(?my_id()) <= ?factories(?my_id()))
 		$def_my_raw := ?factories(?my_id());
 	if (?raw(?my_id()) > ?factories(?my_id()))
@@ -232,7 +241,7 @@ while(1 < 2)
 												?raw(?my_id());	
 	if ($def_my_raw > ?supply())
 		$def_my_raw := ?supply();
-
+#___________________TAXES____________________________________
 	$taxes := ?raw(?my_id())*300 + ?production(?my_id())*500 
 					+ 1000*?factories(?my_id()) 
 					+ 2000*?production(?my_id()) 
@@ -282,11 +291,11 @@ while(1 < 2)
 #________________________RAW_DEFICIT_______________
 		if ($deficit > ?supply()) 		#deficit by raw
 		{
-			
 			print("AVER_RAW IS ", $aver_raw);
 			print("TURN_CURTY_RAW  IS ", $turn_curty_pr, "\n");
 			buy($def_my_raw,
-				?raw_price() + $aver_raw/$turn_curty_raw + 1)
+				?raw_price() +
+				$lost_auct_raw + ($aver_raw/$turn_curty_raw + 1))
 		};
 		if ($deficit <= ?supply())
 			buy($def_my_raw, ?raw_price());
@@ -304,10 +313,12 @@ while(1 < 2)
 			print("TURN_CURTY_PR ", $turn_curty_pr, "\n");
 			sell($to_sell, 
 				?production_price() -
-					$extreme -$aver_pr/$turn_curty_pr - 1)
+					$lost_auct_prod - $extreme - 
+					$aver_pr/$turn_curty_pr - 1)
 		};
 		if ($product_pl <= ?demand())
 			sell($to_sell, ?production_price());
+#____________________PROD_DEFICIT_______________________
 		$toprod := ?factories(?my_id());
 		if (?raw(?my_id()) < $toprod)
 			$toprod := ?raw(?my_id());
@@ -319,6 +330,9 @@ while(1 < 2)
 #_______________________END_TURN________________________________
 	end_turn();	
 	$turn := $turn + 1;
+	
+	$lost_auct_prod := $lost_auct_prod * 2;
+	$lost_auct_raw := $lost_auct_raw * 2;
 	print("The current number move is ", $turn, "\n");
 	$i := 0
 }
