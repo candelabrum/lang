@@ -1,4 +1,4 @@
-CXXFLAGS = -g -Wall -Wfatal-errors -D DEBUG_TP
+CXXFLAGS = -g -Wall -Wfatal-errors -D FIRST
 
 CXXFLAGSDEBUG = -g -Wall -Wfatal-errors -D FIRST DEBUG_EXE DEBUG
 
@@ -44,4 +44,5 @@ gdb_at: main
 res:
 	make clean
 	make run
-
+run_join:
+	valgrind --leak-check=full ./main 0 4774 join bot bot1 src.txt
