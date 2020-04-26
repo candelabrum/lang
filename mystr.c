@@ -335,8 +335,8 @@ struct list_of_str* transform_str_2_list_of_word(char* str)
     {
         end_index = get_index_of_end_word(str + start_index);
         word = get_word(str + start_index, end_index);
-		word = del_char(word, "\"");
-		if (word[0] && !any_str_equal(word, all_sep))
+        word = del_char(word, "\"");
+        if (word[0] && !any_str_equal(word, all_sep))
         {
             tmp->str = word;
             tmp->next = init_list_of_str();
@@ -367,19 +367,19 @@ int len_list_of_str(struct list_of_str *lstr)
 
 char* make_new_equal_str(char *str)
 {
-	int len = str_len(str), i = 0;
-	char *new = malloc(len + 1);
+    int len = str_len(str), i = 0;
+    char *new = malloc(len + 1);
 
-	while(str[i])
-	{
-		new[i] = str[i];
-		i++;
-	}
-	new[i] = 0;
+    while(str[i])
+    {
+        new[i] = str[i];
+        i++;
+    }
+    new[i] = 0;
 
-	return new;
+    return new;
 }
-		
+        
 char** transform_lstr_2_argv(struct list_of_str *lstr)
 {
     char **res = NULL;
@@ -400,23 +400,23 @@ char** make_argv(char *str)
     struct list_of_str *lstr = NULL;
     char **argv;
     
-	lstr = transform_str_2_list_of_word(str);
+    lstr = transform_str_2_list_of_word(str);
     argv = transform_lstr_2_argv(lstr);
     free_lstr(lstr); 
-	
-	return argv;
+    
+    return argv;
 }
 
 void free_argv(char **argv)
 {
-	int i = 0;
+    int i = 0;
 
-	if (!argv)
-		return;
-	while(argv[i])
-	{
-		free(argv[i]);
-		i++;
-	}
-	free(argv);
+    if (!argv)
+        return;
+    while(argv[i])
+    {
+        free(argv[i]);
+        i++;
+    }
+    free(argv);
 }
