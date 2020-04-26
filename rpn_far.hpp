@@ -50,7 +50,11 @@ public:
 	RPNFunDivision() {}
 	virtual ~RPNFunDivision() {}
 	double EvalOperation(double a1, double a2) const
-        { return a1 / a2; }
+    {
+		if (!a2)
+			throw ExceptionDivideZero();
+		return a1 / a2; 
+	}
 	virtual void print() const { printf("[/]"); }
 	virtual	RPNFunction* Clone() const
 	    { return new RPNFunDivision(); }

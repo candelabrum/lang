@@ -23,7 +23,8 @@ int main(int argc, char **argv)
 	f = fopen(argv[6], "r");
 	if (!f)
 	    return 0;
-	interp.Run(f, game); 
+
+	interp.Run(f, game);
 	fclose(f);
 
 	game->gi->disappear();
