@@ -5,7 +5,7 @@
 void TableVar::Resize()
 {
     couple_var *new_table_var;
-	
+    
     if (!table_var)
     {
         table_var = new couple_var[2];
@@ -15,29 +15,29 @@ void TableVar::Resize()
     }
     
     new_table_var = new couple_var[2*len + 1];
-	max_len = 2*len;
+    max_len = 2*len;
 
-	if (table_var)
+    if (table_var)
     {
         for(int i = 0; i < len; i++)
             new_table_var[i] = table_var[i];
     }
 
-	delete[] table_var;
-	table_var = new_table_var;
+    delete[] table_var;
+    table_var = new_table_var;
 }
 
 int TableVar::FindCouple(string &var) const
 {
-	int i = 0;
+    int i = 0;
 
-	while(i < len && !var.is_equal(table_var[i].name_var))
-		i++;
+    while(i < len && !var.is_equal(table_var[i].name_var))
+        i++;
 
     if (i == len)
         return -1;
 
-	return i; 
+    return i; 
 }
 
 void TableVar::AddVar(string &var)

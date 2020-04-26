@@ -3,5 +3,5 @@
 class Executor
 {
 public:
-	void Execute(RPNList &rpn_lst, Game *game);
+    void Execute(RPNList &rpn_lst, Game *game);
 };

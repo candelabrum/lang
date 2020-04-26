@@ -10,11 +10,11 @@ public:
 class RPNFunLess: public RPNFunCmp 
 {
 public:
-	RPNFunLess() {}
-	virtual ~RPNFunLess() {}
-	virtual void print() const { printf("[<]"); }
-	virtual	RPNFunction* Clone() const
-	    { return new RPNFunLess(); }
+    RPNFunLess() {}
+    virtual ~RPNFunLess() {}
+    virtual void print() const { printf("[<]"); }
+    virtual RPNFunction* Clone() const
+        { return new RPNFunLess(); }
     bool EvalOperation(double a1, double a2) const
         { return a1 < a2; }
 };
@@ -22,50 +22,50 @@ public:
 class RPNFunGreater: public RPNFunCmp 
 {
 public:
-	RPNFunGreater() {}
-	virtual ~RPNFunGreater() {}
-	bool EvalOperation(double a1, double a2) const
+    RPNFunGreater() {}
+    virtual ~RPNFunGreater() {}
+    bool EvalOperation(double a1, double a2) const
         { return a1 > a2; }
 
-	virtual void print() const { printf("[>]"); }
-	virtual	RPNFunction* Clone() const
-	    { return new RPNFunGreater(); }
+    virtual void print() const { printf("[>]"); }
+    virtual RPNFunction* Clone() const
+        { return new RPNFunGreater(); }
 };
 
 class RPNFunLeq: public RPNFunCmp 
 {
 public:
-	RPNFunLeq() {}
-	virtual ~RPNFunLeq() {}
-	bool EvalOperation(double a1, double a2) const
+    RPNFunLeq() {}
+    virtual ~RPNFunLeq() {}
+    bool EvalOperation(double a1, double a2) const
         { return a1 <= a2; }
 
-	virtual void print() const { printf("[<=]"); }
-	virtual	RPNFunction* Clone() const
-	    { return new RPNFunLeq();}
+    virtual void print() const { printf("[<=]"); }
+    virtual RPNFunction* Clone() const
+        { return new RPNFunLeq();}
 };
 
 class RPNFunGeq: public RPNFunCmp 
 {
 public:
-	RPNFunGeq() {}
-	virtual ~RPNFunGeq() {}
-	bool EvalOperation(double a1, double a2) const
+    RPNFunGeq() {}
+    virtual ~RPNFunGeq() {}
+    bool EvalOperation(double a1, double a2) const
         { return a1 >= a2; }
 
-	virtual void print() const { printf("[>=]"); }
-	virtual	RPNFunction* Clone() const
-	    { return new RPNFunGeq(); }
+    virtual void print() const { printf("[>=]"); }
+    virtual RPNFunction* Clone() const
+        { return new RPNFunGeq(); }
 };
 
 class RPNFunEqual: public RPNFunCmp 
 {
 public:
-	RPNFunEqual() {}
-	virtual ~RPNFunEqual() {}
+    RPNFunEqual() {}
+    virtual ~RPNFunEqual() {}
     bool EvalOperation(double a1, double a2) const
         { return a1 == a2; }
     virtual void print() const { printf("[=]"); }
-	virtual	RPNFunction* Clone() const 
+    virtual RPNFunction* Clone() const 
         { return new RPNFunEqual(); }
 };

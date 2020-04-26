@@ -12,51 +12,51 @@
 
 struct RPNList : RPNItem
 {
-/* 					--- intermediate_classes --- 				*/
-	RPNDouble Double;
-	RPNConst *r_const = &Double;
-	RPNFunPlus Plus;
-	RPNFunction *r_func = &Plus;
-/*	RPNOpGo Go;
-	RPNOp *r_op = &Go;*/
-	static const int len_int_cl = 2;
-	RPNElem* intermediate_classes[len_int_cl] = {r_func, r_const};
+/*                  --- intermediate_classes ---                */
+    RPNDouble Double;
+    RPNConst *r_const = &Double;
+    RPNFunPlus Plus;
+    RPNFunction *r_func = &Plus;
+/*  RPNOpGo Go;
+    RPNOp *r_op = &Go;*/
+    static const int len_int_cl = 2;
+    RPNElem* intermediate_classes[len_int_cl] = {r_func, r_const};
 
-/*							--- main ---						*/
-	RPNList(RPNItem *a_head = 0, RPNItem *a_end = 0) 
-	{ 
-		head = a_head; 
-		end = a_end;
-		if (!(head || end))
-		{
-			RPNNoop *head_noop = new RPNNoop();
-			RPNNoop *end_noop = new RPNNoop();
+/*                          --- main ---                        */
+    RPNList(RPNItem *a_head = 0, RPNItem *a_end = 0) 
+    { 
+        head = a_head; 
+        end = a_end;
+        if (!(head || end))
+        {
+            RPNNoop *head_noop = new RPNNoop();
+            RPNNoop *end_noop = new RPNNoop();
 
-			head = new RPNItem(head_noop);
-			end = new RPNItem(end_noop);
-			head->next = end;
-		}
-	} 
-	RPNItem *head;
-	RPNItem *end;
-	void add_node(lexeme *lex);
-	void add_node_to_end(RPNElem *elem);
-	void disappear() 
+            head = new RPNItem(head_noop);
+            end = new RPNItem(end_noop);
+            head->next = end;
+        }
+    } 
+    RPNItem *head;
+    RPNItem *end;
+    void add_node(lexeme *lex);
+    void add_node_to_end(RPNElem *elem);
+    void disappear() 
     { 
         if (head)
             head->Disappear(); 
-		delete head;
-	}
-	void operator=(const RPNList &other)
-	{
-		disappear();
-		head = other.head;
-		end = other.end;
-	}
-	void print() const { head->Print(); }
-	void insert_jmp(RPNItem *old_label, RPNItem *new_label);
-	RPNItem* get_head() { return head; }
-	RPNItem* get_end() { return end; }
+        delete head;
+    }
+    void operator=(const RPNList &other)
+    {
+        disappear();
+        head = other.head;
+        end = other.end;
+    }
+    void print() const { head->Print(); }
+    void insert_jmp(RPNItem *old_label, RPNItem *new_label);
+    RPNItem* get_head() { return head; }
+    RPNItem* get_end() { return end; }
 };
 
 #endif

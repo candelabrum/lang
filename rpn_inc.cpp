@@ -13,8 +13,8 @@ RPNFunPlus Plus;
 RPNFunArithm *r_far = &Plus;
 
 RPNElem* intermediate_classes[3] = {
-	r_const, 
-	r_far, 
-	0
+    r_const, 
+    r_far, 
+    0
 };
 

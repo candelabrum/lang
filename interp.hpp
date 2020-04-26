@@ -5,11 +5,11 @@
 
 class Interpretator 
 {
-	LexicalAnalyzer la;
-	SyntaxAnalyzer sa;
-	RPNList rpn_list;
-	Executor executor;
+    LexicalAnalyzer la;
+    SyntaxAnalyzer sa;
+    RPNList rpn_list;
+    Executor executor;
   /*int Init(const char *file); */
 public:
-	int Run(FILE* f, Game *game);
+    int Run(FILE* f, Game *game);
 };

@@ -12,47 +12,47 @@ class RPNFunInd : public RPNFunc2
     RPNElem* EvaluateFun(EvalInfo &eval_info) const;
 
 public:
-	RPNFunInd() {}
-	virtual ~RPNFunInd() {}
-	virtual void print() const { printf("[[]]");}
-	virtual	RPNFunction* Clone() const
-	{ 
-		return new RPNFunInd(); 
-	}
+    RPNFunInd() {}
+    virtual ~RPNFunInd() {}
+    virtual void print() const { printf("[[]]");}
+    virtual RPNFunction* Clone() const
+    { 
+        return new RPNFunInd(); 
+    }
 };
 
 class RPNFunAssign : public RPNFunc2
 {
 public:
-	RPNFunAssign() {}
-	virtual ~RPNFunAssign() {}
-	RPNElem* EvaluateFun(EvalInfo &eval_info) const;
-	virtual void print() const { printf("[:=]");}
-	virtual	RPNFunction* Clone() const
-	    { return new RPNFunAssign(); }
+    RPNFunAssign() {}
+    virtual ~RPNFunAssign() {}
+    RPNElem* EvaluateFun(EvalInfo &eval_info) const;
+    virtual void print() const { printf("[:=]");}
+    virtual RPNFunction* Clone() const
+        { return new RPNFunAssign(); }
 };
 
 class RPNFunTakeAddr: public RPNFunc1
 {
 public:
-	RPNFunTakeAddr() {}
-	virtual ~RPNFunTakeAddr() {}
-	RPNElem* EvaluateFun(EvalInfo &eval_info) const;
-	virtual void print() const { printf("[$]");}
-	virtual	RPNFunction* Clone() const
-	{ 
-		return new RPNFunTakeAddr(); 
-	}
+    RPNFunTakeAddr() {}
+    virtual ~RPNFunTakeAddr() {}
+    RPNElem* EvaluateFun(EvalInfo &eval_info) const;
+    virtual void print() const { printf("[$]");}
+    virtual RPNFunction* Clone() const
+    { 
+        return new RPNFunTakeAddr(); 
+    }
 };
 
 class RPNFunVar: public RPNFunc0
 {
-	string name;
+    string name;
 public:
-	RPNFunVar() {}
-	virtual ~RPNFunVar() {}
-	void set(lexeme *c_l) { name = c_l->lex; }
-	RPNElem* EvaluateFun(EvalInfo &eval_info) const 
+    RPNFunVar() {}
+    virtual ~RPNFunVar() {}
+    void set(lexeme *c_l) { name = c_l->lex; }
+    RPNElem* EvaluateFun(EvalInfo &eval_info) const 
     { 
         RPNFunVar *var = new RPNFunVar();
 
@@ -60,10 +60,10 @@ public:
 
         return var; 
     }
-	string& GetName() { return name; }
-	virtual void print() const;
-	virtual	RPNFunction* Clone() const
-	{ 
-		return new RPNFunVar(); 
-	}
+    string& GetName() { return name; }
+    virtual void print() const;
+    virtual RPNFunction* Clone() const
+    { 
+        return new RPNFunVar(); 
+    }
 };

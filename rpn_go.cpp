@@ -5,50 +5,50 @@
 
 /*class RPNTableOp
 {
-	struct couple_rpn_op
-	{
-		RPNOp *elem;
-		type_lexeme type_lex;
-	};
+    struct couple_rpn_op
+    {
+        RPNOp *elem;
+        type_lexeme type_lex;
+    };
 
-	RPNOpGo OpGo, *op_go = &OpGo;
-	RPNOpGoFalse OpGoFalse, *op_go_false = &OpGoFalse;
-	RPNNoop Noop, *noop = &Noop;
+    RPNOpGo OpGo, *op_go = &OpGo;
+    RPNOpGoFalse OpGoFalse, *op_go_false = &OpGoFalse;
+    RPNNoop Noop, *noop = &Noop;
 
-	couple_rpn_op table[4] {
-		{op_go, lex_op_go},
-		{op_go_false, lex_op_go_false},
-		{noop, lex_noop},
-		{0, lex_null}
-	};
+    couple_rpn_op table[4] {
+        {op_go, lex_op_go},
+        {op_go_false, lex_op_go_false},
+        {noop, lex_noop},
+        {0, lex_null}
+    };
 
 public:
-	RPNOp* search_by(type_lexeme type) const;
+    RPNOp* search_by(type_lexeme type) const;
 };
 
 RPNOp* RPNTableOp::search_by(type_lexeme t) const
 {
-	int i = 0;
+    int i = 0;
 
-	while(table[i].type_lex != lex_null && table[i].type_lex != t)
-		i++;
-	
-	return table[i].elem;
+    while(table[i].type_lex != lex_null && table[i].type_lex != t)
+        i++;
+    
+    return table[i].elem;
 }
 
 RPNElem* RPNOp::Convert2RPNElem(lexeme *c_l) const
 {
-	static RPNTableOp TableOp;
-	RPNOp *elem_op, *new_elem_op;
+    static RPNTableOp TableOp;
+    RPNOp *elem_op, *new_elem_op;
 
-	elem_op = TableOp.search_by(c_l->type);
+    elem_op = TableOp.search_by(c_l->type);
 
-	if (!elem_op)
-		return 0;
+    if (!elem_op)
+        return 0;
 
-	new_elem_op = elem_op->Clone();
+    new_elem_op = elem_op->Clone();
 
-	return new_elem_op;
+    return new_elem_op;
 }
 */
 

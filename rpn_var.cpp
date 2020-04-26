@@ -25,7 +25,7 @@ RPNElem* RPNFunInd::EvaluateFun(EvalInfo &eval_info) const
 }
 
 RPNElem* RPNFunAssign::EvaluateFun(EvalInfo &eval_info) const
-{	
+{   
     RPNFunVar *var;
     double number;
     RPNStack *stack = &(eval_info.stack);
@@ -39,12 +39,12 @@ RPNElem* RPNFunAssign::EvaluateFun(EvalInfo &eval_info) const
     }
     eval_info.tv.SetValue(var->GetName(), number);
     delete var;
-    		
+            
     return 0;
 }
 
 RPNElem* RPNFunTakeAddr::EvaluateFun(EvalInfo &eval_info) const
-{	
+{   
     RPNFunVar *var;
     double value;
     RPNDouble *dbl = new RPNDouble();

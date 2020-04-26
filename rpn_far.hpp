@@ -13,49 +13,49 @@ class RPNFunPlus : public RPNFunArithm
 public:
 
     RPNFunPlus() {}
-	virtual ~RPNFunPlus() {}
-	virtual double EvalOperation(double a1, double a2) const
+    virtual ~RPNFunPlus() {}
+    virtual double EvalOperation(double a1, double a2) const
         { return a1 + a2; }
     virtual void print() const { printf("[+]"); }
-	virtual	RPNFunction* Clone() const { return new RPNFunPlus(); }
+    virtual RPNFunction* Clone() const { return new RPNFunPlus(); }
 };
 
 class RPNFunMinus : public RPNFunArithm
 {
 public:
-	RPNFunMinus() {}
-	virtual ~RPNFunMinus() {}
-	double EvalOperation(double a1, double a2) const
+    RPNFunMinus() {}
+    virtual ~RPNFunMinus() {}
+    double EvalOperation(double a1, double a2) const
         { return a1 - a2; }
-	virtual	RPNFunction* Clone() const 
+    virtual RPNFunction* Clone() const 
         { return new RPNFunMinus(); }
-	virtual void print() const { printf("[-]"); }
+    virtual void print() const { printf("[-]"); }
 };
 
 class RPNFunMultiply : public RPNFunArithm
 {
 public:
-	RPNFunMultiply() {}
-	virtual ~RPNFunMultiply() {}
-	double EvalOperation(double a1, double a2) const
+    RPNFunMultiply() {}
+    virtual ~RPNFunMultiply() {}
+    double EvalOperation(double a1, double a2) const
         { return a1 * a2; }
-	virtual void  print() const { printf("[*]"); }
-	virtual	RPNFunction* Clone() const 
-	    { return new RPNFunMultiply(); }
+    virtual void  print() const { printf("[*]"); }
+    virtual RPNFunction* Clone() const 
+        { return new RPNFunMultiply(); }
 };
 
 class RPNFunDivision : public RPNFunArithm
 {
 public:
-	RPNFunDivision() {}
-	virtual ~RPNFunDivision() {}
-	double EvalOperation(double a1, double a2) const
+    RPNFunDivision() {}
+    virtual ~RPNFunDivision() {}
+    double EvalOperation(double a1, double a2) const
     {
-		if (!a2)
-			throw ExceptionDivideZero();
-		return a1 / a2; 
-	}
-	virtual void print() const { printf("[/]"); }
-	virtual	RPNFunction* Clone() const
-	    { return new RPNFunDivision(); }
+        if (!a2)
+            throw ExceptionDivideZero();
+        return a1 / a2; 
+    }
+    virtual void print() const { printf("[/]"); }
+    virtual RPNFunction* Clone() const
+        { return new RPNFunDivision(); }
 };

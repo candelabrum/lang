@@ -12,30 +12,30 @@ class RPNFunction : public RPNElem
 public:
     double PopArgDouble(RPNStack *stack) const;
     bool PopArgBool(RPNStack *stack) const;
-	virtual ~RPNFunction() {};
-	virtual	RPNFunction* Clone() const = 0;
-	RPNElem* Convert2RPNElem(lexeme *c_l) const;
+    virtual ~RPNFunction() {};
+    virtual RPNFunction* Clone() const = 0;
+    RPNElem* Convert2RPNElem(lexeme *c_l) const;
 };
 
 class RPNFunc2 : public RPNFunction 
 {
 public:
-	virtual	RPNFunction* Clone() const = 0;
+    virtual RPNFunction* Clone() const = 0;
 };
 
 class RPNFunc1 : public RPNFunction 
 {
 public:
-	virtual	RPNFunction* Clone() const = 0;
+    virtual RPNFunction* Clone() const = 0;
 };
 
 class RPNFunc0 : public RPNFunction 
 {
 public:
-	virtual	RPNFunction* Clone() const = 0;
+    virtual RPNFunction* Clone() const = 0;
 };
 
-/* 						--- Game Functions ---					*/ 
+/*                      --- Game Functions ---                  */ 
 
 
 #endif

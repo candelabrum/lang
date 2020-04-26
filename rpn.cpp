@@ -25,43 +25,43 @@ RPNElem* RPNStack::Pop()
 
 void RPNItem::Print() const
 {
-	RPNItem *tmp = next;
+    RPNItem *tmp = next;
     
     if (!elem)
-		return;
-	elem->print();
+        return;
+    elem->print();
     printf("->");
-	while(tmp)
-	{
-		(tmp->elem)->print();
-		printf("->");
-		tmp = tmp->next;
-	}
+    while(tmp)
+    {
+        (tmp->elem)->print();
+        printf("->");
+        tmp = tmp->next;
+    }
 }
 
 void RPNItem::Disappear()
 {
-	RPNItem *tmp;
-	RPNItem **next_item = &next;
+    RPNItem *tmp;
+    RPNItem **next_item = &next;
 
-	while(next)
-	{
-		tmp = *next_item;
-		*next_item = (*next_item)->next;
+    while(next)
+    {
+        tmp = *next_item;
+        *next_item = (*next_item)->next;
         tmp->delete_elem();
-		delete tmp;
-	}
-	*next_item = 0;
-	elem->print();
+        delete tmp;
+    }
+    *next_item = 0;
+    elem->print();
     delete_elem();
 //  delete this;
 }
 
 void RPNItem::delete_elem()
 {
-	if (elem)
+    if (elem)
     {
         delete elem; 
-    	elem = 0;
+        elem = 0;
     }
 }
